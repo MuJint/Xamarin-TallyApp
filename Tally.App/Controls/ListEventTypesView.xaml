@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="Tally.App.Controls.ListEventTypesView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit">
+    <ContentView.Content>
+        <Grid
+            HeightRequest="130"
+            RowDefinitions="auto, auto"
+            RowSpacing="20">
+            <Label
+                Grid.Row="0"
+                FontFamily="MuliBold"
+                FontSize="16"
+                Text="All Events" />
+            <CollectionView
+                Grid.Row="1"
+                BackgroundColor="Transparent"
+                ItemsSource="{Binding EventTypes}"
+                SelectedItem="{Binding SelectedEventType}"
+                SelectionChangedCommand="{Binding SelectEventTypeCommand}"
+                SelectionChangedCommandParameter="{Binding SelectedEventType}"
+                SelectionMode="Single"
+                VerticalOptions="Start">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="0" Orientation="Horizontal" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="*, 15">
+                            <Frame
+                                Grid.Column="0"
+                                Padding="20,15"
+                                BackgroundColor="{Binding backgroundColor}"
+                                CornerRadius="10"
+                                HasShadow="False"
+                                HeightRequest="120"
+                                IsClippedToBounds="True"
+                                WidthRequest="80">
+                                <StackLayout Spacing="10" VerticalOptions="Center">
+                                    <Image
+                                        xct:IconTintColorEffect.TintColor="{Binding textColor}"
+                                        Aspect="AspectFit"
+                                        HeightRequest="25"
+                                        Source="{Binding image}"
+                                        WidthRequest="25" />
+                                    <Label
+                                        FontFamily="MuliBold"
+                                        FontSize="16"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{Binding name}"
+                                        TextColor="{Binding textColor}"
+                                        VerticalTextAlignment="Center" />
+                                </StackLayout>
+                            </Frame>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

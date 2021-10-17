@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application
+    x:Class="Tally.App.App"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <Application.Resources>
+        <Style ApplyToDerivedTypes="True" TargetType="ContentPage">
+            <Setter Property="BackgroundColor" Value="#F0F0F0" />
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="FontFamily" Value="MuliRegular" />
+        </Style>
+        <Color x:Key="blue">#3388df</Color>
+        <Color x:Key="black">#181819</Color>
+        <Color x:Key="green">#24C389</Color>
+        <Color x:Key="orange">#E7B150</Color>
+        <Color x:Key="common">#A1A2A9</Color>
+    </Application.Resources>
+</Application>

@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:control="clr-namespace:Tally.App.Controls"
+             x:Class="Tally.App.Controls.HomePage">
+  <ContentView.Content>
+        <ScrollView Grid.Row="0">
+            <Grid ColumnDefinitions="*, auto, auto"
+                  ColumnSpacing="0"
+                  HorizontalOptions="FillAndExpand"
+                  RowDefinitions="auto, auto, auto, auto, *"
+                  VerticalOptions="FillAndExpand">
+                <control:HomePageStatistical x:Name="homePageStatistical"
+                                             Grid.Row="0"
+                                             Grid.ColumnSpan="3" />
+                <control:CalendarCarouselView x:Name="calendarView"
+                                              Grid.Row="2"
+                                              Grid.ColumnSpan="3"
+                                              Margin="20,15,20,0"
+                                              ItemsSource="{Binding Dates}" />
+                <control:ListEventTypesView Grid.Row="3"
+                                            Grid.ColumnSpan="3"
+                                            Margin="20,15,0,0"
+                                            VerticalOptions="Start" />
+                <control:ListEventsView Grid.Row="4"
+                                        Grid.ColumnSpan="3"
+                                        Margin="20,0"
+                                        VerticalOptions="Start" />
+            </Grid>
+        </ScrollView>
+    </ContentView.Content>
+</ContentView>
