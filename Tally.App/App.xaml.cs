@@ -16,7 +16,6 @@ namespace Tally.App
             InitializeComponent();
             Initalize();
             StartUp();
-            //UnitWork.Initalize();
             MainPage = new MainPage();
             if (Device.RuntimePlatform == Device.iOS)
                 DependencyService.Get<IStatusbarColor>().ChangeStatusbarColor();
@@ -25,14 +24,19 @@ namespace Tally.App
         protected override void OnStart()
         {
             base.OnStart();
+            StartUp();
         }
 
         protected override void OnSleep()
         {
+            //休眠释放
+            UnitWork.Dispose();
         }
 
         protected override void OnResume()
         {
+            //从休眠启动重新注入
+            StartUp();
         }
 
         private void Initalize()
@@ -72,7 +76,7 @@ namespace Tally.App
         private void StartUp()
         {
             Dependcy.Provider = new ServiceCollection()
-                .AddScoped<ISpendLogServices, SpendLogServices>()
+                .AddTransient<ISpendLogServices, SpendLogServices>()
                 .BuildServiceProvider();
         }
 

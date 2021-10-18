@@ -21,6 +21,15 @@ namespace Tally.Framework.Interface
         }
 
         /// <summary>
+        /// 主动释放
+        /// </summary>
+        public static void Dispose()
+        {
+            _sqlteDataBase.Dispose();
+        }
+
+
+        /// <summary>
         /// 种子数据初始化
         /// </summary>
         public static void Initalize()

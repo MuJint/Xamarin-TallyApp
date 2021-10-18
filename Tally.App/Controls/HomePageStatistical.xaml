@@ -13,7 +13,7 @@
                 FontFamily="MuliRegular"
                 FontSize="13"
                 HorizontalTextAlignment="Center"
-                Text="2021"
+                Text="{Binding PageStatisctical.Year}"
                 VerticalTextAlignment="Center" />
             <Label
                 Grid.Row="0"
@@ -42,7 +42,7 @@
                         <Span
                             FontFamily="MuliBlack"
                             FontSize="20"
-                            Text="10" />
+                            Text="{Binding PageStatisctical.Month}" />
                         <Span
                             FontFamily="MuliRegular"
                             FontSize="15"
@@ -65,7 +65,7 @@
                         <Span
                             FontFamily="MuliBlack"
                             FontSize="20"
-                            Text="0.00" />
+                            Text="{Binding PageStatisctical.InCome}" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
@@ -84,7 +84,7 @@
                         <Span
                             FontFamily="MuliBlack"
                             FontSize="20"
-                            Text="0.00" />
+                            Text="{Binding PageStatisctical.Spend}" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>

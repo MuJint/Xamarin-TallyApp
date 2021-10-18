@@ -1,103 +1,127 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
-<ContentView x:Class="Tally.App.Controls.ListEventsView"
-             xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+<ContentView
+    x:Class="Tally.App.Controls.ListEventsView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     <ContentView.Content>
         <Grid RowDefinitions="auto, *">
-            <Label Grid.Row="0"
-                   Margin="0,15,0,15"
-                   FontFamily="MuliBold"
-                   FontSize="16"
-                   Text="Popular Events" />
-            <CollectionView Grid.Row="1"
-                            BackgroundColor="Transparent"
-                            ItemsSource="{Binding ExpenseCards}"
-                            VerticalOptions="Start"
-                            VerticalScrollBarVisibility="Never">
+            <Label
+                Grid.Row="0"
+                Margin="0,15,0,15"
+                FontFamily="MuliBold"
+                FontSize="16"
+                Text="最近消费"
+                TextColor="{StaticResource black}" />
+            <CollectionView
+                Grid.Row="1"
+                BackgroundColor="Transparent"
+                ItemsSource="{Binding ExpenseCards}"
+                VerticalOptions="Start"
+                VerticalScrollBarVisibility="Never">
                 <CollectionView.ItemsLayout>
-                    <LinearItemsLayout ItemSpacing="20"
-                                       Orientation="Vertical" />
+                    <LinearItemsLayout ItemSpacing="20" Orientation="Vertical" />
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame Padding="0"
-                               BackgroundColor="White"
-                               CornerRadius="10"
-                               HasShadow="False"
-                               HeightRequest="{Binding CalculateHeight}"
-                               IsClippedToBounds="True">
-                            <Grid ColumnDefinitions="*, auto"
-                                  RowDefinitions="auto, auto">
+                        <Frame
+                            Padding="0"
+                            BackgroundColor="White"
+                            CornerRadius="10"
+                            HasShadow="False"
+                            HeightRequest="{Binding CalculateHeight}"
+                            IsClippedToBounds="True">
+                            <Grid ColumnDefinitions="*, auto" RowDefinitions="auto, auto">
                                 <Grid ColumnDefinitions="auto,*,auto,auto">
-                                    <Label Grid.Column="0"
-                                           Margin="20,10,0,0"
-                                           FontFamily="MuliRegular"
-                                           FontSize="12"
-                                           Text="{Binding Date}"
-                                           TextColor="{StaticResource common}" />
-                                    <Label Grid.Column="1"
-                                           Margin="5,10,0,0"
-                                           FontFamily="MuliRegular"
-                                           FontSize="12"
-                                           Text="{Binding WeekOnDay}"
-                                           TextColor="{StaticResource common}" />
-                                    <Label Grid.Column="2"
-                                           Margin="20,10,0,0"
-                                           FontFamily="MuliRegular"
-                                           FontSize="12"
-                                           Text="{Binding Spend, StringFormat=支出：{0}}"
-                                           TextColor="{StaticResource common}" />
-                                    <Label Grid.Column="3"
-                                           Margin="20,10,0,0"
-                                           FontFamily="MuliRegular"
-                                           FontSize="12"
-                                           Text="{Binding InCome, StringFormat=收入：{0}}"
-                                           TextColor="{StaticResource common}" />
+                                    <Label
+                                        Grid.Column="0"
+                                        Margin="20,10,0,0"
+                                        FontFamily="MuliRegular"
+                                        FontSize="12"
+                                        Text="{Binding Date}"
+                                        TextColor="{StaticResource common}" />
+                                    <Label
+                                        Grid.Column="1"
+                                        Margin="5,10,0,0"
+                                        FontFamily="MuliRegular"
+                                        FontSize="12"
+                                        Text="{Binding WeekOnDay}"
+                                        TextColor="{StaticResource common}" />
+                                    <Label
+                                        Grid.Column="2"
+                                        Margin="20,10,0,0"
+                                        FontFamily="MuliRegular"
+                                        FontSize="12"
+                                        TextColor="{StaticResource common}">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="支出：" />
+                                                <Span Text="{Binding Spend}" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label
+                                        Grid.Column="3"
+                                        Margin="20,10,0,0"
+                                        FontFamily="MuliRegular"
+                                        FontSize="12"
+                                        TextColor="{StaticResource common}">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="收入：" />
+                                                <Span Text="{Binding InCome}" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
                                 </Grid>
-                                <Grid Grid.Row="1"
-                                      Grid.Column="0"
-                                      Margin="20,0,0,0">
-                                    <CollectionView BackgroundColor="Transparent"
-                                                    ItemsSource="{Binding ExpenseRecords}">
+                                <Grid
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Margin="20,0,0,0">
+                                    <CollectionView BackgroundColor="Transparent" ItemsSource="{Binding ExpenseRecords}">
                                         <CollectionView.ItemTemplate>
                                             <DataTemplate>
                                                 <Grid ColumnDefinitions="auto,*">
-                                                    <Grid RowDefinitions="*,*"
-                                                          Margin="6,2,0,2"
-                                                          HorizontalOptions="Start"
-                                                          VerticalOptions="Center"
-                                                          ColumnDefinitions="auto,auto">
-                                                        <Image Grid.Row="0"
-                                                               Margin="0,0,5,0"
-                                                               Grid.Column="0"
-                                                               Grid.RowSpan="2"
-                                                               Aspect="AspectFit"
-                                                               HeightRequest="35"
-                                                               WidthRequest="35"
-                                                               Source="{Binding Icon}"></Image>
-                                                        <Label Text="{Binding IconTitle}"
-                                                               Grid.Row="0"
-                                                               FontFamily="MuliRegular"
-                                                               FontSize="14"
-                                                               TextColor="{StaticResource black}"
-                                                               Grid.Column="1"></Label>
-                                                        <Label Text="{Binding Description}"
-                                                               Grid.Row="1"
-                                                               FontFamily="MuliRegular"
-                                                               FontSize="11"
-                                                               TextColor="{StaticResource common}"
-                                                               Grid.Column="1"></Label>
+                                                    <Grid
+                                                        Margin="6,2,0,2"
+                                                        ColumnDefinitions="auto,auto"
+                                                        HorizontalOptions="Start"
+                                                        RowDefinitions="*,*"
+                                                        VerticalOptions="Center">
+                                                        <Image
+                                                            Grid.Row="0"
+                                                            Grid.RowSpan="2"
+                                                            Grid.Column="0"
+                                                            Margin="0,0,5,0"
+                                                            Aspect="AspectFit"
+                                                            HeightRequest="35"
+                                                            Source="{Binding Icon}"
+                                                            WidthRequest="35" />
+                                                        <Label
+                                                            Grid.Row="0"
+                                                            Grid.Column="1"
+                                                            FontFamily="MuliRegular"
+                                                            FontSize="14"
+                                                            Text="{Binding IconTitle}"
+                                                            TextColor="{StaticResource black}" />
+                                                        <Label
+                                                            Grid.Row="1"
+                                                            Grid.Column="1"
+                                                            FontFamily="MuliRegular"
+                                                            FontSize="11"
+                                                            Text="{Binding Description}"
+                                                            TextColor="{StaticResource common}" />
                                                     </Grid>
-                                                    <Label Grid.Column="1"
-                                                           Margin="0,0,15,0"
-                                                           HorizontalTextAlignment="End"
-                                                           VerticalTextAlignment="Center"
-                                                           FontFamily="MuliBlack"
-                                                           FontSize="20"
-                                                           TextColor="{Binding TextColor}">
+                                                    <Label
+                                                        Grid.Column="1"
+                                                        Margin="0,0,15,0"
+                                                        FontFamily="MuliBlack"
+                                                        FontSize="20"
+                                                        HorizontalTextAlignment="End"
+                                                        TextColor="{Binding TextColor}"
+                                                        VerticalTextAlignment="Center">
                                                         <Label.FormattedText>
                                                             <FormattedString>
-                                                                <Span Text="{Binding IsSpend}"/>
+                                                                <Span Text="{Binding IsSpend}" />
                                                                 <Span Text="{Binding Rmb}" />
                                                             </FormattedString>
                                                         </Label.FormattedText>

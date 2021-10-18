@@ -1,124 +1,135 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage x:Class="Tally.App.Views.MainPage"
-             xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:control="clr-namespace:Tally.App.Controls"
-             xmlns:fonticons="clr-namespace:Tally.App.FontIcons"
-             NavigationPage.HasNavigationBar="False">
+<ContentPage
+    x:Class="Tally.App.Views.MainPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:control="clr-namespace:Tally.App.Controls"
+    xmlns:fonticons="clr-namespace:Tally.App.FontIcons"
+    NavigationPage.HasNavigationBar="False">
 
-    <Grid HorizontalOptions="FillAndExpand"
-          RowDefinitions="*, auto"
-          RowSpacing="0"
-          VerticalOptions="FillAndExpand">
+    <Grid
+        HorizontalOptions="FillAndExpand"
+        RowDefinitions="*, auto"
+        RowSpacing="0"
+        VerticalOptions="FillAndExpand">
         <control:HomePage x:Name="HomePage" />
-        <control:Spend x:Name="SpendPage"
-                       IsVisible="false" />
-        <Grid x:Name="gridFrames"
-              Grid.Row="1"
-              Padding="35,15"
-              BackgroundColor="White"
-              ColumnSpacing="60"
-              HeightRequest="50"
-              HorizontalOptions="FillAndExpand"
-              VerticalOptions="End">
-            <Frame x:Name="frameHome"
-                   Grid.Column="0"
-                   BackgroundColor="{StaticResource blue}"
-                   CornerRadius="{OnPlatform Android='30',
+        <control:Spend x:Name="SpendPage" IsVisible="false" />
+        <Grid
+            x:Name="gridFrames"
+            Grid.Row="1"
+            Padding="35,15"
+            BackgroundColor="White"
+            ColumnSpacing="60"
+            HeightRequest="50"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="End">
+            <Frame
+                x:Name="frameHome"
+                Grid.Column="0"
+                BackgroundColor="{StaticResource blue}"
+                CornerRadius="{OnPlatform Android='30',
                                           iOS='26'}"
-                   HasShadow="False"
-                   HorizontalOptions="FillAndExpand"
-                   IsClippedToBounds="True"
-                   StyleId="frameHome">
-                <Grid ColumnDefinitions="auto, auto"
-                      ColumnSpacing="10"
-                      HorizontalOptions="CenterAndExpand">
-                    <Label x:Name="lbIconHome"
-                           Grid.Column="0"
-                           FontFamily="MaterialIcons"
-                           FontSize="24"
-                           HorizontalTextAlignment="Center"
-                           Text="{x:Static fonticons:FontIcons.Home}"
-                           TextColor="White"
-                           VerticalTextAlignment="Center" />
-                    <Label x:Name="lbHome"
-                           Grid.Column="1"
-                           FontFamily="MuliBold"
-                           FontSize="12"
-                           HorizontalOptions="FillAndExpand"
-                           Text="首页"
-                           TextColor="White"
-                           VerticalTextAlignment="Center" />
+                HasShadow="False"
+                HorizontalOptions="FillAndExpand"
+                IsClippedToBounds="True"
+                StyleId="frameHome">
+                <Grid
+                    ColumnDefinitions="auto, auto"
+                    ColumnSpacing="10"
+                    HorizontalOptions="CenterAndExpand">
+                    <Label
+                        x:Name="lbIconHome"
+                        Grid.Column="0"
+                        FontFamily="MaterialIcons"
+                        FontSize="24"
+                        HorizontalTextAlignment="Center"
+                        Text="{x:Static fonticons:FontIcons.Home}"
+                        TextColor="White"
+                        VerticalTextAlignment="Center" />
+                    <Label
+                        x:Name="lbHome"
+                        Grid.Column="1"
+                        FontFamily="MuliBold"
+                        FontSize="12"
+                        HorizontalOptions="FillAndExpand"
+                        Text="首页"
+                        TextColor="White"
+                        VerticalTextAlignment="Center" />
                 </Grid>
                 <Frame.GestureRecognizers>
-                    <TapGestureRecognizer NumberOfTapsRequired="1"
-                                          Tapped="TapGestureRecognizer_Tapped" />
+                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped" />
                 </Frame.GestureRecognizers>
             </Frame>
-            <Frame x:Name="framePlus"
-                   Grid.Column="1"
-                   BackgroundColor="{StaticResource blue}"
-                   CornerRadius="{OnPlatform Android='30',
+            <Frame
+                x:Name="framePlus"
+                Grid.Column="1"
+                BackgroundColor="{StaticResource blue}"
+                CornerRadius="{OnPlatform Android='30',
                                           iOS='26'}"
-                   HasShadow="False"
-                   HorizontalOptions="FillAndExpand"
-                   IsClippedToBounds="True"
-                   StyleId="framePlus">
-                <Grid ColumnDefinitions="auto, auto"
-                      ColumnSpacing="10"
-                      HorizontalOptions="CenterAndExpand">
-                    <Label x:Name="lbIconPlus"
-                           Grid.Column="0"
-                           FontFamily="MaterialIcons"
-                           FontSize="40"
-                           HorizontalTextAlignment="Center"
-                           Text="{x:Static fonticons:FontIcons.PlusCircle}"
-                           VerticalTextAlignment="Center" />
-                    <Label x:Name="lbPlus"
-                           Grid.Column="1"
-                           FontFamily="MuliBold"
-                           FontSize="12"
-                           HorizontalOptions="FillAndExpand"
-                           HorizontalTextAlignment="Center"
-                           Text="记账"
-                           VerticalTextAlignment="Center" />
+                HasShadow="False"
+                HorizontalOptions="FillAndExpand"
+                IsClippedToBounds="True"
+                StyleId="framePlus">
+                <Grid
+                    ColumnDefinitions="auto, auto"
+                    ColumnSpacing="10"
+                    HorizontalOptions="CenterAndExpand">
+                    <Label
+                        x:Name="lbIconPlus"
+                        Grid.Column="0"
+                        FontFamily="MaterialIcons"
+                        FontSize="40"
+                        HorizontalTextAlignment="Center"
+                        Text="{x:Static fonticons:FontIcons.PlusCircle}"
+                        VerticalTextAlignment="Center" />
+                    <Label
+                        x:Name="lbPlus"
+                        Grid.Column="1"
+                        FontFamily="MuliBold"
+                        FontSize="12"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        Text="记账"
+                        VerticalTextAlignment="Center" />
                 </Grid>
                 <Frame.GestureRecognizers>
-                    <TapGestureRecognizer NumberOfTapsRequired="1"
-                                          Tapped="TapGestureRecognizer_Tapped" />
+                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped" />
                 </Frame.GestureRecognizers>
             </Frame>
-            <Frame x:Name="frameFavorite"
-                   Grid.Column="2"
-                   BackgroundColor="{StaticResource blue}"
-                   CornerRadius="{OnPlatform Android='30',
+            <Frame
+                x:Name="frameSetting"
+                Grid.Column="2"
+                BackgroundColor="{StaticResource blue}"
+                CornerRadius="{OnPlatform Android='30',
                                           iOS='26'}"
-                   HasShadow="False"
-                   HorizontalOptions="FillAndExpand"
-                   IsClippedToBounds="True"
-                   StyleId="frameFavorite">
-                <Grid ColumnDefinitions="auto, auto"
-                      ColumnSpacing="10"
-                      HorizontalOptions="CenterAndExpand">
-                    <Label x:Name="lbIconFavorite"
-                           Grid.Column="0"
-                           FontFamily="MaterialIcons"
-                           FontSize="24"
-                           HorizontalTextAlignment="Center"
-                           Text="{x:Static fonticons:FontIcons.ChartBox}"
-                           VerticalTextAlignment="Center" />
-                    <Label x:Name="lbFavorite"
-                           Grid.Column="1"
-                           FontFamily="MuliBold"
-                           FontSize="12"
-                           HorizontalOptions="FillAndExpand"
-                           HorizontalTextAlignment="Center"
-                           Text="图表"
-                           VerticalTextAlignment="Center" />
+                HasShadow="False"
+                HorizontalOptions="FillAndExpand"
+                IsClippedToBounds="True"
+                StyleId="frameSetting">
+                <Grid
+                    ColumnDefinitions="auto, auto"
+                    ColumnSpacing="10"
+                    HorizontalOptions="CenterAndExpand">
+                    <Label
+                        x:Name="lbIconSetting"
+                        Grid.Column="0"
+                        FontFamily="MaterialIcons"
+                        FontSize="24"
+                        HorizontalTextAlignment="Center"
+                        Text="{x:Static fonticons:FontIcons.Cog}"
+                        VerticalTextAlignment="Center" />
+                    <Label
+                        x:Name="lbSetting"
+                        Grid.Column="1"
+                        FontFamily="MuliBold"
+                        FontSize="12"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        Text="设置"
+                        VerticalTextAlignment="Center" />
                 </Grid>
                 <Frame.GestureRecognizers>
-                    <TapGestureRecognizer NumberOfTapsRequired="1"
-                                          Tapped="TapGestureRecognizer_Tapped" />
+                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped" />
                 </Frame.GestureRecognizers>
             </Frame>
         </Grid>

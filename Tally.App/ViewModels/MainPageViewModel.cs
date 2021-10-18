@@ -1,13 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using Tally.App.Helpers;
 using Tally.App.Models;
 using Tally.App.ViewModel;
+using Tally.Framework.Enums;
 using Tally.Framework.Interface;
 using Xamarin.Forms;
 
@@ -17,6 +16,8 @@ namespace Tally.App.ViewModels
     {
         private readonly string InComeColor = $"#24C389";
         private readonly string SpendColor = $"#3A3A62";
+
+        private readonly ISpendLogServices _instance = Dependcy.Provider.GetService<ISpendLogServices>();
         public MainPageViewModel(INavigation navigation)
         {
             Navigation = navigation;
@@ -25,11 +26,18 @@ namespace Tally.App.ViewModels
             Dates = new ObservableCollection<DateItem>();
             SelectDateCommand = new Command<DateItem>((model) => ExecuteSelectDateCommand(model));
             SelectEventTypeCommand = new Command<EventType>((model) => ExecuteSelectEventTypeCommand(model));
+            InitPageStatisctical();
             loadEventTypes();
             LoadEventItems();
             loadDates();
         }
 
+        #region Property
+
+        /// <summary>
+        /// 首页统计
+        /// </summary>
+        public PageStatisctical PageStatisctical { get; set; }
         public Command SelectDateCommand { get; }
         public Command SelectEventTypeCommand { get; }
         public ObservableCollection<EventType> EventTypes { get; }
@@ -49,6 +57,27 @@ namespace Tally.App.ViewModels
             get => _selectedEventType;
             set => SetProperty(ref _selectedEventType, value);
         }
+
+        #endregion
+
+
+        #region Func
+
+        /// <summary>
+        /// 初始化首页顶部统计
+        /// </summary>
+        private void InitPageStatisctical()
+        {
+            var start = DateTime.Now.GetStartOfMonth();
+            var end = DateTime.Now.GetEndOfMonth();
+            var queryData = _instance.Query(w => w.DateTime <= end && w.DateTime >= start);
+            PageStatisctical = new PageStatisctical()
+            {
+                InCome = queryData?.Where(w => w.IsSpend == EnumSpend.Income).Sum(s => s.Rmb),
+                Spend = queryData?.Where(w => w.IsSpend == EnumSpend.Spend).Sum(s => s.Rmb),
+            };
+        }
+        #endregion
 
         private void loadEventTypes()
         {
@@ -80,37 +109,24 @@ namespace Tally.App.ViewModels
 
         private void LoadEventItems()
         {
-            var Instance = Dependcy.Provider.GetService<ISpendLogServices>();
-            for (int i = 0; i < 10; i++)
+            var data = _instance.Query(w => w.Id != null);
+            if(data == null)
             {
-                try
+                for (int i = 0; i < 10; i++)
                 {
-                    var path = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "billApp.db3");
-                    using (SQLiteConnection conn = new SQLiteConnection(path))
+                    var model = new Framework.Models.SpendLog()
                     {
-                        conn.CreateTable<Framework.Models.SpendLog>();
-                        var model = new Framework.Models.SpendLog()
-                        {
-                            Id = Guid.NewGuid(),
-                            DateTime = DateTime.Now,
-                            Descrpition = new string[] { "早餐", "晚餐", "购物", "日常", "游戏" }[new Random().Next(0, 4)],
-                            Icon = Framework.Enums.EnumIcon.Bus,
-                            IsSpend = Framework.Enums.EnumSpend.Spend,
-                            Pay = Framework.Enums.EnumPay.Alipay,
-                            Rmb = (i + 1) * 1.1
-                        };
-                        conn.Insert(model);
-                    }
+                        Id = Guid.NewGuid(),
+                        DateTime = DateTime.Now,
+                        Descrpition = new string[] { "早餐", "晚餐", "购物", "日常", "游戏" }[new Random().Next(0, 4)],
+                        Icon = (Framework.Enums.EnumIcon)new Random().Next(1, 11),
+                        IsSpend = Framework.Enums.EnumSpend.Spend,
+                        Pay = Framework.Enums.EnumPay.Alipay,
+                        Rmb = 1.1 * i
+                    };
+                    _instance.Insert(model);
                 }
-                catch (Exception c)
-                {
-
-                }
-                
             }
-
-            var data = Instance.Query(w => w.Id != null);
-
             var result = data.Select(s => new ExpenseRecord()
             {
                 Icon = s.Icon.ToString(),
@@ -124,8 +140,8 @@ namespace Tally.App.ViewModels
             {
                 Date = data.FirstOrDefault().DateTime.DateToMonthAndDay(),
                 WeekOnDay = data.FirstOrDefault().DateTime.DateToWeekOnDay(),
-                InCome = data.Sum(s => s.Rmb),
-                Spend = 36.5,
+                InCome = data.Where(w => w.IsSpend == EnumSpend.Income).Sum(s => s.Rmb),
+                Spend = data.Where(w => w.IsSpend == EnumSpend.Spend).Sum(s => s.Rmb),
                 ExpenseRecords = result.ToList()
             });
 

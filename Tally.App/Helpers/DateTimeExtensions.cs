@@ -48,6 +48,30 @@ namespace Tally.App.Helpers
         /// </summary>
         /// <param name="dateTime"></param>
         /// <returns></returns>
-        public static string DateToMonthAndDay(this DateTime dateTime) => $"{dateTime:MM月dd日}";
+        public static string DateToMonthAndDay(this DateTime dateTime)
+        {
+            return $"{dateTime:MM月dd日}";
+        }
+
+        /// <summary>
+        /// 获取月初凌晨零分
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static DateTime GetStartOfMonth(this DateTime dateTime)
+        {
+            return new DateTime(dateTime.Year, dateTime.Month, 1);
+        }
+
+        /// <summary>
+        /// 获取月末23:59:59
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static DateTime GetEndOfMonth(this DateTime dateTime)
+        {
+            var end = new DateTime(dateTime.Year, dateTime.Month, 1).AddMonths(1).AddDays(-1);
+            return new DateTime(end.Year, end.Month, end.Day, 23, 59, 59);
+        }
     }
 }

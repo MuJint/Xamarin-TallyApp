@@ -38,11 +38,11 @@ namespace Tally.App.Views
                     SetDisplayPage(1);
                     SetFrameColor(frmPlus, lbPlus, lbIconPlus);
                 }
-                else if (sender is Frame frmFavorite && frmFavorite.StyleId.Equals("frameFavorite"))
+                else if (sender is Frame frmFavorite && frmFavorite.StyleId.Equals("frameSetting"))
                 {
                     AllInitalize();
                     SetGridLength(2);
-                    SetFrameColor(frmFavorite, lbFavorite, lbIconFavorite);
+                    SetFrameColor(frmFavorite, lbSetting, lbIconSetting);
 
                 }
             });
@@ -130,12 +130,12 @@ namespace Tally.App.Views
             lbPlus.TextColor = Color.White;
             lbIconPlus.TextColor = selectBackGroundColor;
 
-            //frameFavorite
-            frameFavorite.Padding = new Thickness(0);
-            frameFavorite.BackgroundColor = Color.Transparent;
-            lbFavorite.IsVisible = false;
-            lbFavorite.TextColor = Color.White;
-            lbIconFavorite.TextColor = selectBackGroundColor;
+            //frameSetting
+            frameSetting.Padding = new Thickness(0);
+            frameSetting.BackgroundColor = Color.Transparent;
+            lbSetting.IsVisible = false;
+            lbSetting.TextColor = Color.White;
+            lbIconSetting.TextColor = selectBackGroundColor;
         }
     }
 }
