@@ -11,7 +11,7 @@ namespace Tally.App.Views
         public MainPage()
         {
             InitializeComponent();
-            BindingContext = new MainPageViewModel(Navigation);
+            BindingContext = new SSViewModel(Navigation);
             SetLayoutFrame();
         }
 

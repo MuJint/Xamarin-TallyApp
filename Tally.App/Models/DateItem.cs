@@ -3,7 +3,7 @@ using Tally.App.ViewModel;
 
 namespace Tally.App.Models
 {
-    public class DateItem : BaseViewModel
+    public class DateItem : NotifyPropertyChanged
     {
         public string Month { get; set; } = DateTime.Now.Month.ToString();
         public string Day { get; set; } = DateTime.Now.Day.ToString();

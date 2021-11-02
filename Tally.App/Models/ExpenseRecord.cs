@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using Tally.App.ViewModel;
 
 namespace Tally.App.Models
 {
     /// <summary>
     /// 消费卡片
     /// </summary>
-    public class ExpenseCard
+    public class ExpenseCard : NotifyPropertyChanged
     {
         /// <summary>
         /// 日期
@@ -24,6 +25,11 @@ namespace Tally.App.Models
         /// </summary>
         public double? Spend { get; set; } = 0;
         /// <summary>
+        /// 是否展示【暂无数据】
+        /// <para>默认false</para>
+        /// </summary>
+        public bool? IsDisplay { get; set; } = false;
+        /// <summary>
         /// 卡片的消费记录
         /// </summary>
         public ICollection<ExpenseRecord> ExpenseRecords { get; set; } = new HashSet<ExpenseRecord>();
@@ -35,7 +41,10 @@ namespace Tally.App.Models
         /// </summary>
         public int CalculateHeight
         {
-            get => calculateHeight <= 0 ? 30 + (ExpenseRecords.Count * 55) : calculateHeight;
+            //即使没有数据也显示高度撑起布局
+            get => ExpenseRecords.Count <= 0
+                    ? calculateHeight <= 0 ? 30 + 55 : calculateHeight
+                    : calculateHeight <= 0 ? 30 + (ExpenseRecords.Count * 55) : calculateHeight;
             set => calculateHeight = value;
         }
     }

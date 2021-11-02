@@ -36,10 +36,12 @@ namespace Tally.Framework.Interface
         {
             using (GetDbClient)
             {
-                //_sqlteDataBase.DropTable<SpendLog>();
+                _sqlteDataBase.DropTable<SpendLog>();
                 //创建消费表
                 _sqlteDataBase.CreateTable<SpendLog>();
             }
+            //释放了Sqlite同时初始化
+            _sqlteDataBase = null;
         }
 
         private static SQLiteConnection GetDb()

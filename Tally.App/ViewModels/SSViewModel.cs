@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Tally.App.Helpers;
@@ -12,7 +11,7 @@ using Xamarin.Forms;
 
 namespace Tally.App.ViewModels
 {
-    public class MainPageViewModel : BaseViewModel
+    public class SSViewModel : NotifyPropertyChanged
     {
         private readonly string InComeColor = $"#24C389";
         private readonly string SpendColor = $"#3A3A62";
@@ -21,7 +20,7 @@ namespace Tally.App.ViewModels
         private readonly string BlackColor = $"#181819";
 
         private readonly ISpendLogServices _instance = Dependcy.Provider.GetService<ISpendLogServices>();
-        public MainPageViewModel(INavigation navigation)
+        public SSViewModel(INavigation navigation)
         {
             Navigation = navigation;
             EventTypes = new ObservableCollection<EventType>();
@@ -52,10 +51,15 @@ namespace Tally.App.ViewModels
         /// 近七天使用
         /// </summary>
         public ObservableCollection<ExpenseCard> ExpenseCards { get; }
+        private ExpenseCard _onDayCard;
         /// <summary>
         /// 当日消费
         /// </summary>
-        public ExpenseCard OnDayCard { get; set; }
+        public ExpenseCard OnDayCard
+        {
+            get => _onDayCard;
+            set => SetProperty(ref _onDayCard, value);
+        }
         public ObservableCollection<DateItem> Dates { get; }
 
         private DateItem _selectedDate;
@@ -125,17 +129,24 @@ namespace Tally.App.ViewModels
             });
         }
 
+        /// <summary>
+        /// 加载近七日的明细
+        /// </summary>
         private void LoadSevenDaySpend()
         {
-            var data = _instance.Query(w => w.Id != null);
+            var startNow = DateTime.Now.AddDays(-8);
+            var endNow = DateTime.Now.AddDays(-1);
+            var start = new DateTime(startNow.Year, startNow.Month, startNow.Day);
+            var end = new DateTime(endNow.Year, endNow.Month, endNow.Day, 23, 59, 59);
+            var data = _instance.Query(w => w.DateTime >= start && w.DateTime <= end);
             if (data == null || data.Count <= 0)
             {
-                for (int i = 0; i < 15; i++)
+                for (int i = 1; i <= 15; i++)
                 {
                     var model = new Framework.Models.SpendLog()
                     {
                         Id = Guid.NewGuid(),
-                        DateTime = DateTime.Now,
+                        DateTime = DateTime.Now.AddDays(1 - i),
                         Descrpition = new string[] { "早餐", "晚餐", "购物", "日常", "游戏" }[new Random().Next(0, 4)],
                         Icon = (EnumIcon)new Random().Next(1, 11),
                         IsSpend = EnumSpend.Spend,
@@ -145,78 +156,30 @@ namespace Tally.App.ViewModels
                     _instance.Insert(model);
                 }
             }
-            ExpenseCards.Add(new ExpenseCard()
+            var groupResult = data.GroupBy(g => g.DateTime);
+            foreach (var item in groupResult)
             {
-                Date = data.FirstOrDefault().DateTime.DateToMonthAndDay(),
-                WeekOnDay = data.FirstOrDefault().DateTime.DateToWeekOnDay(),
-                InCome = data.Where(w => w.IsSpend == EnumSpend.Income).Sum(s => s.Rmb),
-                Spend = data.Where(w => w.IsSpend == EnumSpend.Spend).Sum(s => s.Rmb),
-                ExpenseRecords = data.Select(s => new ExpenseRecord()
+                ExpenseCards.Add(new ExpenseCard()
                 {
-                    Icon = s.Icon.ToString(),
-                    IconTitle = s.Icon.GetDescription(),
-                    Description = s.Descrpition,
-                    Rmb = s.Rmb,
-                    TextColor = s.IsSpend == EnumSpend.Spend ? SpendColor : InComeColor
-                }).ToList()
-            });
+                    Date = item?.Key.DateToMonthAndDay(),
+                    WeekOnDay = item?.Key.DateToWeekOnDay(),
+                    InCome = item?.Where(w => w.IsSpend == EnumSpend.Income)?.Sum(s => s.Rmb),
+                    Spend = item?.Where(w => w.IsSpend == EnumSpend.Spend)?.Sum(s => s.Rmb),
+                    IsDisplay = item?.Count(w => w.Id != null) <= 0,
+                    ExpenseRecords = item?.Select(s => new ExpenseRecord()
+                    {
+                        Icon = s.Icon.ToString(),
+                        IconTitle = s.Icon.GetDescription(),
+                        Description = s.Descrpition,
+                        Rmb = s.Rmb,
+                        TextColor = s.IsSpend == EnumSpend.Spend ? SpendColor : InComeColor
+                    }).ToList()
+                });
+            }
 
-            ExpenseCards.Add(new ExpenseCard()
-            {
-                Date = DateTime.Now.DateToMonthAndDay(),
-                WeekOnDay = DateTime.Now.DateToWeekOnDay(),
-                InCome = 14.00,
-                Spend = 36.5,
-                ExpenseRecords = new List<ExpenseRecord>()
-                {
-                    new ExpenseRecord()
-                    {
-                        Icon="restaurant",
-                        IconTitle="餐饮",
-                        Description="早餐",
-                        Rmb=7,
-                        TextColor=SpendColor
-                    },
-                    new ExpenseRecord()
-                    {
-                        Icon="restaurant",
-                        IconTitle="餐饮",
-                        Description="午餐",
-                        Rmb=7.5,
-                        TextColor=SpendColor
-                    },
-                    new ExpenseRecord()
-                    {
-                        Icon="transfer",
-                        IconTitle="餐饮",
-                        Description="午餐",
-                        Rmb=11,
-                        IsSpend="+",
-                        TextColor=InComeColor
-                    },
-                }
-            });
-
-            ExpenseCards.Add(new ExpenseCard()
-            {
-                Date = $"{DateTime.Now.AddDays(-1):MM月dd日}",
-                WeekOnDay = DateTime.Now.AddDays(-1).DateToWeekOnDay(),
-                InCome = 14.00,
-                Spend = 36.5,
-                ExpenseRecords = new List<ExpenseRecord>()
-                {
-                    new ExpenseRecord()
-                    {
-                        Icon="",
-                        IconTitle="餐饮",
-                        Description="早餐",
-                        Rmb=7,
-                        TextColor=InComeColor
-                    },
-                }
-            });
-            //去掉ExpenseRecords集合的第一个标题的高度
-            ExpenseCards.First().CalculateHeight -= 30;
+            //去掉ExpenseRecords集合的第一个标题的高度，如果它的集合大于1
+            if (ExpenseCards.First().ExpenseRecords.Count() > 1)
+                ExpenseCards.First().CalculateHeight -= 30;
             //计算的卡片的高度+卡片padding
             ExpenseCardCalculateHeight = ExpenseCards.Sum(s => s.CalculateHeight) + (ExpenseCards.Count() * 20);
         }
@@ -255,6 +218,8 @@ namespace Tally.App.ViewModels
                 Dates[index].BackgroundColor = BlueColor;
                 Dates[index].TextColor = WhiteColor;
                 Dates[index].Selected = true;
+
+                LoadOnDaySpend(new DateTime(DateTime.Now.Year, DateTime.Now.Month, model.Day.ObjToInt()));
             }
         }
 
@@ -276,6 +241,10 @@ namespace Tally.App.ViewModels
             }
         }
 
+        /// <summary>
+        /// 加载当日数据
+        /// </summary>
+        /// <param name="dateTime">日期</param>
         private void LoadOnDaySpend(DateTime dateTime)
         {
             var start = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day);
@@ -287,7 +256,8 @@ namespace Tally.App.ViewModels
                 InCome = result?.Where(s => s.IsSpend == EnumSpend.Income)?.Sum(s => s.Rmb),
                 Spend = result?.Where(s => s.IsSpend == EnumSpend.Spend)?.Sum(s => s.Rmb),
                 WeekOnDay = dateTime.DateToWeekOnDay(),
-                ExpenseRecords = result.Select(s => new ExpenseRecord()
+                IsDisplay = result?.Count() <= 0,
+                ExpenseRecords = result?.Select(s => new ExpenseRecord()
                 {
                     Icon = s.Icon.ToString(),
                     IconTitle = s.Icon.GetDescription(),
@@ -296,8 +266,9 @@ namespace Tally.App.ViewModels
                     TextColor = s.IsSpend == EnumSpend.Spend ? SpendColor : InComeColor
                 }).ToList()
             };
-            //去掉ExpenseRecords集合的第一个标题的高度
-            OnDayCard.CalculateHeight -= 30;
+            //去掉ExpenseRecords集合的第一个标题的高度，如果它的集合大于1
+            if (OnDayCard.ExpenseRecords.Count() > 1)
+                OnDayCard.CalculateHeight -= 30;
         }
     }
 }

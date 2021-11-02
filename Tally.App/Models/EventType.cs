@@ -2,7 +2,7 @@
 
 namespace Tally.App.Models
 {
-    public class EventType : BaseViewModel
+    public class EventType : NotifyPropertyChanged
     {
         public string name { get; set; }
         public string image { get; set; }

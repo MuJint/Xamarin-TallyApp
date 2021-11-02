@@ -47,6 +47,7 @@ namespace Tally.App
             //判断是否是初次启动
             //没有读出配置文件就新增
             var backingFile = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "config.txt");
+            //File.Delete(backingFile);
             if (backingFile == null || !File.Exists(backingFile))
             {
                 WriteConfig(backingFile);

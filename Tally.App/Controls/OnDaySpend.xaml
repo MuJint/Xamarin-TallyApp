@@ -21,6 +21,15 @@
                 HeightRequest="{Binding OnDayCard.CalculateHeight}"
                 IsClippedToBounds="True">
                 <Grid ColumnDefinitions="*, auto" RowDefinitions="auto, *">
+                    <Label
+                        Grid.Row="1"
+                        FontFamily="MuliRegular"
+                        FontSize="12"
+                        HorizontalOptions="Center"
+                        IsVisible="{Binding OnDayCard.IsDisplay}"
+                        Text="暂无数据"
+                        TextColor="{StaticResource common}"
+                        VerticalOptions="Center" />
                     <Grid ColumnDefinitions="auto,*,auto,auto">
                         <Label
                             Grid.Column="0"

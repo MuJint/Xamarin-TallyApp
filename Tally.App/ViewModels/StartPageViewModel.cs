@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace Tally.App.ViewModels
 {
-    public class StartPageViewModel : BaseViewModel
+    public class StartPageViewModel : NotifyPropertyChanged
     {
         public StartPageViewModel(INavigation navigation)
         {
