@@ -39,6 +39,9 @@
     <ProjectReference Include="..\Tally.Framework\Tally.Framework.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Controls\SevenDaySpend.xaml.cs">
+      <DependentUpon>SevenDaySpend.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Controls\ListEventTypesView.xaml.cs">
       <DependentUpon>ListEventTypesView.xaml</DependentUpon>
     </Compile>
@@ -54,7 +57,10 @@
     <EmbeddedResource Update="Controls\HomePageStatistical.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Controls\ListEventsView.xaml">
+    <EmbeddedResource Update="Controls\OnDaySpend.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\SevenDaySpend.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\Spend.xaml">

@@ -32,7 +32,7 @@ namespace Tally.App.Controls
             var items = newValue as ObservableCollection<DateItem>;
             var control = (CalendarCarouselView)bindable;
 
-            var index = items.ToList().FindIndex(p => p.selected);
+            var index = items.ToList().FindIndex(p => p.Selected);
 
             await Task.Delay(250);
 

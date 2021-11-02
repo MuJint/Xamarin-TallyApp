@@ -16,7 +16,10 @@ namespace Tally.App
             InitializeComponent();
             Initalize();
             StartUp();
-            MainPage = new MainPage();
+            MainPage = new MainPage
+            {
+                MinimumHeightRequest = 2000
+            };
             if (Device.RuntimePlatform == Device.iOS)
                 DependencyService.Get<IStatusbarColor>().ChangeStatusbarColor();
         }

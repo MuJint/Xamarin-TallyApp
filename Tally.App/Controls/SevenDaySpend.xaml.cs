@@ -4,9 +4,9 @@ using Xamarin.Forms.Xaml;
 namespace Tally.App.Controls
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ListEventsView : ContentView
+    public partial class SevenDaySpend : ContentView
     {
-        public ListEventsView()
+        public SevenDaySpend()
         {
             InitializeComponent();
         }

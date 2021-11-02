@@ -15,13 +15,14 @@
             SelectionChangedCommandParameter="{Binding SelectedDate}"
             SelectionMode="Single">
             <CollectionView.ItemsLayout>
-                <LinearItemsLayout ItemSpacing="0" Orientation="Horizontal" />
+                <LinearItemsLayout ItemSpacing="5" Orientation="Horizontal" />
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Frame
                         Padding="5,0,5,5"
-                        BackgroundColor="{Binding backgroundColor}"
+                        BackgroundColor="{Binding BackgroundColor}"
+                        BorderColor="Transparent"
                         CornerRadius="10"
                         HasShadow="False"
                         IsClippedToBounds="True"
@@ -36,16 +37,16 @@
                                 FontFamily="MuliBold"
                                 FontSize="Micro"
                                 HorizontalTextAlignment="Center"
-                                Text="{Binding day}"
-                                TextColor="{Binding textColor}" />
+                                Text="{Binding Day}"
+                                TextColor="{Binding TextColor}" />
                             <Label
                                 Grid.Row="2"
                                 Grid.Column="0"
                                 FontFamily="MuliBold"
                                 FontSize="Micro"
                                 HorizontalTextAlignment="Center"
-                                Text="{Binding dayWeek}"
-                                TextColor="{Binding textColor}" />
+                                Text="{Binding DayWeek}"
+                                TextColor="{Binding TextColor}" />
                         </Grid>
                     </Frame>
                 </DataTemplate>

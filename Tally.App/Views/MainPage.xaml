@@ -6,10 +6,9 @@
     xmlns:control="clr-namespace:Tally.App.Controls"
     xmlns:fonticons="clr-namespace:Tally.App.FontIcons"
     NavigationPage.HasNavigationBar="False">
-
     <Grid
         HorizontalOptions="FillAndExpand"
-        RowDefinitions="*, auto"
+        RowDefinitions="*,auto"
         RowSpacing="0"
         VerticalOptions="FillAndExpand">
         <control:HomePage x:Name="HomePage" />

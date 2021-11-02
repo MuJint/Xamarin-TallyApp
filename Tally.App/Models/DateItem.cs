@@ -1,23 +1,24 @@
-﻿using Tally.App.ViewModel;
+﻿using System;
+using Tally.App.ViewModel;
 
 namespace Tally.App.Models
 {
     public class DateItem : BaseViewModel
     {
-        public string month { get; set; }
-        public string day { get; set; }
-        public string dayWeek { get; set; }
-        public bool selected { get; set; }
+        public string Month { get; set; } = DateTime.Now.Month.ToString();
+        public string Day { get; set; } = DateTime.Now.Day.ToString();
+        public string DayWeek { get; set; }
+        public bool Selected { get; set; }
 
         private string _backgroundColor;
-        public string backgroundColor
+        public string BackgroundColor
         {
             get => _backgroundColor;
             set => SetProperty(ref _backgroundColor, value);
         }
 
         private string _textColor;
-        public string textColor
+        public string TextColor
         {
             get => _textColor;
             set => SetProperty(ref _textColor, value);

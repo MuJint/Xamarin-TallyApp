@@ -18,20 +18,26 @@ namespace Tally.App.Models
         /// <summary>
         /// 收入
         /// </summary>
-        public double InCome { get; set; }
+        public double? InCome { get; set; } = 0;
         /// <summary>
         /// 支出
         /// </summary>
-        public double Spend { get; set; }
+        public double? Spend { get; set; } = 0;
         /// <summary>
         /// 卡片的消费记录
         /// </summary>
         public ICollection<ExpenseRecord> ExpenseRecords { get; set; } = new HashSet<ExpenseRecord>();
+        private int calculateHeight;
         /// <summary>
         /// 计算卡片的高度
         /// <para>一个ExpenseRecord算作55</para>
+        /// <para><seealso cref="Controls.ListEventsView"/>需要去掉ExpenseRecords集合的第一个标题的高度</para>
         /// </summary>
-        public int CalculateHeight => 30 + (ExpenseRecords.Count * 55);
+        public int CalculateHeight
+        {
+            get => calculateHeight <= 0 ? 30 + (ExpenseRecords.Count * 55) : calculateHeight;
+            set => calculateHeight = value;
+        }
     }
 
     public class ExpenseRecord

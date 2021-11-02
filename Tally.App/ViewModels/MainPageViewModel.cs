@@ -16,6 +16,9 @@ namespace Tally.App.ViewModels
     {
         private readonly string InComeColor = $"#24C389";
         private readonly string SpendColor = $"#3A3A62";
+        private readonly string BlueColor = $"#3388df";
+        private readonly string WhiteColor = $"#FFFFFF";
+        private readonly string BlackColor = $"#181819";
 
         private readonly ISpendLogServices _instance = Dependcy.Provider.GetService<ISpendLogServices>();
         public MainPageViewModel(INavigation navigation)
@@ -27,13 +30,17 @@ namespace Tally.App.ViewModels
             SelectDateCommand = new Command<DateItem>((model) => ExecuteSelectDateCommand(model));
             SelectEventTypeCommand = new Command<EventType>((model) => ExecuteSelectEventTypeCommand(model));
             InitPageStatisctical();
-            loadEventTypes();
-            LoadEventItems();
-            loadDates();
+            LoadEventTypes();
+            LoadSevenDaySpend();
+            LoadDates();
+            LoadOnDaySpend(DateTime.Now);
         }
 
         #region Property
-
+        /// <summary>
+        /// 计算卡片的总高
+        /// </summary>
+        public double ExpenseCardCalculateHeight { get; set; }
         /// <summary>
         /// 首页统计
         /// </summary>
@@ -41,10 +48,21 @@ namespace Tally.App.ViewModels
         public Command SelectDateCommand { get; }
         public Command SelectEventTypeCommand { get; }
         public ObservableCollection<EventType> EventTypes { get; }
+        /// <summary>
+        /// 近七天使用
+        /// </summary>
         public ObservableCollection<ExpenseCard> ExpenseCards { get; }
+        /// <summary>
+        /// 当日消费
+        /// </summary>
+        public ExpenseCard OnDayCard { get; set; }
         public ObservableCollection<DateItem> Dates { get; }
 
         private DateItem _selectedDate;
+        /// <summary>
+        /// 选中的日期
+        /// <para>selectedDate</para>
+        /// </summary>
         public DateItem SelectedDate
         {
             get => _selectedDate;
@@ -79,7 +97,7 @@ namespace Tally.App.ViewModels
         }
         #endregion
 
-        private void loadEventTypes()
+        private void LoadEventTypes()
         {
             EventTypes.Add(new EventType()
             {
@@ -107,42 +125,40 @@ namespace Tally.App.ViewModels
             });
         }
 
-        private void LoadEventItems()
+        private void LoadSevenDaySpend()
         {
             var data = _instance.Query(w => w.Id != null);
-            if(data == null)
+            if (data == null || data.Count <= 0)
             {
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < 15; i++)
                 {
                     var model = new Framework.Models.SpendLog()
                     {
                         Id = Guid.NewGuid(),
                         DateTime = DateTime.Now,
                         Descrpition = new string[] { "早餐", "晚餐", "购物", "日常", "游戏" }[new Random().Next(0, 4)],
-                        Icon = (Framework.Enums.EnumIcon)new Random().Next(1, 11),
-                        IsSpend = Framework.Enums.EnumSpend.Spend,
-                        Pay = Framework.Enums.EnumPay.Alipay,
+                        Icon = (EnumIcon)new Random().Next(1, 11),
+                        IsSpend = EnumSpend.Spend,
+                        Pay = EnumPay.Alipay,
                         Rmb = 1.1 * i
                     };
                     _instance.Insert(model);
                 }
             }
-            var result = data.Select(s => new ExpenseRecord()
-            {
-                Icon = s.Icon.ToString(),
-                IconTitle = s.Icon.GetDescription(),
-                Description = s.Descrpition,
-                Rmb = s.Rmb,
-                TextColor = s.IsSpend == Framework.Enums.EnumSpend.Spend ? SpendColor : InComeColor
-            });
-
             ExpenseCards.Add(new ExpenseCard()
             {
                 Date = data.FirstOrDefault().DateTime.DateToMonthAndDay(),
                 WeekOnDay = data.FirstOrDefault().DateTime.DateToWeekOnDay(),
                 InCome = data.Where(w => w.IsSpend == EnumSpend.Income).Sum(s => s.Rmb),
                 Spend = data.Where(w => w.IsSpend == EnumSpend.Spend).Sum(s => s.Rmb),
-                ExpenseRecords = result.ToList()
+                ExpenseRecords = data.Select(s => new ExpenseRecord()
+                {
+                    Icon = s.Icon.ToString(),
+                    IconTitle = s.Icon.GetDescription(),
+                    Description = s.Descrpition,
+                    Rmb = s.Rmb,
+                    TextColor = s.IsSpend == EnumSpend.Spend ? SpendColor : InComeColor
+                }).ToList()
             });
 
             ExpenseCards.Add(new ExpenseCard()
@@ -199,9 +215,13 @@ namespace Tally.App.ViewModels
                     },
                 }
             });
+            //去掉ExpenseRecords集合的第一个标题的高度
+            ExpenseCards.First().CalculateHeight -= 30;
+            //计算的卡片的高度+卡片padding
+            ExpenseCardCalculateHeight = ExpenseCards.Sum(s => s.CalculateHeight) + (ExpenseCards.Count() * 20);
         }
 
-        private void loadDates()
+        private void LoadDates()
         {
             var dateInit = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
             var dateEnd = new DateTime(dateInit.Year, dateInit.Month, DateTime.DaysInMonth(dateInit.Year, dateInit.Month));
@@ -210,12 +230,12 @@ namespace Tally.App.ViewModels
             {
                 Dates.Add(new DateItem()
                 {
-                    day = string.Format("{0:00}", i),
-                    month = dateInit.ToString("MMM").FirstLetterUpperCase(),
-                    dayWeek = new DateTime(dateInit.Year, dateInit.Month, i).DayOfWeek.ToString().Substring(0, 3),
-                    selected = i == DateTime.Today.Day,
-                    backgroundColor = i == DateTime.Today.Day ? "#FCCD00" : "Transparent",
-                    textColor = i == DateTime.Today.Day ? "#000000" : "#FFFFFF",
+                    Day = string.Format("{0:00}", i),
+                    Month = dateInit.ToString("MMM").FirstLetterUpperCase(),
+                    DayWeek = new DateTime(dateInit.Year, dateInit.Month, i).DateToWeekOnDay(),
+                    Selected = i == DateTime.Today.Day,
+                    BackgroundColor = i == DateTime.Today.Day ? BlueColor : WhiteColor,
+                    TextColor = i == DateTime.Today.Day ? WhiteColor : BlackColor,
                 });
             }
         }
@@ -224,17 +244,17 @@ namespace Tally.App.ViewModels
         {
             Dates.ToList().ForEach((item) =>
             {
-                item.selected = false;
-                item.backgroundColor = "Transparent";
-                item.textColor = "#FFFFFF";
+                item.Selected = false;
+                item.BackgroundColor = WhiteColor;
+                item.TextColor = BlackColor;
             });
 
-            var index = Dates.ToList().FindIndex(p => p.day == model.day && p.dayWeek == model.dayWeek);
+            int index = Dates.ToList().FindIndex(p => p.Day == model.Day && p.DayWeek == model.DayWeek);
             if (index > -1)
             {
-                Dates[index].backgroundColor = "#FCCD00";
-                Dates[index].textColor = "#000000";
-                Dates[index].selected = true;
+                Dates[index].BackgroundColor = BlueColor;
+                Dates[index].TextColor = WhiteColor;
+                Dates[index].Selected = true;
             }
         }
 
@@ -254,6 +274,30 @@ namespace Tally.App.ViewModels
                 EventTypes[index].textColor = "#000000";
                 EventTypes[index].selected = true;
             }
+        }
+
+        private void LoadOnDaySpend(DateTime dateTime)
+        {
+            var start = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day);
+            var end = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 23, 59, 59);
+            var result = _instance.Query(w => w.DateTime >= start && w.DateTime <= end);
+            OnDayCard = new ExpenseCard()
+            {
+                Date = new DateTime(DateTime.Now.Year, dateTime.Month, dateTime.Day).DateToMonthAndDay(),
+                InCome = result?.Where(s => s.IsSpend == EnumSpend.Income)?.Sum(s => s.Rmb),
+                Spend = result?.Where(s => s.IsSpend == EnumSpend.Spend)?.Sum(s => s.Rmb),
+                WeekOnDay = dateTime.DateToWeekOnDay(),
+                ExpenseRecords = result.Select(s => new ExpenseRecord()
+                {
+                    Icon = s.Icon.ToString(),
+                    IconTitle = s.Icon.GetDescription(),
+                    Description = s.Descrpition,
+                    Rmb = s.Rmb,
+                    TextColor = s.IsSpend == EnumSpend.Spend ? SpendColor : InComeColor
+                }).ToList()
+            };
+            //去掉ExpenseRecords集合的第一个标题的高度
+            OnDayCard.CalculateHeight -= 30;
         }
     }
 }

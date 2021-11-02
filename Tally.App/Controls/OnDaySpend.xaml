@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="Tally.App.Controls.OnDaySpend"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <ContentView.Content>
+        <Grid RowDefinitions="auto, *">
+            <Label
+                Grid.Row="0"
+                Margin="0,15,0,15"
+                FontFamily="MuliBold"
+                FontSize="16"
+                Text="当日明细"
+                TextColor="{StaticResource black}" />
+            <Frame
+                Grid.Row="1"
+                Padding="0"
+                BackgroundColor="White"
+                CornerRadius="10"
+                HasShadow="False"
+                HeightRequest="{Binding OnDayCard.CalculateHeight}"
+                IsClippedToBounds="True">
+                <Grid ColumnDefinitions="*, auto" RowDefinitions="auto, *">
+                    <Grid ColumnDefinitions="auto,*,auto,auto">
+                        <Label
+                            Grid.Column="0"
+                            Margin="20,10,0,0"
+                            FontFamily="MuliRegular"
+                            FontSize="12"
+                            Text="{Binding OnDayCard.Date}"
+                            TextColor="{StaticResource common}" />
+                        <Label
+                            Grid.Column="1"
+                            Margin="5,10,0,0"
+                            FontFamily="MuliRegular"
+                            FontSize="12"
+                            Text="{Binding OnDayCard.WeekOnDay}"
+                            TextColor="{StaticResource common}" />
+                        <Label
+                            Grid.Column="2"
+                            Margin="20,10,0,0"
+                            FontFamily="MuliRegular"
+                            FontSize="12"
+                            TextColor="{StaticResource common}">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="支出：" />
+                                    <Span Text="{Binding OnDayCard.Spend}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <Label
+                            Grid.Column="3"
+                            Margin="20,10,0,0"
+                            FontFamily="MuliRegular"
+                            FontSize="12"
+                            TextColor="{StaticResource common}">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="收入：" />
+                                    <Span Text="{Binding OnDayCard.InCome}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </Grid>
+                    <Grid
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Margin="20,0,0,0">
+                        <CollectionView BackgroundColor="Transparent" ItemsSource="{Binding OnDayCard.ExpenseRecords}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnDefinitions="auto,*">
+                                        <Grid
+                                            Margin="6,2,0,2"
+                                            ColumnDefinitions="auto,auto"
+                                            HorizontalOptions="Start"
+                                            RowDefinitions="*,*"
+                                            VerticalOptions="Center">
+                                            <Image
+                                                Grid.Row="0"
+                                                Grid.RowSpan="2"
+                                                Grid.Column="0"
+                                                Margin="0,0,5,0"
+                                                Aspect="AspectFit"
+                                                HeightRequest="35"
+                                                Source="{Binding Icon}"
+                                                WidthRequest="35" />
+                                            <Label
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                FontFamily="MuliRegular"
+                                                FontSize="14"
+                                                Text="{Binding IconTitle}"
+                                                TextColor="{StaticResource black}" />
+                                            <Label
+                                                Grid.Row="1"
+                                                Grid.Column="1"
+                                                FontFamily="MuliRegular"
+                                                FontSize="11"
+                                                Text="{Binding Description}"
+                                                TextColor="{StaticResource common}" />
+                                        </Grid>
+                                        <Label
+                                            Grid.Column="1"
+                                            Margin="0,0,15,0"
+                                            FontFamily="MuliBlack"
+                                            FontSize="20"
+                                            HorizontalTextAlignment="End"
+                                            TextColor="{Binding TextColor}"
+                                            VerticalTextAlignment="Center">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding IsSpend}" />
+                                                    <Span Text="{Binding Rmb}" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </Grid>
+                </Grid>
+            </Frame>
+        </Grid>
+    </ContentView.Content>
+</ContentView>
