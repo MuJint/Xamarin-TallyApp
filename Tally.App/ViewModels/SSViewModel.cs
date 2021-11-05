@@ -33,6 +33,7 @@ namespace Tally.App.ViewModels
             LoadSevenDaySpend();
             LoadDates();
             LoadOnDaySpend(DateTime.Now);
+            LoadSpendImgs();
         }
 
         #region Property
@@ -47,6 +48,7 @@ namespace Tally.App.ViewModels
         public Command SelectDateCommand { get; }
         public Command SelectEventTypeCommand { get; }
         public ObservableCollection<EventType> EventTypes { get; }
+        public ObservableCollection<SpendImg> SpendImgs { get; set; } = new ObservableCollection<SpendImg>();
         /// <summary>
         /// 近七天使用
         /// </summary>
@@ -269,6 +271,18 @@ namespace Tally.App.ViewModels
             //去掉ExpenseRecords集合的第一个标题的高度，如果它的集合大于1
             if (OnDayCard.ExpenseRecords.Count() > 1)
                 OnDayCard.CalculateHeight -= 30;
+        }
+
+        private void LoadSpendImgs()
+        {
+            for (int i = 0; i < 15; i++)
+            {
+                SpendImgs.Add(new SpendImg()
+                {
+                    Icon = "shop.png",
+                    Title = "购物"
+                });
+            }
         }
     }
 }

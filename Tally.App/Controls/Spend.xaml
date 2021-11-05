@@ -1,10 +1,184 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Tally.App.Controls.Spend">
-  <ContentView.Content>
-      <StackLayout>
-          <Label Text="Hello Xamarin.Forms!" />
-      </StackLayout>
-  </ContentView.Content>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="Tally.App.Controls.Spend"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <ContentView.Content>
+        <Grid RowDefinitions="auto,*">
+            <!--<Grid RowDefinitions="auto,auto">
+                <StackLayout
+                    Padding="15,15,15,0"
+                    HorizontalOptions="Center"
+                    Orientation="Horizontal"
+                    VerticalOptions="Center">
+                    <Label
+                        Margin="20,0"
+                        FontFamily="MuliRegular"
+                        FontSize="20"
+                        PropertyChanged="Label_PropertyChanged"
+                        TabIndex="1"
+                        Text="支出"
+                        TextColor="{StaticResource blue}" />
+                    <Label
+                        Grid.Column="1"
+                        Margin="20,0"
+                        FontFamily="MuliRegular"
+                        FontSize="20"
+                        PropertyChanged="Label_PropertyChanged"
+                        TabIndex="2"
+                        Text="收入"
+                        TextColor="{StaticResource black}" />
+                </StackLayout>
+                <StackLayout
+                    Grid.Row="1"
+                    HorizontalOptions="Center"
+                    Orientation="Horizontal"
+                    VerticalOptions="Center">
+                    <Line
+                        Margin="25,0"
+                        BackgroundColor="{StaticResource blue}"
+                        HeightRequest="3"
+                        WidthRequest="30" />
+                    <Line
+                        Margin="25,0"
+                        BackgroundColor="#F0F0F0"
+                        HeightRequest="3"
+                        WidthRequest="30" />
+                </StackLayout>
+            </Grid>-->
+            <Grid
+                ColumnDefinitions="auto,auto"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+                <Frame
+                    x:Name="frameSpend"
+                    Margin="10,20"
+                    Padding="5"
+                    BackgroundColor="{StaticResource blue}"
+                    CornerRadius="12"
+                    HasShadow="False"
+                    HeightRequest="30"
+                    IsClippedToBounds="True"
+                    StyleId="Spend"
+                    WidthRequest="70">
+                    <Label
+                        x:Name="labelSpend"
+                        FontFamily="MuliRegular"
+                        FontSize="15"
+                        HorizontalOptions="Center"
+                        Text="支出"
+                        TextColor="White"
+                        VerticalOptions="Center" />
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped" />
+                    </Frame.GestureRecognizers>
+                </Frame>
+                <Frame
+                    x:Name="frameInCome"
+                    Grid.Column="1"
+                    Margin="10,20"
+                    Padding="5"
+                    BackgroundColor="White"
+                    CornerRadius="12"
+                    HeightRequest="30"
+                    StyleId="InCome"
+                    WidthRequest="70">
+                    <Label
+                        x:Name="labelInCome"
+                        FontFamily="MuliRegular"
+                        FontSize="15"
+                        HorizontalOptions="Center"
+                        Text="收入"
+                        TextColor="{StaticResource blue}"
+                        VerticalOptions="Center" />
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped" />
+                    </Frame.GestureRecognizers>
+                </Frame>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid RowDefinitions="auto, *">
+                    <Frame
+                        Grid.Row="0"
+                        Margin="5"
+                        Padding="0"
+                        BackgroundColor="White"
+                        CornerRadius="10"
+                        HasShadow="False"
+                        HeightRequest="70"
+                        IsClippedToBounds="True">
+                        <Grid ColumnDefinitions="*, auto" RowDefinitions="auto, *">
+                            <Grid ColumnDefinitions="auto,*,auto">
+                                <Image
+                                    Grid.Column="0"
+                                    Margin="20,10,1,10"
+                                    Aspect="AspectFit"
+                                    HeightRequest="45"
+                                    Source="shop.png"
+                                    VerticalOptions="Center"
+                                    WidthRequest="45" />
+                                <Label
+                                    Grid.Column="1"
+                                    FontFamily="MuliRegular"
+                                    FontSize="14"
+                                    Text="{Binding OnDayCard.WeekOnDay}"
+                                    TextColor="{StaticResource black}"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    Grid.Column="2"
+                                    Margin="0,0,15,0"
+                                    FontFamily="MuliRegular"
+                                    FontSize="16"
+                                    TextColor="{StaticResource black}"
+                                    VerticalOptions="Center">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span FontSize="20" Text="￥" />
+                                            <Span Text="2333" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </Grid>
+                        </Grid>
+                    </Frame>
+                    <Frame
+                        Grid.Row="1"
+                        Margin="5"
+                        Padding="0"
+                        BackgroundColor="White"
+                        CornerRadius="10"
+                        HasShadow="False"
+                        HeightRequest="70"
+                        IsClippedToBounds="True">
+                        <Grid>
+                            <CollectionView ItemsSource="{Binding SpendImgs}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Image
+                                                Grid.Row="0"
+                                                Grid.RowSpan="2"
+                                                Grid.Column="0"
+                                                Margin="0,0,5,0"
+                                                Aspect="AspectFit"
+                                                HeightRequest="35"
+                                                Source="{Binding Icon}"
+                                                WidthRequest="35" />
+                                            <Label
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                FontFamily="MuliRegular"
+                                                FontSize="14"
+                                                Text="{Binding Title}"
+                                                TextColor="{StaticResource black}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </Grid>
+                    </Frame>
+                </Grid>
+            </Grid>
+        </Grid>
+    </ContentView.Content>
 </ContentView>
