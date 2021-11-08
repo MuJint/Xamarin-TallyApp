@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Tally.App.Helpers;
@@ -48,11 +49,11 @@ namespace Tally.App.ViewModels
         public Command SelectDateCommand { get; }
         public Command SelectEventTypeCommand { get; }
         public ObservableCollection<EventType> EventTypes { get; }
-        public ObservableCollection<SpendImg> SpendImgs { get; set; } = new ObservableCollection<SpendImg>();
         /// <summary>
         /// 近七天使用
         /// </summary>
         public ObservableCollection<ExpenseCard> ExpenseCards { get; }
+        public ObservableCollection<SpendImg> SpendImgs { get; set; } = new ObservableCollection<SpendImg>();
         private ExpenseCard _onDayCard;
         /// <summary>
         /// 当日消费
@@ -101,8 +102,40 @@ namespace Tally.App.ViewModels
                 Spend = queryData?.Where(w => w.IsSpend == EnumSpend.Spend).Sum(s => s.Rmb),
             };
         }
+
+        /// <summary>
+        /// 加载支出List
+        /// </summary>
+        /// <returns></returns>
+        private void LoadSpendImgs()
+        {
+            SpendImgs.Add(new SpendImg()
+            {
+                Icon = "shop.png",
+                Title = "购物"
+            });
+            SpendImgs.Add(new SpendImg()
+            {
+                Icon = "restaurant.png",
+                Title = "购物"
+            });
+            SpendImgs.Add(new SpendImg()
+            {
+                Icon = "bus.png",
+                Title = "购物"
+            });
+            SpendImgs.Add(new SpendImg()
+            {
+                Icon = "transfer.png",
+                Title = "购物"
+            });
+        }
         #endregion
 
+
+        #region MyRegion
+
+        #endregion
         private void LoadEventTypes()
         {
             EventTypes.Add(new EventType()
@@ -136,7 +169,7 @@ namespace Tally.App.ViewModels
         /// </summary>
         private void LoadSevenDaySpend()
         {
-            var startNow = DateTime.Now.AddDays(-8);
+            var startNow = DateTime.Now.AddDays(-7);
             var endNow = DateTime.Now.AddDays(-1);
             var start = new DateTime(startNow.Year, startNow.Month, startNow.Day);
             var end = new DateTime(endNow.Year, endNow.Month, endNow.Day, 23, 59, 59);
@@ -271,18 +304,6 @@ namespace Tally.App.ViewModels
             //去掉ExpenseRecords集合的第一个标题的高度，如果它的集合大于1
             if (OnDayCard.ExpenseRecords.Count() > 1)
                 OnDayCard.CalculateHeight -= 30;
-        }
-
-        private void LoadSpendImgs()
-        {
-            for (int i = 0; i < 15; i++)
-            {
-                SpendImgs.Add(new SpendImg()
-                {
-                    Icon = "shop.png",
-                    Title = "购物"
-                });
-            }
         }
     }
 }

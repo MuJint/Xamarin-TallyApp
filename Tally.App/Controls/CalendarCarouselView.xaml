@@ -3,6 +3,23 @@
     x:Class="Tally.App.Controls.CalendarCarouselView"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <!--  更改选定项背景颜色 https://docs.microsoft.com/zh-cn/xamarin/xamarin-forms/user-interface/collectionview/selection#clear-selections  -->
+    <ContentView.Resources>
+        <Style TargetType="Frame">
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="#3388df" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </ContentView.Resources>
     <ContentView.Content>
         <CollectionView
             x:Name="listDates"

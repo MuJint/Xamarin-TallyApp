@@ -3,7 +3,7 @@
     x:Class="Tally.App.Views.MainPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:control="clr-namespace:Tally.App.Controls"
+    xmlns:control="clr-namespace:Tally.App.Views"
     xmlns:fonticons="clr-namespace:Tally.App.FontIcons"
     NavigationPage.HasNavigationBar="False">
     <Grid
@@ -11,8 +11,9 @@
         RowDefinitions="*,auto"
         RowSpacing="0"
         VerticalOptions="FillAndExpand">
-        <control:HomePage x:Name="HomePage" />
-        <control:Spend x:Name="SpendPage" IsVisible="false" />
+        <!--  内容视图  -->
+        <control:ContentViewPage x:Name="ContentViewPage" />
+        <!--  底部按钮  -->
         <Grid
             x:Name="gridFrames"
             Grid.Row="1"

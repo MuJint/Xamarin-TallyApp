@@ -3,49 +3,24 @@
     x:Class="Tally.App.Controls.Spend"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <ContentView.Resources>
+        <Style TargetType="Grid">
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="Transparent" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </ContentView.Resources>
     <ContentView.Content>
         <Grid RowDefinitions="auto,*">
-            <!--<Grid RowDefinitions="auto,auto">
-                <StackLayout
-                    Padding="15,15,15,0"
-                    HorizontalOptions="Center"
-                    Orientation="Horizontal"
-                    VerticalOptions="Center">
-                    <Label
-                        Margin="20,0"
-                        FontFamily="MuliRegular"
-                        FontSize="20"
-                        PropertyChanged="Label_PropertyChanged"
-                        TabIndex="1"
-                        Text="支出"
-                        TextColor="{StaticResource blue}" />
-                    <Label
-                        Grid.Column="1"
-                        Margin="20,0"
-                        FontFamily="MuliRegular"
-                        FontSize="20"
-                        PropertyChanged="Label_PropertyChanged"
-                        TabIndex="2"
-                        Text="收入"
-                        TextColor="{StaticResource black}" />
-                </StackLayout>
-                <StackLayout
-                    Grid.Row="1"
-                    HorizontalOptions="Center"
-                    Orientation="Horizontal"
-                    VerticalOptions="Center">
-                    <Line
-                        Margin="25,0"
-                        BackgroundColor="{StaticResource blue}"
-                        HeightRequest="3"
-                        WidthRequest="30" />
-                    <Line
-                        Margin="25,0"
-                        BackgroundColor="#F0F0F0"
-                        HeightRequest="3"
-                        WidthRequest="30" />
-                </StackLayout>
-            </Grid>-->
             <Grid
                 ColumnDefinitions="auto,auto"
                 HorizontalOptions="Center"
@@ -149,28 +124,38 @@
                         CornerRadius="10"
                         HasShadow="False"
                         HeightRequest="70"
+                        HorizontalOptions="StartAndExpand"
                         IsClippedToBounds="True">
                         <Grid>
-                            <CollectionView ItemsSource="{Binding SpendImgs}">
+                            <CollectionView
+                                ItemsSource="{Binding SpendImgs}"
+                                SelectionChanged="CollectionView_SelectionChanged"
+                                SelectionMode="Single">
+                                <CollectionView.ItemsLayout>
+                                    <GridItemsLayout Orientation="Vertical" Span="5" />
+                                </CollectionView.ItemsLayout>
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid>
+                                        <Grid
+                                            Margin="0,10,0,0"
+                                            Padding="0,12,0,0"
+                                            RowDefinitions="*,auto">
                                             <Image
                                                 Grid.Row="0"
-                                                Grid.RowSpan="2"
-                                                Grid.Column="0"
-                                                Margin="0,0,5,0"
+                                                Margin="0,5,0,0"
                                                 Aspect="AspectFit"
                                                 HeightRequest="35"
+                                                Opacity="0.1"
                                                 Source="{Binding Icon}"
                                                 WidthRequest="35" />
                                             <Label
-                                                Grid.Row="0"
-                                                Grid.Column="1"
+                                                Grid.Row="1"
+                                                Margin="0,3,0,0"
                                                 FontFamily="MuliRegular"
-                                                FontSize="14"
+                                                FontSize="13"
+                                                HorizontalTextAlignment="Center"
                                                 Text="{Binding Title}"
-                                                TextColor="{StaticResource black}" />
+                                                TextColor="{StaticResource common}" />
                                         </Grid>
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>

@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Tally.App.Controls;
 using Tally.App.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -62,7 +63,7 @@ namespace Tally.App.Views
             AllInitalize();
             SetGridLength(0);
             SetFrameColor(frameHome, lbHome, lbIconHome);
-
+            SetDisplayPage();
             DisplayAsync();
         }
 
@@ -91,23 +92,28 @@ namespace Tally.App.Views
             iconLabel.TextColor = Color.White;
         }
 
-        private void SetDisplayPage(int page)
+        private void SetDisplayPage(int page = 00)
         {
-            AllDisablePage();
-            switch (page)
+            try
             {
-                case 0: HomePage.IsVisible = true; break;
-                case 1: SpendPage.IsVisible = true; break;
-                default:
-                    HomePage.IsVisible = true;
-                    break;
+                switch (page)
+                {
+                    case 0:
+                        ContentViewPage.Content = new HomePage();
+                        break;
+                    case 1:
+                        //ContentViewPage.Content = new Spend();
+                        break;
+                    case 2: break;
+                    default:
+                        ContentViewPage.Content = new HomePage();
+                        break;
+                }
             }
-        }
-
-        private void AllDisablePage()
-        {
-            HomePage.IsVisible = false;
-            SpendPage.IsVisible = false;
+            catch (System.Exception c)
+            {
+                throw;
+            }
         }
 
         /// <summary>
@@ -144,7 +150,7 @@ namespace Tally.App.Views
         //
         private async Task DisplayAsync()
         {
-            await DisplayAlert("Title", "方法还可用于通过显示两个按钮并返回 来捕获 DisplayAlert 用户的响应 boolean 。 要从警报中获得响应，请为两个按钮和 await 方法提供文本。 在用户选择其中一个选项后，答案将返回到你的代码。 注意下面示例代码中的 async 和 await 关键字：","Cancel");
+            await DisplayAlert("Title", "方法还可用于通过显示两个按钮并返回 来捕获 DisplayAlert 用户的响应 boolean 。 要从警报中获得响应，请为两个按钮和 await 方法提供文本。 在用户选择其中一个选项后，答案将返回到你的代码。 注意下面示例代码中的 async 和 await 关键字：", "Cancel");
         }
     }
 }
