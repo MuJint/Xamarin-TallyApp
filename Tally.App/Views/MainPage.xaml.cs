@@ -10,6 +10,8 @@ namespace Tally.App.Views
     public partial class MainPage : ContentPage
     {
         private readonly Color selectBackGroundColor = Color.FromHex("#3388df");
+        HomePage homePage = new HomePage();
+        Spend spendPage = new Spend();
         public MainPage()
         {
             InitializeComponent();
@@ -94,25 +96,18 @@ namespace Tally.App.Views
 
         private void SetDisplayPage(int page = 00)
         {
-            try
+            switch (page)
             {
-                switch (page)
-                {
-                    case 0:
-                        ContentViewPage.Content = new HomePage();
-                        break;
-                    case 1:
-                        //ContentViewPage.Content = new Spend();
-                        break;
-                    case 2: break;
-                    default:
-                        ContentViewPage.Content = new HomePage();
-                        break;
-                }
-            }
-            catch (System.Exception c)
-            {
-                throw;
+                case 0:
+                    ContentViewPage.Content = homePage;
+                    break;
+                case 1:
+                    ContentViewPage.Content = spendPage;
+                    break;
+                case 2: break;
+                default:
+                    ContentViewPage.Content = new HomePage();
+                    break;
             }
         }
 

@@ -32,9 +32,9 @@ namespace Tally.App.Controls
             var items = newValue as ObservableCollection<DateItem>;
             var control = (CalendarCarouselView)bindable;
 
-            var index = items.ToList().FindIndex(p => p.Selected);
+            var index = items?.ToList()?.FindIndex(p => p.Selected) ?? -1;
 
-            await Task.Delay(250);
+            await Task.Delay(100);
 
             if (index > -1)
                 control.listDates.ScrollTo(index, -1, ScrollToPosition.MakeVisible, true);
