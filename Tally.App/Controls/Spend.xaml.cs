@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using Tally.App.Models;
 using Tally.App.ViewModels;
@@ -12,47 +10,18 @@ namespace Tally.App.Controls
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Spend : ContentView
     {
-        SSViewModel sSView = null;
-        public Spend()
+        readonly SSViewModel sSViewModel = null;
+        public Spend(SSViewModel sSView = null)
         {
             InitializeComponent();
-            BindingContext = sSView = new SSViewModel(Navigation);
-            sSView.SpendImgs = new ObservableCollection<SpendImg>(Load());
+            sSViewModel = sSView;
         }
 
-        #region Func
-        private List<SpendImg> Load()
-        {
-            var list = new List<SpendImg>()
-            {
-                new SpendImg()
-            {
-                Icon = "shop.png",
-                Title = "购物"
-            },
-                new SpendImg()
-            {
-                Icon = "restaurant.png",
-                Title = "餐饮"
-            },
-                new SpendImg()
-            {
-                Icon = "bus.png",
-                Title = "交通"
-            },new SpendImg()
-            {
-                Icon = "transfer.png",
-                Title = "转账"
-            }
-            };
-            return list;
-        }
+        #region Method
+
         #endregion
 
         #region Event
-
-        #endregion
-
         /// <summary>
         /// fram切换
         /// </summary>
@@ -95,7 +64,25 @@ namespace Tally.App.Controls
         private void CollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selectSpendType = e.CurrentSelection.FirstOrDefault() as SpendImg;
-
+            Dispatcher.BeginInvokeOnMainThread(() =>
+            {
+                sSViewModel.SpendImgs.ToList().ForEach(s =>
+                {
+                    s.Opacity = 0.1;
+                    s.Color = "#A1A2A9";
+                });
+                int index = sSViewModel.SpendImgs.ToList().
+                    FindIndex(f => f == selectSpendType);
+                if (index > -1)
+                {
+                    sSViewModel.SpendImgs[index].Opacity = 1;
+                    sSViewModel.SpendImgs[index].Color = "#181819";
+                    //
+                    sSViewModel.CostInfo.Icon = selectSpendType.Icon;
+                    sSViewModel.CostInfo.Title = selectSpendType.Title;
+                }
+            });
         }
+        #endregion
     }
 }

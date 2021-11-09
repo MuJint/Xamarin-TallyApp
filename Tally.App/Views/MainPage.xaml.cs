@@ -9,13 +9,16 @@ namespace Tally.App.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainPage : ContentPage
     {
-        private readonly Color selectBackGroundColor = Color.FromHex("#3388df");
-        HomePage homePage = new HomePage();
-        Spend spendPage = new Spend();
+        readonly Color selectBackGroundColor = Color.FromHex("#3388df");
+        readonly SSViewModel sSView = null;
+        readonly HomePage homePage = null;
+        readonly Spend spendPage = null;
         public MainPage()
         {
             InitializeComponent();
-            BindingContext = new SSViewModel(Navigation);
+            BindingContext = sSView = new SSViewModel(Navigation);
+            homePage = new HomePage();
+            spendPage = new Spend(sSView);
             SetLayoutFrame();
         }
 
@@ -94,7 +97,7 @@ namespace Tally.App.Views
             iconLabel.TextColor = Color.White;
         }
 
-        private void SetDisplayPage(int page = 00)
+        private void SetDisplayPage(int page = 0)
         {
             switch (page)
             {
@@ -102,11 +105,13 @@ namespace Tally.App.Views
                     ContentViewPage.Content = homePage;
                     break;
                 case 1:
-                    ContentViewPage.Content = spendPage;
+                    //全屏显示
+                    this.Content = spendPage;
+                    //ContentViewPage.Content = spendPage;
                     break;
                 case 2: break;
                 default:
-                    ContentViewPage.Content = new HomePage();
+                    ContentViewPage.Content = homePage;
                     break;
             }
         }
@@ -145,7 +150,7 @@ namespace Tally.App.Views
         //
         private async Task DisplayAsync()
         {
-            await DisplayAlert("Title", "方法还可用于通过显示两个按钮并返回 来捕获 DisplayAlert 用户的响应 boolean 。 要从警报中获得响应，请为两个按钮和 await 方法提供文本。 在用户选择其中一个选项后，答案将返回到你的代码。 注意下面示例代码中的 async 和 await 关键字：", "Cancel");
+            await DisplayAlert("隐私更新", "方法还可用于通过显示两个按钮并返回 来捕获 DisplayAlert 用户的响应 boolean 。 要从警报中获得响应，请为两个按钮和 await 方法提供文本。 在用户选择其中一个选项后，答案将返回到你的代码。 注意下面示例代码中的 async 和 await 关键字：", "Cancel");
         }
     }
 }

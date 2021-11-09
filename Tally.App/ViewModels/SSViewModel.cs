@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Tally.App.Helpers;
@@ -14,27 +13,19 @@ namespace Tally.App.ViewModels
 {
     public class SSViewModel : NotifyPropertyChanged
     {
-        private readonly string InComeColor = $"#24C389";
-        private readonly string SpendColor = $"#3A3A62";
-        private readonly string BlueColor = $"#3388df";
-        private readonly string WhiteColor = $"#FFFFFF";
-        private readonly string BlackColor = $"#181819";
+        readonly string InComeColor = $"#24C389";
+        readonly string SpendColor = $"#3A3A62";
+        readonly string BlueColor = $"#3388df";
+        readonly string WhiteColor = $"#FFFFFF";
+        readonly string BlackColor = $"#181819";
 
-        private readonly ISpendLogServices _instance = Dependcy.Provider.GetService<ISpendLogServices>();
+        readonly ISpendLogServices _instance = Dependcy.Provider.GetService<ISpendLogServices>();
         public SSViewModel(INavigation navigation)
         {
             Navigation = navigation;
-            EventTypes = new ObservableCollection<EventType>();
-            ExpenseCards = new ObservableCollection<ExpenseCard>();
-            Dates = new ObservableCollection<DateItem>();
             SelectDateCommand = new Command<DateItem>((model) => ExecuteSelectDateCommand(model));
             SelectEventTypeCommand = new Command<EventType>((model) => ExecuteSelectEventTypeCommand(model));
-            InitPageStatisctical();
-            LoadEventTypes();
-            LoadSevenDaySpend();
-            LoadDates();
-            LoadOnDaySpend(DateTime.Now);
-            LoadSpendImgs();
+            Initalize();
         }
 
         #region Property
@@ -46,14 +37,29 @@ namespace Tally.App.ViewModels
         /// 首页统计
         /// </summary>
         public PageStatisctical PageStatisctical { get; set; }
-        public Command SelectDateCommand { get; }
-        public Command SelectEventTypeCommand { get; }
-        public ObservableCollection<EventType> EventTypes { get; }
+        /// <summary>
+        /// 日期选中Command
+        /// </summary>
+        public Command SelectDateCommand { get; set; }
+        public Command SelectEventTypeCommand { get; set; }
+        public ObservableCollection<EventType> EventTypes { get; } = new ObservableCollection<EventType>();
         /// <summary>
         /// 近七天使用
         /// </summary>
-        public ObservableCollection<ExpenseCard> ExpenseCards { get; }
+        public ObservableCollection<ExpenseCard> ExpenseCards { get; } = new ObservableCollection<ExpenseCard>();
+        /// <summary>
+        /// 支出icon集合
+        /// </summary>
         public ObservableCollection<SpendImg> SpendImgs { get; set; } = new ObservableCollection<SpendImg>();
+        /// <summary>
+        /// 选中的ICON图标数据
+        /// </summary>
+        public CostInfo CostInfo { get; set; } = new CostInfo()
+        {
+            Cost = 0,
+            Icon = "restaurant.png",
+            Title ="餐饮"
+        };
         private ExpenseCard _onDayCard;
         /// <summary>
         /// 当日消费
@@ -63,7 +69,10 @@ namespace Tally.App.ViewModels
             get => _onDayCard;
             set => SetProperty(ref _onDayCard, value);
         }
-        public ObservableCollection<DateItem> Dates { get; }
+        /// <summary>
+        /// 日期集合
+        /// </summary>
+        public ObservableCollection<DateItem> Dates { get; } = new ObservableCollection<DateItem>();
 
         private DateItem _selectedDate;
         /// <summary>
@@ -85,13 +94,28 @@ namespace Tally.App.ViewModels
 
         #endregion
 
-
         #region Func
 
         /// <summary>
-        /// 初始化首页顶部统计
+        /// 初始化
         /// </summary>
-        private void InitPageStatisctical()
+        private void Initalize()
+        {
+            LoadStatisctical();
+            LoadEventTypes();
+            LoadSevenDaySpend();
+            LoadDates();
+            LoadOnDaySpend(DateTime.Now);
+            LoadSpendImgs();
+        }
+
+        #endregion
+
+        #region Method
+        /// <summary>
+        /// 加载首页顶部统计
+        /// </summary>
+        private void LoadStatisctical()
         {
             var start = DateTime.Now.GetStartOfMonth();
             var end = DateTime.Now.GetEndOfMonth();
@@ -102,7 +126,6 @@ namespace Tally.App.ViewModels
                 Spend = queryData?.Where(w => w.IsSpend == EnumSpend.Spend).Sum(s => s.Rmb),
             };
         }
-
         /// <summary>
         /// 加载支出List
         /// </summary>
@@ -111,31 +134,73 @@ namespace Tally.App.ViewModels
         {
             SpendImgs.Add(new SpendImg()
             {
+                Icon = "restaurant.png",
+                Title = "餐饮",
+                Color = "#181819",
+                Opacity = 1
+            });
+            SpendImgs.Add(new SpendImg()
+            {
                 Icon = "shop.png",
                 Title = "购物"
             });
             SpendImgs.Add(new SpendImg()
             {
-                Icon = "restaurant.png",
+                Icon = "bus.png",
+                Title = "交通"
+            });
+            SpendImgs.Add(new SpendImg()
+            {
+                Icon = "transfer.png",
+                Title = "转账"
+            });
+            SpendImgs.Add(new SpendImg()
+            {
+                Icon = "shop.png",
                 Title = "购物"
             });
             SpendImgs.Add(new SpendImg()
             {
                 Icon = "bus.png",
-                Title = "购物"
+                Title = "交通"
             });
             SpendImgs.Add(new SpendImg()
             {
                 Icon = "transfer.png",
+                Title = "转账"
+            });
+            SpendImgs.Add(new SpendImg()
+            {
+                Icon = "shop.png",
                 Title = "购物"
             });
+            SpendImgs.Add(new SpendImg()
+            {
+                Icon = "bus.png",
+                Title = "交通"
+            });
+            SpendImgs.Add(new SpendImg()
+            {
+                Icon = "transfer.png",
+                Title = "转账"
+            });
+            SpendImgs.Add(new SpendImg()
+            {
+                Icon = "shop.png",
+                Title = "购物"
+            });
+            SpendImgs.Add(new SpendImg()
+            {
+                Icon = "bus.png",
+                Title = "交通"
+            });
+            SpendImgs.Add(new SpendImg()
+            {
+                Icon = "transfer.png",
+                Title = "转账"
+            });
         }
-        #endregion
 
-
-        #region MyRegion
-
-        #endregion
         private void LoadEventTypes()
         {
             EventTypes.Add(new EventType()
@@ -219,6 +284,9 @@ namespace Tally.App.ViewModels
             ExpenseCardCalculateHeight = ExpenseCards.Sum(s => s.CalculateHeight) + (ExpenseCards.Count() * 20);
         }
 
+        /// <summary>
+        /// 加载日期
+        /// </summary>
         private void LoadDates()
         {
             var dateInit = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
@@ -238,6 +306,10 @@ namespace Tally.App.ViewModels
             }
         }
 
+        /// <summary>
+        /// 日期选择Command
+        /// </summary>
+        /// <param name="model"></param>
         private void ExecuteSelectDateCommand(DateItem model)
         {
             Dates.ToList().ForEach((item) =>
@@ -305,5 +377,6 @@ namespace Tally.App.ViewModels
             if (OnDayCard.ExpenseRecords.Count() > 1)
                 OnDayCard.CalculateHeight -= 30;
         }
+        #endregion
     }
 }

@@ -37,7 +37,7 @@ namespace Tally.App.Models
         /// <summary>
         /// 计算卡片的高度
         /// <para>一个ExpenseRecord算作55</para>
-        /// <para><seealso cref="Controls.ListEventsView"/>需要去掉ExpenseRecords集合的第一个标题的高度</para>
+        /// <para><seealso cref="Controls.SevenDaySpend"/>需要去掉ExpenseRecords集合的第一个标题的高度</para>
         /// </summary>
         public int CalculateHeight
         {
