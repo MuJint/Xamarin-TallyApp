@@ -56,7 +56,7 @@ namespace Tally.App.ViewModels
         /// </summary>
         public CostInfo CostInfo { get; set; } = new CostInfo()
         {
-            Cost = 0,
+            Cost = "0",
             Icon = "restaurant.png",
             Title ="餐饮"
         };

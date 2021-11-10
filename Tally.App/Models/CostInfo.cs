@@ -10,8 +10,8 @@ namespace Tally.App.Models
             get => _icon;
             set => SetProperty(ref _icon, value);
         }
-        private double _cost;
-        public double Cost
+        private string _cost;
+        public string Cost
         {
             get => _cost;
             set => SetProperty(ref _cost, value);

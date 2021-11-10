@@ -150,7 +150,7 @@ namespace Tally.App.Views
         //
         private async Task DisplayAsync()
         {
-            await DisplayAlert("隐私更新", "方法还可用于通过显示两个按钮并返回 来捕获 DisplayAlert 用户的响应 boolean 。 要从警报中获得响应，请为两个按钮和 await 方法提供文本。 在用户选择其中一个选项后，答案将返回到你的代码。 注意下面示例代码中的 async 和 await 关键字：", "Cancel");
+            await DisplayAlert("隐私更新", "为切实保护你的个人信息，未经你同意，我们不会从第三方获取、共享或对外提供你的信息。你可前往设置->阅读《隐私政策》了解详细信息", "确定");
         }
     }
 }

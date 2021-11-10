@@ -19,6 +19,13 @@ namespace Tally.App.Controls
 
         #region Method
 
+        /// <summary>
+        /// 校验末位
+        /// </summary>
+        private void CheckBottom()
+        {
+            sSViewModel.CostInfo.Cost = sSViewModel.CostInfo.Cost == "0" ? "" : sSViewModel.CostInfo.Cost;
+        }
         #endregion
 
         #region Event
@@ -82,6 +89,80 @@ namespace Tally.App.Controls
                     sSViewModel.CostInfo.Title = selectSpendType.Title;
                 }
             });
+        }
+
+        /// <summary>
+        /// 数字点击以及分割号
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Button_Clicked(object sender, EventArgs e)
+        {
+            var button = sender as Button;
+            switch (button.Text)
+            {
+                case "退格":
+                    sSViewModel.CostInfo.Cost = $"{sSViewModel.CostInfo.Cost.Substring(0, sSViewModel.CostInfo.Cost.Length - 1)}";
+                    //校验一位时，重置为0
+                    if (string.IsNullOrEmpty(sSViewModel.CostInfo.Cost))
+                        sSViewModel.CostInfo.Cost = "0";
+                    break;
+                case "清零":
+                    sSViewModel.CostInfo.Cost = "0";
+                    break;
+            }
+            //长度超长
+            if (sSViewModel.CostInfo.Cost.Length > 10)
+                return;
+            switch (button.Text)
+            {
+                case "1":
+                    CheckBottom();
+                    sSViewModel.CostInfo.Cost = $"{sSViewModel.CostInfo.Cost}1";
+                    break;
+                case "2":
+                    CheckBottom();
+                    sSViewModel.CostInfo.Cost = $"{sSViewModel.CostInfo.Cost}2"; 
+                    break;
+                case "3":
+                    CheckBottom();
+                    sSViewModel.CostInfo.Cost = $"{sSViewModel.CostInfo.Cost}3"; 
+                    break;
+                case "4": 
+                    CheckBottom();
+                    sSViewModel.CostInfo.Cost = $"{sSViewModel.CostInfo.Cost}4"; 
+                    break;
+                case "5": 
+                    CheckBottom();
+                    sSViewModel.CostInfo.Cost = $"{sSViewModel.CostInfo.Cost}5"; 
+                    break;
+                case "6": 
+                    CheckBottom();
+                    sSViewModel.CostInfo.Cost = $"{sSViewModel.CostInfo.Cost}6"; 
+                    break;
+                case "7": 
+                    CheckBottom();
+                    sSViewModel.CostInfo.Cost = $"{sSViewModel.CostInfo.Cost}7"; 
+                    break;
+                case "8": 
+                    CheckBottom();
+                    sSViewModel.CostInfo.Cost = $"{sSViewModel.CostInfo.Cost}8"; 
+                    break;
+                case "9": 
+                    CheckBottom();
+                    sSViewModel.CostInfo.Cost = $"{sSViewModel.CostInfo.Cost}9"; 
+                    break;
+                case "0": 
+                    CheckBottom();
+                    sSViewModel.CostInfo.Cost = $"{sSViewModel.CostInfo.Cost}0"; 
+                    break;
+                case ".":
+                    if (string.IsNullOrEmpty(sSViewModel.CostInfo.Cost))
+                        sSViewModel.CostInfo.Cost = $"0.";
+                    else
+                        sSViewModel.CostInfo.Cost = $"{sSViewModel.CostInfo.Cost}.";
+                    break;
+            }
         }
         #endregion
     }

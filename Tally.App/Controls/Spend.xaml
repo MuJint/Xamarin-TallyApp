@@ -26,8 +26,41 @@
                             <VisualState.Setters>
                                 <Setter Property="BackgroundColor"
                                         Value="Transparent" />
-                                <Setter Property="BorderColor"
+                                <Setter Property="Scale"
+                                        Value="1" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Pressed">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor"
                                         Value="#3388df" />
+                                <Setter Property="TextColor"
+                                        Value="White" />
+                                <Setter Property="Scale"
+                                        Value="0.8" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+        <Style x:Key="placeholder"
+               TargetType="Button">
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor"
+                                        Value="Transparent" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Pressed">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor"
+                                        Value="Transparent" />
+                                <Setter Property="TextColor"
+                                        Value="Transparent" />
                             </VisualState.Setters>
                         </VisualState>
                     </VisualStateGroup>
@@ -180,22 +213,43 @@
                                         AlignItems="Start"
                                         Direction="Row"
                                         Wrap="Wrap">
-                                <Button Text="1" />
-                                <Button Text="2" />
-                                <Button Text="3" />
-                                <Button Text="退格" />
-                                <Button Text="4" />
-                                <Button Text="5" />
-                                <Button Text="6" />
-                                <Button Text="占位" />
-                                <Button Text="7" />
-                                <Button Text="8" />
-                                <Button Text="9" />
-                                <Button Text="占位" />
-                                <Button Text="清零" />
-                                <Button Text="0" />
-                                <Button Text="." />
-                                <Button Text="确定" />
+                                <Button Text="1"
+                                        Clicked="Button_Clicked" />
+                                <Button Text="2"
+                                        Clicked="Button_Clicked" />
+                                <Button Text="3"
+                                        Clicked="Button_Clicked" />
+                                <Button Text="退格"
+                                        CharacterSpacing="3"
+                                        Clicked="Button_Clicked" />
+                                <Button Text="4"
+                                        Clicked="Button_Clicked" />
+                                <Button Text="5"
+                                        Clicked="Button_Clicked" />
+                                <Button Text="6"
+                                        Clicked="Button_Clicked" />
+                                <!--占位-->
+                                <Button Text=""
+                                        Style="{StaticResource placeholder}" />
+                                <Button Text="7"
+                                        Clicked="Button_Clicked" />
+                                <Button Text="8"
+                                        Clicked="Button_Clicked" />
+                                <Button Text="9"
+                                        Clicked="Button_Clicked" />
+                                <!--占位-->
+                                <Button Text=""
+                                        Style="{StaticResource placeholder}" />
+                                <Button Text="清零"
+                                        CharacterSpacing="3"
+                                        Clicked="Button_Clicked" />
+                                <Button Text="0"
+                                        Clicked="Button_Clicked" />
+                                <Button Text="."
+                                        Clicked="Button_Clicked" />
+                                <Button Text="确定"
+                                        CharacterSpacing="5"
+                                        Clicked="Button_Clicked" />
                             </FlexLayout>
                         </Grid>
                     </Frame>
