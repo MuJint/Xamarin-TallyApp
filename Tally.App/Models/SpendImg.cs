@@ -1,5 +1,4 @@
 ﻿using Tally.App.ViewModel;
-using Tally.Framework.Enums;
 
 namespace Tally.App.Models
 {
@@ -19,6 +18,6 @@ namespace Tally.App.Models
             get => _color;
             set => SetProperty(ref _color, value);
         }
-        public EnumSpend EnumSpend { get; set; } = EnumSpend.Spend;
+        
     }
 }

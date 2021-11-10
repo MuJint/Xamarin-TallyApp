@@ -12,5 +12,16 @@
             int.TryParse(obj, out int result);
             return result;
         }
+
+        /// <summary>
+        /// string转decimal
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static decimal ObjToDecimal(this string obj)
+        {
+            decimal.TryParse(obj, out decimal result);
+            return result;
+        }
     }
 }

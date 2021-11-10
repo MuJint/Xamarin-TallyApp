@@ -70,15 +70,19 @@
     </ContentView.Resources>
     <ContentView.Content>
         <Grid RowDefinitions="auto,*">
-            <Grid ColumnDefinitions="10,auto,auto"
-                  HorizontalOptions="Center"
+            <Grid ColumnDefinitions="90,auto,auto"
+                  HorizontalOptions="StartAndExpand"
                   VerticalOptions="Center">
-                <Label Grid.Column="0"
-                       Margin="-60,18,0,0"
-                       Padding="5"
-                       FontSize="20"
-                       Text="✕"
-                       TextColor="{StaticResource blue}" />
+                <Button Text="✕"
+                        Grid.Column="0"
+                        WidthRequest="30"
+                        HeightRequest="30"
+                        CornerRadius="50"
+                        Style="{StaticResource placeholder}"
+                        FontSize="21"
+                        FontFamily="MuliBold"
+                        Clicked="CloseSpend_Clicked"
+                        TextColor="{StaticResource blue}" />
                 <Frame x:Name="frameSpend"
                        Grid.Column="1"
                        Margin="10,20"
@@ -247,7 +251,7 @@
                                         Clicked="Button_Clicked" />
                                 <Button Text="."
                                         Clicked="Button_Clicked" />
-                                <Button Text="确定"
+                                <Button Text="OK"
                                         CharacterSpacing="5"
                                         Clicked="Button_Clicked" />
                             </FlexLayout>

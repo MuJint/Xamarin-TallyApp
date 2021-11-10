@@ -32,11 +32,16 @@ namespace Tally.App.ViewModels
         /// <summary>
         /// 计算卡片的总高
         /// </summary>
-        public double ExpenseCardCalculateHeight { get; set; }
+        public double? ExpenseCardCalculateHeight { get; set; }
+        private PageStatisctical _statisctical;
         /// <summary>
         /// 首页统计
         /// </summary>
-        public PageStatisctical PageStatisctical { get; set; }
+        public PageStatisctical Statisctical
+        {
+            get => _statisctical;
+            set => SetProperty(ref _statisctical, value);
+        }
         /// <summary>
         /// 日期选中Command
         /// </summary>
@@ -51,15 +56,20 @@ namespace Tally.App.ViewModels
         /// 支出icon集合
         /// </summary>
         public ObservableCollection<SpendImg> SpendImgs { get; set; } = new ObservableCollection<SpendImg>();
+        private CostInfo _costInfo= new CostInfo()
+        {
+            Cost = "0",
+            Icon = "restaurant",
+            Title = "餐饮"
+        };
         /// <summary>
         /// 选中的ICON图标数据
         /// </summary>
-        public CostInfo CostInfo { get; set; } = new CostInfo()
+        public CostInfo CostInfo
         {
-            Cost = "0",
-            Icon = "restaurant.png",
-            Title ="餐饮"
-        };
+            get => _costInfo;
+            set => SetProperty(ref _costInfo, value);
+        }
         private ExpenseCard _onDayCard;
         /// <summary>
         /// 当日消费
@@ -115,12 +125,12 @@ namespace Tally.App.ViewModels
         /// <summary>
         /// 加载首页顶部统计
         /// </summary>
-        private void LoadStatisctical()
+        public void LoadStatisctical()
         {
             var start = DateTime.Now.GetStartOfMonth();
             var end = DateTime.Now.GetEndOfMonth();
             var queryData = _instance.Query(w => w.DateTime <= end && w.DateTime >= start);
-            PageStatisctical = new PageStatisctical()
+            Statisctical = new PageStatisctical()
             {
                 InCome = queryData?.Where(w => w.IsSpend == EnumSpend.Income).Sum(s => s.Rmb),
                 Spend = queryData?.Where(w => w.IsSpend == EnumSpend.Spend).Sum(s => s.Rmb),
@@ -130,73 +140,29 @@ namespace Tally.App.ViewModels
         /// 加载支出List
         /// </summary>
         /// <returns></returns>
-        private void LoadSpendImgs()
+        public void LoadSpendImgs()
         {
+            SpendImgs?.Clear();
             SpendImgs.Add(new SpendImg()
             {
-                Icon = "restaurant.png",
+                Icon = "restaurant",
                 Title = "餐饮",
                 Color = "#181819",
                 Opacity = 1
             });
             SpendImgs.Add(new SpendImg()
             {
-                Icon = "shop.png",
+                Icon = "shop",
                 Title = "购物"
             });
             SpendImgs.Add(new SpendImg()
             {
-                Icon = "bus.png",
+                Icon = "bus",
                 Title = "交通"
             });
             SpendImgs.Add(new SpendImg()
             {
-                Icon = "transfer.png",
-                Title = "转账"
-            });
-            SpendImgs.Add(new SpendImg()
-            {
-                Icon = "shop.png",
-                Title = "购物"
-            });
-            SpendImgs.Add(new SpendImg()
-            {
-                Icon = "bus.png",
-                Title = "交通"
-            });
-            SpendImgs.Add(new SpendImg()
-            {
-                Icon = "transfer.png",
-                Title = "转账"
-            });
-            SpendImgs.Add(new SpendImg()
-            {
-                Icon = "shop.png",
-                Title = "购物"
-            });
-            SpendImgs.Add(new SpendImg()
-            {
-                Icon = "bus.png",
-                Title = "交通"
-            });
-            SpendImgs.Add(new SpendImg()
-            {
-                Icon = "transfer.png",
-                Title = "转账"
-            });
-            SpendImgs.Add(new SpendImg()
-            {
-                Icon = "shop.png",
-                Title = "购物"
-            });
-            SpendImgs.Add(new SpendImg()
-            {
-                Icon = "bus.png",
-                Title = "交通"
-            });
-            SpendImgs.Add(new SpendImg()
-            {
-                Icon = "transfer.png",
+                Icon = "transfer",
                 Title = "转账"
             });
         }
@@ -239,23 +205,23 @@ namespace Tally.App.ViewModels
             var start = new DateTime(startNow.Year, startNow.Month, startNow.Day);
             var end = new DateTime(endNow.Year, endNow.Month, endNow.Day, 23, 59, 59);
             var data = _instance.Query(w => w.DateTime >= start && w.DateTime <= end);
-            if (data == null || data.Count <= 0)
-            {
-                for (int i = 1; i <= 15; i++)
-                {
-                    var model = new Framework.Models.SpendLog()
-                    {
-                        Id = Guid.NewGuid(),
-                        DateTime = DateTime.Now.AddDays(1 - i),
-                        Descrpition = new string[] { "早餐", "晚餐", "购物", "日常", "游戏" }[new Random().Next(0, 4)],
-                        Icon = (EnumIcon)new Random().Next(1, 11),
-                        IsSpend = EnumSpend.Spend,
-                        Pay = EnumPay.Alipay,
-                        Rmb = 1.1 * i
-                    };
-                    _instance.Insert(model);
-                }
-            }
+            //if (data == null || data.Count <= 0)
+            //{
+            //    for (int i = 1; i <= 15; i++)
+            //    {
+            //        var model = new Framework.Models.SpendLog()
+            //        {
+            //            Id = Guid.NewGuid(),
+            //            DateTime = DateTime.Now.AddDays(1 - i),
+            //            Descrpition = new string[] { "早餐", "晚餐", "购物", "日常", "游戏" }[new Random().Next(0, 4)],
+            //            Icon = (EnumIcon)new Random().Next(1, 11),
+            //            IsSpend = EnumSpend.Spend,
+            //            Pay = EnumPay.Alipay,
+            //            Rmb = 1.1M * i
+            //        };
+            //        _instance.Insert(model);
+            //    }
+            //}
             var groupResult = data.GroupBy(g => g.DateTime);
             foreach (var item in groupResult)
             {
@@ -278,10 +244,10 @@ namespace Tally.App.ViewModels
             }
 
             //去掉ExpenseRecords集合的第一个标题的高度，如果它的集合大于1
-            if (ExpenseCards.First().ExpenseRecords.Count() > 1)
-                ExpenseCards.First().CalculateHeight -= 30;
+            if (ExpenseCards?.FirstOrDefault()?.ExpenseRecords?.Count() > 1)
+                ExpenseCards.FirstOrDefault().CalculateHeight -= 30;
             //计算的卡片的高度+卡片padding
-            ExpenseCardCalculateHeight = ExpenseCards.Sum(s => s.CalculateHeight) + (ExpenseCards.Count() * 20);
+            ExpenseCardCalculateHeight = ExpenseCards?.Sum(s => s.CalculateHeight) + (ExpenseCards?.Count() * 20);
         }
 
         /// <summary>
@@ -352,11 +318,11 @@ namespace Tally.App.ViewModels
         /// 加载当日数据
         /// </summary>
         /// <param name="dateTime">日期</param>
-        private void LoadOnDaySpend(DateTime dateTime)
+        public void LoadOnDaySpend(DateTime dateTime)
         {
             var start = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day);
             var end = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 23, 59, 59);
-            var result = _instance.Query(w => w.DateTime >= start && w.DateTime <= end);
+            var result = _instance.Query(w => w.DateTime >= start && w.DateTime <= end).OrderByDescending(o => o.DateTime);
             OnDayCard = new ExpenseCard()
             {
                 Date = new DateTime(DateTime.Now.Year, dateTime.Month, dateTime.Day).DateToMonthAndDay(),
@@ -377,6 +343,14 @@ namespace Tally.App.ViewModels
             if (OnDayCard.ExpenseRecords.Count() > 1)
                 OnDayCard.CalculateHeight -= 30;
         }
+        #endregion
+
+        #region Delegate
+        /// <summary>
+        /// 委托
+        /// 恢复为首页
+        /// </summary>
+        public Action Restore { get; set; }
         #endregion
     }
 }

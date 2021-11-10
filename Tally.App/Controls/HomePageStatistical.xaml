@@ -1,90 +1,76 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
-<ContentView
-    x:Class="Tally.App.Controls.HomePageStatistical"
-    xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+<ContentView x:Class="Tally.App.Controls.HomePageStatistical"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     <ContentView.Content>
-        <Grid
-            BackgroundColor="{StaticResource blue}"
-            ColumnDefinitions="3*,4*,4*"
-            RowDefinitions="*,auto">
-            <Label
-                Grid.Row="0"
-                FontFamily="MuliRegular"
-                FontSize="13"
-                HorizontalTextAlignment="Center"
-                Text="{Binding PageStatisctical.Year}"
-                VerticalTextAlignment="Center" />
-            <Label
-                Grid.Row="0"
-                Grid.Column="1"
-                Margin="3,0,0,0"
-                FontFamily="MuliRegular"
-                FontSize="13"
-                HorizontalTextAlignment="Start"
-                Text="收入"
-                VerticalTextAlignment="Center" />
-            <Label
-                Grid.Row="0"
-                Grid.Column="2"
-                Margin="3,0,0,0"
-                FontFamily="MuliRegular"
-                FontSize="13"
-                HorizontalTextAlignment="Start"
-                Text="支出"
-                VerticalTextAlignment="Center" />
-            <Label
-                Grid.Row="1"
-                Margin="3,0,0,11"
-                HorizontalTextAlignment="Center">
+        <Grid BackgroundColor="{StaticResource blue}"
+              ColumnDefinitions="3*,4*,4*"
+              RowDefinitions="*,auto">
+            <Label Grid.Row="0"
+                   FontFamily="MuliRegular"
+                   FontSize="13"
+                   HorizontalTextAlignment="Center"
+                   Text="{Binding Statisctical.Year}"
+                   VerticalTextAlignment="Center" />
+            <Label Grid.Row="0"
+                   Grid.Column="1"
+                   Margin="3,0,0,0"
+                   FontFamily="MuliRegular"
+                   FontSize="13"
+                   HorizontalTextAlignment="Start"
+                   Text="收入"
+                   VerticalTextAlignment="Center" />
+            <Label Grid.Row="0"
+                   Grid.Column="2"
+                   Margin="3,0,0,0"
+                   FontFamily="MuliRegular"
+                   FontSize="13"
+                   HorizontalTextAlignment="Start"
+                   Text="支出"
+                   VerticalTextAlignment="Center" />
+            <Label Grid.Row="1"
+                   Margin="3,0,0,11"
+                   HorizontalTextAlignment="Center">
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span
-                            FontFamily="MuliBlack"
-                            FontSize="20"
-                            Text="{Binding PageStatisctical.Month}" />
-                        <Span
-                            FontFamily="MuliRegular"
-                            FontSize="15"
-                            Text="月" />
+                        <Span FontFamily="MuliBlack"
+                              FontSize="20"
+                              Text="{Binding Statisctical.Month}" />
+                        <Span FontFamily="MuliRegular"
+                              FontSize="15"
+                              Text="月" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
-            <Label
-                Grid.Row="1"
-                Grid.Column="1"
-                Margin="0,0,0,11"
-                HorizontalTextAlignment="Start"
-                VerticalTextAlignment="Center">
+            <Label Grid.Row="1"
+                   Grid.Column="1"
+                   Margin="0,0,0,11"
+                   HorizontalTextAlignment="Start"
+                   VerticalTextAlignment="Center">
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span
-                            FontFamily="MuliRegular"
-                            FontSize="15"
-                            Text="￥" />
-                        <Span
-                            FontFamily="MuliBlack"
-                            FontSize="20"
-                            Text="{Binding PageStatisctical.InCome}" />
+                        <Span FontFamily="MuliRegular"
+                              FontSize="15"
+                              Text="￥" />
+                        <Span FontFamily="MuliBlack"
+                              FontSize="20"
+                              Text="{Binding Statisctical.InCome,Mode=TwoWay}" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
-            <Label
-                Grid.Row="1"
-                Grid.Column="2"
-                Margin="0,0,0,11"
-                HorizontalTextAlignment="Start"
-                VerticalTextAlignment="Center">
+            <Label Grid.Row="1"
+                   Grid.Column="2"
+                   Margin="0,0,0,11"
+                   HorizontalTextAlignment="Start"
+                   VerticalTextAlignment="Center">
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span
-                            FontFamily="MuliRegular"
-                            FontSize="15"
-                            Text="￥" />
-                        <Span
-                            FontFamily="MuliBlack"
-                            FontSize="20"
-                            Text="{Binding PageStatisctical.Spend}" />
+                        <Span FontFamily="MuliRegular"
+                              FontSize="15"
+                              Text="￥" />
+                        <Span FontFamily="MuliBlack"
+                              FontSize="20"
+                              Text="{Binding Statisctical.Spend,Mode=TwoWay}" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>

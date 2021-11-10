@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Linq;
+using Tally.App.Helpers;
 using Tally.App.Models;
 using Tally.App.ViewModels;
+using Tally.Framework.Enums;
+using Tally.Framework.Interface;
+using Tally.Framework.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -11,6 +15,10 @@ namespace Tally.App.Controls
     public partial class Spend : ContentView
     {
         readonly SSViewModel sSViewModel = null;
+        //
+        readonly ISpendLogServices _instance = Dependcy.Provider.GetService<ISpendLogServices>();
+        //私有状态 当前选中是收入还是支出
+        private EnumSpend _enumSpend = EnumSpend.Spend;
         public Spend(SSViewModel sSView = null)
         {
             InitializeComponent();
@@ -48,6 +56,7 @@ namespace Tally.App.Controls
 
                     labelInCome.TextColor = Color.FromHex("#3388df");
                     frameInCome.BackgroundColor = Color.White;
+                    _enumSpend = EnumSpend.Spend;
                 }
                 else if (sender is Frame framInCome && framInCome.StyleId.Equals("InCome"))
                 {
@@ -59,6 +68,7 @@ namespace Tally.App.Controls
 
                     labelSpend.TextColor = Color.FromHex("#3388df");
                     frameSpend.BackgroundColor = Color.White;
+                    _enumSpend = EnumSpend.Income;
                 }
             });
         }
@@ -109,6 +119,22 @@ namespace Tally.App.Controls
                     break;
                 case "清零":
                     sSViewModel.CostInfo.Cost = "0";
+                    break;
+                case "OK":
+                    var enumList = Enum.GetValues(typeof(EnumIcon)).OfType<EnumIcon>().ToList();
+                    var model = new SpendLog()
+                    {
+                        DateTime = DateTime.Now,
+                        Descrpition = "测试添加哦",
+                        Icon = enumList.FirstOrDefault(f => f.ToString().ToLower() == sSViewModel.CostInfo.Icon),
+                        Id = Guid.NewGuid(),
+                        IsSpend = _enumSpend,
+                        Pay = EnumPay.Alipay,
+                        Rmb = sSViewModel.CostInfo.Cost.ObjToDecimal()
+                    };
+                    _instance.Insert(model);
+                    //回到首页
+                    sSViewModel.Restore();
                     break;
             }
             //长度超长
@@ -163,6 +189,16 @@ namespace Tally.App.Controls
                         sSViewModel.CostInfo.Cost = $"{sSViewModel.CostInfo.Cost}.";
                     break;
             }
+        }
+
+        /// <summary>
+        /// 关闭当前页签
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CloseSpend_Clicked(object sender, EventArgs e)
+        {
+            sSViewModel.Restore();
         }
         #endregion
     }

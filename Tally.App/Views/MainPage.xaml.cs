@@ -1,5 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Tally.App.Controls;
+using Tally.App.Models;
 using Tally.App.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -17,6 +20,7 @@ namespace Tally.App.Views
         {
             InitializeComponent();
             BindingContext = sSView = new SSViewModel(Navigation);
+            sSView.Restore = Restore;
             homePage = new HomePage();
             spendPage = new Spend(sSView);
             SetLayoutFrame();
@@ -106,8 +110,9 @@ namespace Tally.App.Views
                     break;
                 case 1:
                     //全屏显示
-                    this.Content = spendPage;
-                    //ContentViewPage.Content = spendPage;
+                    //this.Content = spendPage;
+                    ContentViewPage.Content = spendPage;
+                    gridFrames.IsVisible = false;
                     break;
                 case 2: break;
                 default:
@@ -151,6 +156,36 @@ namespace Tally.App.Views
         private async Task DisplayAsync()
         {
             await DisplayAlert("隐私更新", "为切实保护你的个人信息，未经你同意，我们不会从第三方获取、共享或对外提供你的信息。你可前往设置->阅读《隐私政策》了解详细信息", "确定");
+        }
+
+        /// <summary>
+        /// 恢复首页
+        /// 委托调用
+        /// </summary>
+        private void Restore()
+        {
+            ContentViewPage.Content = homePage;
+            //下方按钮显示
+            gridFrames.IsVisible = true;
+            //所有tab恢复默认值
+            AllInitalize();
+            //重置gridlenght
+            SetGridLength(0);
+            //重置frame
+            SetFrameColor(frameHome, lbHome, lbIconHome);
+            //重置选中的Icon数据
+            sSView.CostInfo = new CostInfo()
+            {
+                Cost = "0",
+                Icon = "restaurant",
+                Title = "餐饮"
+            };
+            //重置支出的图片集合
+            sSView.LoadSpendImgs();
+            //重置当日数据
+            sSView.LoadOnDaySpend(DateTime.Now);
+            //重置当月统计数据
+            sSView.LoadStatisctical();
         }
     }
 }

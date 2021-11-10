@@ -19,11 +19,11 @@ namespace Tally.App.Models
         /// <summary>
         /// 收入
         /// </summary>
-        public double? InCome { get; set; } = 0;
+        public decimal? InCome { get; set; } = 0;
         /// <summary>
         /// 支出
         /// </summary>
-        public double? Spend { get; set; } = 0;
+        public decimal? Spend { get; set; } = 0;
         /// <summary>
         /// 是否展示【暂无数据】
         /// <para>默认false</para>
@@ -54,7 +54,7 @@ namespace Tally.App.Models
         public string Icon { get; set; }
         public string IconTitle { get; set; }
         public string Description { get; set; }
-        public double Rmb { get; set; }
+        public decimal Rmb { get; set; }
         public string TextColor { get; set; }
         public string IsSpend { get; set; } = "-";
     }
