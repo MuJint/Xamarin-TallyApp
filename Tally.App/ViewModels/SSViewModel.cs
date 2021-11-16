@@ -340,8 +340,8 @@ namespace Tally.App.ViewModels
                 }).ToList()
             };
             //去掉ExpenseRecords集合的第一个标题的高度，如果它的集合大于1
-            if (OnDayCard.ExpenseRecords.Count() > 1)
-                OnDayCard.CalculateHeight -= 30;
+            //if (OnDayCard.ExpenseRecords.Count() > 1)
+            //    OnDayCard.CalculateHeight -= 30;
         }
         #endregion
 
