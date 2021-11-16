@@ -222,13 +222,13 @@ namespace Tally.App.ViewModels
             //        _instance.Insert(model);
             //    }
             //}
-            var groupResult = data.GroupBy(g => g.DateTime);
+            var groupResult = data.GroupBy(g => g.DateTime.Day);//.OrderByDescending(s => s.Key);
             foreach (var item in groupResult)
             {
                 ExpenseCards.Add(new ExpenseCard()
                 {
-                    Date = item?.Key.DateToMonthAndDay(),
-                    WeekOnDay = item?.Key.DateToWeekOnDay(),
+                    Date = new DateTime(DateTime.Now.Year,DateTime.Now.Month,item.Key).DateToMonthAndDay(),
+                    WeekOnDay = new DateTime(DateTime.Now.Year, DateTime.Now.Month, item.Key).DateToWeekOnDay(),
                     InCome = item?.Where(w => w.IsSpend == EnumSpend.Income)?.Sum(s => s.Rmb),
                     Spend = item?.Where(w => w.IsSpend == EnumSpend.Spend)?.Sum(s => s.Rmb),
                     IsDisplay = item?.Count(w => w.Id != null) <= 0,
@@ -244,8 +244,8 @@ namespace Tally.App.ViewModels
             }
 
             //去掉ExpenseRecords集合的第一个标题的高度，如果它的集合大于1
-            if (ExpenseCards?.FirstOrDefault()?.ExpenseRecords?.Count() > 1)
-                ExpenseCards.FirstOrDefault().CalculateHeight -= 30;
+            //if (ExpenseCards?.FirstOrDefault()?.ExpenseRecords?.Count() > 1)
+            //    ExpenseCards.FirstOrDefault().CalculateHeight -= 30;
             //计算的卡片的高度+卡片padding
             ExpenseCardCalculateHeight = ExpenseCards?.Sum(s => s.CalculateHeight) + (ExpenseCards?.Count() * 20);
         }

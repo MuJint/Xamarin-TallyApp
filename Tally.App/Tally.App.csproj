@@ -38,12 +38,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Tally.Framework\Tally.Framework.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Mono.Android">
-      <HintPath>E:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\ReferenceAssemblies\Microsoft\Framework\MonoAndroid\v11.0\Mono.Android.dll</HintPath>
-    </Reference>
-  </ItemGroup>
   <ItemGroup>
     <Compile Update="Controls\SevenDaySpend.xaml.cs">
       <DependentUpon>SevenDaySpend.xaml</DependentUpon>
