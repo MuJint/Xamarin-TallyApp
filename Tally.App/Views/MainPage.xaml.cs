@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Tally.App.Controls;
+using Tally.App.Helpers;
 using Tally.App.Models;
 using Tally.App.ViewModels;
 using Xamarin.Forms;
@@ -54,7 +55,6 @@ namespace Tally.App.Views
                     AllInitalize();
                     SetGridLength(2);
                     SetFrameColor(frmFavorite, lbSetting, lbIconSetting);
-
                 }
             });
         }
@@ -155,7 +155,8 @@ namespace Tally.App.Views
         //
         private async Task DisplayAsync()
         {
-            await DisplayAlert("隐私更新", "为切实保护你的个人信息，未经你同意，我们不会从第三方获取、共享或对外提供你的信息。你可前往设置->阅读《隐私政策》了解详细信息", "确定");
+            if (GlobalConfig.IsFirstStart)
+                await DisplayAlert("隐私更新", "为切实保护你的个人信息，未经你同意，我们不会从第三方获取、共享或对外提供你的信息。你可前往设置->阅读《隐私政策》了解详细信息", "确定");
         }
 
         /// <summary>

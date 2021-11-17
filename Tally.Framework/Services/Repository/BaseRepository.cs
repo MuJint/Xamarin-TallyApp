@@ -8,7 +8,7 @@ namespace Tally.Framework.Services
 {
     public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class, new()
     {
-        internal SQLiteConnection _sqlteDataBase;
+        internal SQLiteConnection _sqlteDataBase = UnitWork.GetDbClient;
         public BaseRepository()
         {
             _sqlteDataBase = UnitWork.GetDbClient;

@@ -48,27 +48,11 @@ namespace Tally.App.Controls
             {
                 if (sender is Frame framSpend && framSpend.StyleId.Equals("Spend"))
                 {
-                    labelSpend.TextColor = Color.White;
-                    framSpend.BackgroundColor = Color.FromHex("#3388df");
-                    //淡入淡出
-                    framSpend.Opacity = 0;
-                    framSpend.FadeTo(1, 1000, Easing.BounceOut);
-
-                    labelInCome.TextColor = Color.FromHex("#3388df");
-                    frameInCome.BackgroundColor = Color.White;
-                    _enumSpend = EnumSpend.Spend;
+                    SetFrame(framSpend);
                 }
                 else if (sender is Frame framInCome && framInCome.StyleId.Equals("InCome"))
                 {
-                    labelInCome.TextColor = Color.White;
-                    framInCome.BackgroundColor = Color.FromHex("#3388df");
-                    //淡入淡出
-                    framInCome.Opacity = 0;
-                    framInCome.FadeTo(1, 1000, Easing.BounceOut);
-
-                    labelSpend.TextColor = Color.FromHex("#3388df");
-                    frameSpend.BackgroundColor = Color.White;
-                    _enumSpend = EnumSpend.Income;
+                    SetFrame(framInCome, false);
                 }
             });
         }
@@ -121,11 +105,14 @@ namespace Tally.App.Controls
                     sSViewModel.CostInfo.Cost = "0";
                     break;
                 case "OK":
+                    //花费为0不提交
+                    if (sSViewModel.CostInfo.Cost.ObjToDecimal() <= 0)
+                        return;
                     var enumList = Enum.GetValues(typeof(EnumIcon)).OfType<EnumIcon>().ToList();
                     var model = new SpendLog()
                     {
                         DateTime = DateTime.Now,
-                        Descrpition = "测试添加哦",
+                        Descrpition = Remarks?.Text ?? "",
                         Icon = enumList.FirstOrDefault(f => f.ToString().ToLower() == sSViewModel.CostInfo.Icon),
                         Id = Guid.NewGuid(),
                         IsSpend = _enumSpend,
@@ -133,6 +120,10 @@ namespace Tally.App.Controls
                         Rmb = sSViewModel.CostInfo.Cost.ObjToDecimal()
                     };
                     _instance.Insert(model);
+                    //重置备注
+                    Remarks.Text = "";
+                    //重置frame
+                    SetFrame(frameSpend);
                     //回到首页
                     sSViewModel.Restore();
                     break;
@@ -148,39 +139,39 @@ namespace Tally.App.Controls
                     break;
                 case "2":
                     CheckBottom();
-                    sSViewModel.CostInfo.Cost = $"{sSViewModel.CostInfo.Cost}2"; 
+                    sSViewModel.CostInfo.Cost = $"{sSViewModel.CostInfo.Cost}2";
                     break;
                 case "3":
                     CheckBottom();
-                    sSViewModel.CostInfo.Cost = $"{sSViewModel.CostInfo.Cost}3"; 
+                    sSViewModel.CostInfo.Cost = $"{sSViewModel.CostInfo.Cost}3";
                     break;
-                case "4": 
+                case "4":
                     CheckBottom();
-                    sSViewModel.CostInfo.Cost = $"{sSViewModel.CostInfo.Cost}4"; 
+                    sSViewModel.CostInfo.Cost = $"{sSViewModel.CostInfo.Cost}4";
                     break;
-                case "5": 
+                case "5":
                     CheckBottom();
-                    sSViewModel.CostInfo.Cost = $"{sSViewModel.CostInfo.Cost}5"; 
+                    sSViewModel.CostInfo.Cost = $"{sSViewModel.CostInfo.Cost}5";
                     break;
-                case "6": 
+                case "6":
                     CheckBottom();
-                    sSViewModel.CostInfo.Cost = $"{sSViewModel.CostInfo.Cost}6"; 
+                    sSViewModel.CostInfo.Cost = $"{sSViewModel.CostInfo.Cost}6";
                     break;
-                case "7": 
+                case "7":
                     CheckBottom();
-                    sSViewModel.CostInfo.Cost = $"{sSViewModel.CostInfo.Cost}7"; 
+                    sSViewModel.CostInfo.Cost = $"{sSViewModel.CostInfo.Cost}7";
                     break;
-                case "8": 
+                case "8":
                     CheckBottom();
-                    sSViewModel.CostInfo.Cost = $"{sSViewModel.CostInfo.Cost}8"; 
+                    sSViewModel.CostInfo.Cost = $"{sSViewModel.CostInfo.Cost}8";
                     break;
-                case "9": 
+                case "9":
                     CheckBottom();
-                    sSViewModel.CostInfo.Cost = $"{sSViewModel.CostInfo.Cost}9"; 
+                    sSViewModel.CostInfo.Cost = $"{sSViewModel.CostInfo.Cost}9";
                     break;
-                case "0": 
+                case "0":
                     CheckBottom();
-                    sSViewModel.CostInfo.Cost = $"{sSViewModel.CostInfo.Cost}0"; 
+                    sSViewModel.CostInfo.Cost = $"{sSViewModel.CostInfo.Cost}0";
                     break;
                 case ".":
                     if (string.IsNullOrEmpty(sSViewModel.CostInfo.Cost))
@@ -199,6 +190,94 @@ namespace Tally.App.Controls
         private void CloseSpend_Clicked(object sender, EventArgs e)
         {
             sSViewModel.Restore();
+        }
+
+        /// <summary>
+        /// 重置选中frame
+        /// </summary>
+        /// <param name="isSpend"></param>
+        private void SetSpendImgs(bool isSpend = true)
+        {
+            if (isSpend)
+            {
+                sSViewModel.SpendImgs?.Clear();
+                sSViewModel.SpendImgs.Add(new SpendImg()
+                {
+                    Icon = "restaurant",
+                    Title = "餐饮",
+                    Color = "#181819",
+                    Opacity = 1
+                });
+                sSViewModel.SpendImgs.Add(new SpendImg()
+                {
+                    Icon = "shop",
+                    Title = "购物"
+                });
+                sSViewModel.SpendImgs.Add(new SpendImg()
+                {
+                    Icon = "bus",
+                    Title = "交通"
+                });
+                sSViewModel.SpendImgs.Add(new SpendImg()
+                {
+                    Icon = "transfer",
+                    Title = "转账"
+                });
+                //
+                sSViewModel.CostInfo.Cost = "0";
+                sSViewModel.CostInfo.Icon = "restaurant";
+                sSViewModel.CostInfo.Title = "餐饮";
+            }
+            else
+            {
+                sSViewModel.SpendImgs?.Clear();
+                sSViewModel.SpendImgs.Add(new SpendImg()
+                {
+                    Icon = "transfer",
+                    Title = "转账",
+                    Color = "#181819",
+                    Opacity = 1
+                });
+                sSViewModel.SpendImgs.Add(new SpendImg()
+                {
+                    Icon = "bus",
+                    Title = "交通"
+                });
+                //
+                sSViewModel.CostInfo.Cost = "0";
+                sSViewModel.CostInfo.Icon = "transfer";
+                sSViewModel.CostInfo.Title = "转账";
+            }
+        }
+
+        //设置frame
+        private void SetFrame(Frame frame, bool isSpend = true)
+        {
+            if (isSpend)
+            {
+                labelSpend.TextColor = Color.White;
+                frame.BackgroundColor = Color.FromHex("#3388df");
+                //淡入淡出
+                frame.Opacity = 0;
+                frame.FadeTo(1, 1000, Easing.BounceOut);
+
+                labelInCome.TextColor = Color.FromHex("#3388df");
+                frameInCome.BackgroundColor = Color.White;
+                _enumSpend = EnumSpend.Spend;
+            }
+            else if(isSpend is false)
+            {
+                labelInCome.TextColor = Color.White;
+                frame.BackgroundColor = Color.FromHex("#3388df");
+                //淡入淡出
+                frame.Opacity = 0;
+                frame.FadeTo(1, 1000, Easing.BounceOut);
+
+                labelSpend.TextColor = Color.FromHex("#3388df");
+                frameSpend.BackgroundColor = Color.White;
+                _enumSpend = EnumSpend.Income;
+            }
+            SetSpendImgs(isSpend);
         }
         #endregion
     }

@@ -39,8 +39,9 @@ namespace Tally.App
 
         protected override void OnResume()
         {
-            //从休眠启动重新注入
-            StartUp();
+            //休眠启动
+            UnitWork.Restart();
+            //StartUp();
         }
 
         private void Initalize()

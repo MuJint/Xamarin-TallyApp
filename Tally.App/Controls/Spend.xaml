@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
-<ContentView x:Class="Tally.App.Controls.Spend"
-             xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+<ContentView
+    x:Class="Tally.App.Controls.Spend"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:fonticons="clr-namespace:Tally.App.FontIcons">
     <ContentView.Resources>
         <Style TargetType="Grid">
             <Setter Property="VisualStateManager.VisualStateGroups">
@@ -10,8 +12,7 @@
                         <VisualState x:Name="Normal" />
                         <VisualState x:Name="Selected">
                             <VisualState.Setters>
-                                <Setter Property="BackgroundColor"
-                                        Value="Transparent" />
+                                <Setter Property="BackgroundColor" Value="Transparent" />
                             </VisualState.Setters>
                         </VisualState>
                     </VisualStateGroup>
@@ -24,43 +25,34 @@
                     <VisualStateGroup x:Name="CommonStates">
                         <VisualState x:Name="Normal">
                             <VisualState.Setters>
-                                <Setter Property="BackgroundColor"
-                                        Value="Transparent" />
-                                <Setter Property="Scale"
-                                        Value="1" />
+                                <Setter Property="BackgroundColor" Value="Transparent" />
+                                <Setter Property="Scale" Value="1" />
                             </VisualState.Setters>
                         </VisualState>
                         <VisualState x:Name="Pressed">
                             <VisualState.Setters>
-                                <Setter Property="BackgroundColor"
-                                        Value="#3388df" />
-                                <Setter Property="TextColor"
-                                        Value="White" />
-                                <Setter Property="Scale"
-                                        Value="0.8" />
+                                <Setter Property="BackgroundColor" Value="#3388df" />
+                                <Setter Property="TextColor" Value="White" />
+                                <Setter Property="Scale" Value="0.8" />
                             </VisualState.Setters>
                         </VisualState>
                     </VisualStateGroup>
                 </VisualStateGroupList>
             </Setter>
         </Style>
-        <Style x:Key="placeholder"
-               TargetType="Button">
+        <Style x:Key="placeholder" TargetType="Button">
             <Setter Property="VisualStateManager.VisualStateGroups">
                 <VisualStateGroupList>
                     <VisualStateGroup x:Name="CommonStates">
                         <VisualState x:Name="Normal">
                             <VisualState.Setters>
-                                <Setter Property="BackgroundColor"
-                                        Value="Transparent" />
+                                <Setter Property="BackgroundColor" Value="Transparent" />
                             </VisualState.Setters>
                         </VisualState>
                         <VisualState x:Name="Pressed">
                             <VisualState.Setters>
-                                <Setter Property="BackgroundColor"
-                                        Value="Transparent" />
-                                <Setter Property="TextColor"
-                                        Value="Transparent" />
+                                <Setter Property="BackgroundColor" Value="Transparent" />
+                                <Setter Property="TextColor" Value="Transparent" />
                             </VisualState.Setters>
                         </VisualState>
                     </VisualStateGroup>
@@ -70,100 +62,106 @@
     </ContentView.Resources>
     <ContentView.Content>
         <Grid RowDefinitions="auto,*">
-            <Grid ColumnDefinitions="90,auto,auto"
-                  HorizontalOptions="StartAndExpand"
-                  VerticalOptions="Center">
-                <Button Text="✕"
-                        Grid.Column="0"
-                        WidthRequest="30"
-                        HeightRequest="30"
-                        CornerRadius="50"
-                        Style="{StaticResource placeholder}"
-                        FontSize="21"
-                        FontFamily="MuliBold"
-                        Clicked="CloseSpend_Clicked"
-                        TextColor="{StaticResource blue}" />
-                <Frame x:Name="frameSpend"
-                       Grid.Column="1"
-                       Margin="10,20"
-                       Padding="5"
-                       BackgroundColor="{StaticResource blue}"
-                       CornerRadius="12"
-                       HasShadow="False"
-                       HeightRequest="30"
-                       IsClippedToBounds="True"
-                       StyleId="Spend"
-                       WidthRequest="70">
-                    <Label x:Name="labelSpend"
-                           FontFamily="MuliRegular"
-                           FontSize="15"
-                           HorizontalOptions="Center"
-                           Text="支出"
-                           TextColor="White"
-                           VerticalOptions="Center" />
+            <Grid
+                ColumnDefinitions="90,auto,auto"
+                HorizontalOptions="StartAndExpand"
+                VerticalOptions="Center">
+                <Button
+                    Grid.Column="0"
+                    Clicked="CloseSpend_Clicked"
+                    CornerRadius="50"
+                    FontFamily="MaterialIcons"
+                    FontSize="35"
+                    HeightRequest="30"
+                    Style="{StaticResource placeholder}"
+                    Text="{x:Static fonticons:FontIcons.Reply}"
+                    TextColor="{StaticResource blue}"
+                    WidthRequest="30" />
+                <Frame
+                    x:Name="frameSpend"
+                    Grid.Column="1"
+                    Margin="10,20"
+                    Padding="5"
+                    BackgroundColor="{StaticResource blue}"
+                    CornerRadius="12"
+                    HasShadow="False"
+                    HeightRequest="30"
+                    IsClippedToBounds="True"
+                    StyleId="Spend"
+                    WidthRequest="70">
+                    <Label
+                        x:Name="labelSpend"
+                        FontFamily="MuliRegular"
+                        FontSize="15"
+                        HorizontalOptions="Center"
+                        Text="支出"
+                        TextColor="White"
+                        VerticalOptions="Center" />
                     <Frame.GestureRecognizers>
-                        <TapGestureRecognizer NumberOfTapsRequired="1"
-                                              Tapped="TapGestureRecognizer_Tapped" />
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped" />
                     </Frame.GestureRecognizers>
                 </Frame>
-                <Frame x:Name="frameInCome"
-                       Grid.Column="2"
-                       Margin="10,20"
-                       Padding="5"
-                       BackgroundColor="White"
-                       CornerRadius="12"
-                       HeightRequest="30"
-                       StyleId="InCome"
-                       WidthRequest="70">
-                    <Label x:Name="labelInCome"
-                           FontFamily="MuliRegular"
-                           FontSize="15"
-                           HorizontalOptions="Center"
-                           Text="收入"
-                           TextColor="{StaticResource blue}"
-                           VerticalOptions="Center" />
+                <Frame
+                    x:Name="frameInCome"
+                    Grid.Column="2"
+                    Margin="10,20"
+                    Padding="5"
+                    BackgroundColor="White"
+                    CornerRadius="12"
+                    HeightRequest="30"
+                    StyleId="InCome"
+                    WidthRequest="70">
+                    <Label
+                        x:Name="labelInCome"
+                        FontFamily="MuliRegular"
+                        FontSize="15"
+                        HorizontalOptions="Center"
+                        Text="收入"
+                        TextColor="{StaticResource blue}"
+                        VerticalOptions="Center" />
                     <Frame.GestureRecognizers>
-                        <TapGestureRecognizer NumberOfTapsRequired="1"
-                                              Tapped="TapGestureRecognizer_Tapped" />
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped" />
                     </Frame.GestureRecognizers>
                 </Frame>
             </Grid>
             <Grid Grid.Row="1">
                 <Grid RowDefinitions="auto, *">
-                    <Frame Grid.Row="0"
-                           Margin="5"
-                           Padding="0"
-                           BackgroundColor="White"
-                           CornerRadius="10"
-                           HasShadow="False"
-                           HeightRequest="70"
-                           IsClippedToBounds="True">
-                        <Grid ColumnDefinitions="*, auto"
-                              RowDefinitions="auto, *">
+                    <Frame
+                        Grid.Row="0"
+                        Margin="5"
+                        Padding="0"
+                        BackgroundColor="White"
+                        CornerRadius="10"
+                        HasShadow="False"
+                        HeightRequest="70"
+                        IsClippedToBounds="True">
+                        <Grid ColumnDefinitions="*, auto" RowDefinitions="auto, *">
                             <Grid ColumnDefinitions="auto,*,auto">
-                                <Image Grid.Column="0"
-                                       Margin="20,10,1,10"
-                                       Aspect="AspectFit"
-                                       HeightRequest="45"
-                                       Source="{Binding CostInfo.Icon}"
-                                       VerticalOptions="Center"
-                                       WidthRequest="45" />
-                                <Label Grid.Column="1"
-                                       FontFamily="MuliRegular"
-                                       FontSize="14"
-                                       Text="{Binding CostInfo.Title}"
-                                       TextColor="{StaticResource black}"
-                                       VerticalOptions="Center" />
-                                <Label Grid.Column="2"
-                                       Margin="0,0,15,0"
-                                       FontFamily="MuliRegular"
-                                       FontSize="16"
-                                       TextColor="{StaticResource black}"
-                                       VerticalOptions="Center">
+                                <Image
+                                    Grid.Column="0"
+                                    Margin="20,10,1,10"
+                                    Aspect="AspectFit"
+                                    HeightRequest="45"
+                                    Source="{Binding CostInfo.Icon}"
+                                    VerticalOptions="Center"
+                                    WidthRequest="45" />
+                                <Label
+                                    Grid.Column="1"
+                                    FontFamily="MuliRegular"
+                                    FontSize="14"
+                                    Text="{Binding CostInfo.Title}"
+                                    TextColor="{StaticResource black}"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    Grid.Column="2"
+                                    Margin="0,0,15,0"
+                                    FontFamily="MuliRegular"
+                                    FontSize="16"
+                                    TextColor="{StaticResource black}"
+                                    VerticalOptions="Center">
                                     <Label.FormattedText>
                                         <FormattedString>
-                                            <Span FontSize="20"
-                                                  Text="￥" />
+                                            <Span FontSize="20" Text="￥" />
                                             <Span Text="{Binding CostInfo.Cost}" />
                                         </FormattedString>
                                     </Label.FormattedText>
@@ -171,90 +169,99 @@
                             </Grid>
                         </Grid>
                     </Frame>
-                    <Frame Grid.Row="1"
-                           Margin="5"
-                           Padding="0"
-                           BackgroundColor="White"
-                           CornerRadius="10"
-                           HasShadow="False"
-                           HeightRequest="70"
-                           HorizontalOptions="StartAndExpand"
-                           IsClippedToBounds="True">
-                        <Grid RowDefinitions="*,200">
-                            <CollectionView ItemsSource="{Binding SpendImgs}"
-                                            SelectionChanged="CollectionView_SelectionChanged"
-                                            SelectionMode="Single">
+                    <Frame
+                        Grid.Row="1"
+                        Margin="5"
+                        Padding="0"
+                        BackgroundColor="White"
+                        CornerRadius="10"
+                        HasShadow="False"
+                        HeightRequest="70"
+                        HorizontalOptions="StartAndExpand"
+                        IsClippedToBounds="True">
+                        <Grid RowDefinitions="*,50,200">
+                            <CollectionView
+                                ItemsSource="{Binding SpendImgs}"
+                                SelectionChanged="CollectionView_SelectionChanged"
+                                SelectionMode="Single">
                                 <CollectionView.ItemsLayout>
-                                    <GridItemsLayout Orientation="Vertical"
-                                                     Span="6" />
+                                    <GridItemsLayout Orientation="Vertical" Span="6" />
                                 </CollectionView.ItemsLayout>
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid Margin="0,10,0,0"
-                                              Padding="0,12,0,0"
-                                              RowDefinitions="*,auto">
-                                            <Image Grid.Row="0"
-                                                   Margin="0,5,0,0"
-                                                   Aspect="AspectFit"
-                                                   HeightRequest="35"
-                                                   Opacity="{Binding Opacity, Mode=TwoWay}"
-                                                   Source="{Binding Icon}"
-                                                   WidthRequest="35" />
-                                            <Label Grid.Row="1"
-                                                   Margin="0,3,0,0"
-                                                   FontFamily="MuliRegular"
-                                                   FontSize="13"
-                                                   HorizontalTextAlignment="Center"
-                                                   Text="{Binding Title}"
-                                                   TextColor="{Binding Color, Mode=TwoWay}" />
+                                        <Grid
+                                            Margin="0,10,0,0"
+                                            Padding="0,12,0,0"
+                                            RowDefinitions="*,auto">
+                                            <Image
+                                                Grid.Row="0"
+                                                Margin="0,5,0,0"
+                                                Aspect="AspectFit"
+                                                HeightRequest="35"
+                                                Opacity="{Binding Opacity, Mode=TwoWay}"
+                                                Source="{Binding Icon}"
+                                                WidthRequest="35" />
+                                            <Label
+                                                Grid.Row="1"
+                                                Margin="0,3,0,0"
+                                                FontFamily="MuliRegular"
+                                                FontSize="13"
+                                                HorizontalTextAlignment="Center"
+                                                Text="{Binding Title}"
+                                                TextColor="{Binding Color, Mode=TwoWay}" />
                                         </Grid>
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
                             </CollectionView>
-                            <FlexLayout Grid.Row="1"
-                                        Margin="10"
-                                        Padding="1"
-                                        AlignItems="Start"
-                                        Direction="Row"
-                                        Wrap="Wrap">
-                                <Button Text="1"
-                                        Clicked="Button_Clicked" />
-                                <Button Text="2"
-                                        Clicked="Button_Clicked" />
-                                <Button Text="3"
-                                        Clicked="Button_Clicked" />
-                                <Button Text="退格"
+                            <Editor
+                                x:Name="Remarks"
+                                Grid.Row="1"
+                                Margin="20,0"
+                                CharacterSpacing="1"
+                                FontSize="14"
+                                MaxLength="25"
+                                Placeholder="请输入备注"
+                                TextColor="Red" />
+                            <Grid Grid.Row="2" ColumnDefinitions="82*,18*">
+                                <FlexLayout
+                                    Margin="10,10,0,10"
+                                    Padding="1"
+                                    AlignItems="Start"
+                                    Direction="Row"
+                                    Wrap="Wrap">
+                                    <Button Clicked="Button_Clicked" Text="1" />
+                                    <Button Clicked="Button_Clicked" Text="2" />
+                                    <Button Clicked="Button_Clicked" Text="3" />
+                                    <Button Clicked="Button_Clicked" Text="4" />
+                                    <Button Clicked="Button_Clicked" Text="5" />
+                                    <Button Clicked="Button_Clicked" Text="6" />
+                                    <Button Clicked="Button_Clicked" Text="7" />
+                                    <Button Clicked="Button_Clicked" Text="8" />
+                                    <Button Clicked="Button_Clicked" Text="9" />
+                                    <Button
                                         CharacterSpacing="3"
-                                        Clicked="Button_Clicked" />
-                                <Button Text="4"
-                                        Clicked="Button_Clicked" />
-                                <Button Text="5"
-                                        Clicked="Button_Clicked" />
-                                <Button Text="6"
-                                        Clicked="Button_Clicked" />
-                                <!--占位-->
-                                <Button Text=""
-                                        Style="{StaticResource placeholder}" />
-                                <Button Text="7"
-                                        Clicked="Button_Clicked" />
-                                <Button Text="8"
-                                        Clicked="Button_Clicked" />
-                                <Button Text="9"
-                                        Clicked="Button_Clicked" />
-                                <!--占位-->
-                                <Button Text=""
-                                        Style="{StaticResource placeholder}" />
-                                <Button Text="清零"
+                                        Clicked="Button_Clicked"
+                                        Text="清零" />
+                                    <Button Clicked="Button_Clicked" Text="0" />
+                                    <Button Clicked="Button_Clicked" Text="." />
+                                </FlexLayout>
+                                <StackLayout
+                                    Grid.Column="1"
+                                    Margin="-18,10,0,10"
+                                    Padding="1">
+                                    <Button
                                         CharacterSpacing="3"
-                                        Clicked="Button_Clicked" />
-                                <Button Text="0"
-                                        Clicked="Button_Clicked" />
-                                <Button Text="."
-                                        Clicked="Button_Clicked" />
-                                <Button Text="OK"
+                                        Clicked="Button_Clicked"
+                                        HeightRequest="60"
+                                        Text="退格" />
+                                    <Button
                                         CharacterSpacing="5"
-                                        Clicked="Button_Clicked" />
-                            </FlexLayout>
+                                        Clicked="Button_Clicked"
+                                        FontSize="18"
+                                        HeightRequest="120"
+                                        Text="OK" />
+                                </StackLayout>
+                            </Grid>
                         </Grid>
                     </Frame>
                 </Grid>

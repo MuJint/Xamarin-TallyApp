@@ -26,8 +26,16 @@ namespace Tally.Framework.Interface
         public static void Dispose()
         {
             _sqlteDataBase.Dispose();
+            _sqlteDataBase = null;
         }
 
+        /// <summary>
+        /// 重新启用
+        /// </summary>
+        public static void Restart()
+        {
+            _sqlteDataBase = GetDbClient;
+        }
 
         /// <summary>
         /// 种子数据初始化

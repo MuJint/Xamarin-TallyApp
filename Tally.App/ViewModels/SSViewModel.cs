@@ -238,6 +238,7 @@ namespace Tally.App.ViewModels
                         IconTitle = s.Icon.GetDescription(),
                         Description = s.Descrpition,
                         Rmb = s.Rmb,
+                        IsSpend = s.IsSpend == EnumSpend.Income ? "+" : "-",
                         TextColor = s.IsSpend == EnumSpend.Spend ? SpendColor : InComeColor
                     }).ToList()
                 });
@@ -336,6 +337,7 @@ namespace Tally.App.ViewModels
                     IconTitle = s.Icon.GetDescription(),
                     Description = s.Descrpition,
                     Rmb = s.Rmb,
+                    IsSpend = s.IsSpend == EnumSpend.Income ? "+" : "-",
                     TextColor = s.IsSpend == EnumSpend.Spend ? SpendColor : InComeColor
                 }).ToList()
             };
