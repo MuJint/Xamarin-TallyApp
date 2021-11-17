@@ -1,6 +1,6 @@
 <h1 align="center">
 	<br>
-	<img width="200" src="" alt="LOGO">
+	<img width="200" src="Tally.App.Android/Resources/drawable/logo.png" alt="LOGO">
 	<br>
 	TallyApp
 	<h4 align="center">
