@@ -14,8 +14,8 @@ namespace Tally.App
         public App()
         {
             InitializeComponent();
-            //Initalize();
-            UnitWork.Initalize();
+            Initalize();
+            //UnitWork.Initalize();
             StartUp();
             MainPage = new MainPage
             {
