@@ -59,7 +59,7 @@ namespace Tally.App.ViewModels
         private CostInfo _costInfo= new CostInfo()
         {
             Cost = "0",
-            Icon = "restaurant",
+            Icon = "food",
             Title = "餐饮"
         };
         /// <summary>
@@ -145,14 +145,14 @@ namespace Tally.App.ViewModels
             SpendImgs?.Clear();
             SpendImgs.Add(new SpendImg()
             {
-                Icon = "restaurant",
+                Icon = "food",
                 Title = "餐饮",
                 Color = "#181819",
                 Opacity = 1
             });
             SpendImgs.Add(new SpendImg()
             {
-                Icon = "shop",
+                Icon = "shopping",
                 Title = "购物"
             });
             SpendImgs.Add(new SpendImg()
@@ -164,6 +164,126 @@ namespace Tally.App.ViewModels
             {
                 Icon = "transfer",
                 Title = "转账"
+            });
+            SpendImgs.Add(new SpendImg()
+            {
+                Icon = "thephone",
+                Title = "话费"
+            });
+            SpendImgs.Add(new SpendImg()
+            {
+                Icon = "takeout",
+                Title = "外卖"
+            });
+            SpendImgs.Add(new SpendImg()
+            {
+                Icon = "redgift",
+                Title = "红包"
+            });
+            SpendImgs.Add(new SpendImg()
+            {
+                Icon = "study",
+                Title = "学习"
+            });
+            SpendImgs.Add(new SpendImg()
+            {
+                Icon = "travel",
+                Title = "旅游"
+            });
+            SpendImgs.Add(new SpendImg()
+            {
+                Icon = "rent",
+                Title = "房租"
+            });
+            SpendImgs.Add(new SpendImg()
+            {
+                Icon = "game",
+                Title = "游戏"
+            });
+            SpendImgs.Add(new SpendImg()
+            {
+                Icon = "hospital",
+                Title = "医疗"
+            });
+            SpendImgs.Add(new SpendImg()
+            {
+                Icon = "ktv",
+                Title = "ktv"
+            });
+            SpendImgs.Add(new SpendImg()
+            {
+                Icon = "pet",
+                Title = "宠物"
+            });
+            SpendImgs.Add(new SpendImg()
+            {
+                Icon = "utility",
+                Title = "生活缴费"
+            });
+            SpendImgs.Add(new SpendImg()
+            {
+                Icon = "wine",
+                Title = "酒水"
+            });
+            SpendImgs.Add(new SpendImg()
+            {
+                Icon = "cookingu",
+                Title = "厨具"
+            });
+            SpendImgs.Add(new SpendImg()
+            {
+                Icon = "other",
+                Title = "其它"
+            });
+        }
+
+        /// <summary>
+        /// 加载收入List
+        /// </summary>
+        public void LoadInComeImgs()
+        {
+            SpendImgs?.Clear();
+            SpendImgs.Add(new SpendImg()
+            {
+                Icon = "wage",
+                Title = "工资",
+                Color = "#181819",
+                Opacity = 1
+            });
+            SpendImgs.Add(new SpendImg()
+            {
+                Icon = "transfer",
+                Title = "转账",
+            });
+            SpendImgs.Add(new SpendImg()
+            {
+                Icon = "bonus",
+                Title = "奖金",
+            });
+            SpendImgs.Add(new SpendImg()
+            {
+                Icon = "redgift",
+                Title = "红包",
+            });
+            SpendImgs.Add(new SpendImg()
+            {
+                Icon = "stock",
+                Title = "股票",
+            });
+            SpendImgs.Add(new SpendImg()
+            {
+                Icon = "invest",
+                Title = "理财",
+            });
+            SpendImgs.Add(new SpendImg()
+            {
+                Icon = "house",
+                Title = "房产(房租)",
+            }); 
+            SpendImgs.Add(new SpendImg()
+            {
+                Icon = "othermoney",
+                Title = "其它",
             });
         }
 

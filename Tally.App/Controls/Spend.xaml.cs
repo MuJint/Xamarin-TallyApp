@@ -200,53 +200,19 @@ namespace Tally.App.Controls
         {
             if (isSpend)
             {
-                sSViewModel.SpendImgs?.Clear();
-                sSViewModel.SpendImgs.Add(new SpendImg()
-                {
-                    Icon = "restaurant",
-                    Title = "餐饮",
-                    Color = "#181819",
-                    Opacity = 1
-                });
-                sSViewModel.SpendImgs.Add(new SpendImg()
-                {
-                    Icon = "shop",
-                    Title = "购物"
-                });
-                sSViewModel.SpendImgs.Add(new SpendImg()
-                {
-                    Icon = "bus",
-                    Title = "交通"
-                });
-                sSViewModel.SpendImgs.Add(new SpendImg()
-                {
-                    Icon = "transfer",
-                    Title = "转账"
-                });
+                sSViewModel.LoadSpendImgs();
                 //
                 sSViewModel.CostInfo.Cost = "0";
-                sSViewModel.CostInfo.Icon = "restaurant";
+                sSViewModel.CostInfo.Icon = "food";
                 sSViewModel.CostInfo.Title = "餐饮";
             }
             else
             {
-                sSViewModel.SpendImgs?.Clear();
-                sSViewModel.SpendImgs.Add(new SpendImg()
-                {
-                    Icon = "transfer",
-                    Title = "转账",
-                    Color = "#181819",
-                    Opacity = 1
-                });
-                sSViewModel.SpendImgs.Add(new SpendImg()
-                {
-                    Icon = "bus",
-                    Title = "交通"
-                });
+                sSViewModel.LoadInComeImgs();
                 //
                 sSViewModel.CostInfo.Cost = "0";
-                sSViewModel.CostInfo.Icon = "transfer";
-                sSViewModel.CostInfo.Title = "转账";
+                sSViewModel.CostInfo.Icon = "wage";
+                sSViewModel.CostInfo.Title = "工资";
             }
         }
 

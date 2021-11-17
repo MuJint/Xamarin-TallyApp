@@ -10,74 +10,119 @@ namespace Tally.Framework.Enums
         [Description("公共交通")]
         Bus = 1,
         /// <summary>
-        /// 日常
+        /// 奖金
         /// </summary>
-        [Description("日常")]
-        Daily = 2,
+        [Description("奖金")]
+        Bonus = 2,
         /// <summary>
-        /// 食材
+        /// 厨具
         /// </summary>
-        [Description("食材")]
-        Foods = 3,
-        /// <summary>
-        /// 娱乐
-        /// </summary>
-        [Description("娱乐")]
-        Game = 4,
-        /// <summary>
-        /// 医疗服务
-        /// </summary>
-        [Description("医疗服务")]
-        Hospital = 5,
-        /// <summary>
-        /// 通讯费用
-        /// </summary>
-        [Description("通讯费用")]
-        Phone = 6,
+        [Description("厨具")]
+        Cookingu = 3,
         /// <summary>
         /// 餐饮
         /// </summary>
         [Description("餐饮")]
-        Restaurant = 7,
+        Food = 4,
         /// <summary>
-        /// 服饰
+        /// 娱乐
         /// </summary>
-        [Description("服饰")]
-        Shirt = 8,
+        [Description("娱乐")]
+        Game = 5,
         /// <summary>
-        /// 购物
+        /// 医疗服务
         /// </summary>
-        [Description("购物")]
-        Shop = 9,
+        [Description("医疗服务")]
+        Hospital = 6,
         /// <summary>
-        /// 学习
+        /// 房产
         /// </summary>
-        [Description("学习")]
-        Study = 10,
+        [Description("房产")]
+        House = 7,
         /// <summary>
-        /// 零食
+        /// 理财
         /// </summary>
-        [Description("零食")]
-        Suagr = 11,
+        [Description("理财")]
+        Invest = 8,
         /// <summary>
-        /// 转账
+        /// KTV
         /// </summary>
-        [Description("转账")]
-        Transfer = 12,
+        [Description("KTV")]
+        Ktv = 9,
         /// <summary>
-        /// 水电气
+        /// 其它
         /// </summary>
-        [Description("水电气")]
-        Water = 13,
+        [Description("其它")]
+        Other = 10,
         /// <summary>
-        /// 烟酒
+        /// 其它
         /// </summary>
-        [Description("烟酒")]
-        Wine = 14,
+        [Description("其它")]
+        Othermoney = 11,
+        /// <summary>
+        /// 宠物
+        /// </summary>
+        [Description("宠物")]
+        Pet = 12,
+        /// <summary>
+        /// 红包
+        /// </summary>
+        [Description("红包")]
+        Redgift = 13,
         /// <summary>
         /// 房租
         /// </summary>
         [Description("房租")]
-        House = 15,
+        Rent = 14,
+        /// <summary>
+        /// 购物
+        /// </summary>
+        [Description("购物")]
+        Shopping = 15,
+        /// <summary>
+        /// 股票
+        /// </summary>
+        [Description("股票")]
+        Stock = 16,
+        /// <summary>
+        /// 外卖
+        /// </summary>
+        [Description("外卖")]
+        Takeout = 17,
+        /// <summary>
+        /// 话费
+        /// </summary>
+        [Description("话费")]
+        Thephone = 18,
+        /// <summary>
+        /// 学习
+        /// </summary>
+        [Description("学习")]
+        Study = 19,
+        /// <summary>
+        /// 旅游
+        /// </summary>
+        [Description("旅游")]
+        Travel = 20,
+        /// <summary>
+        /// 转账
+        /// </summary>
+        [Description("转账")]
+        Transfer = 21,
+        /// <summary>
+        /// 生活缴费
+        /// </summary>
+        [Description("生活缴费")]
+        Utility = 22,
+        /// <summary>
+        /// 烟酒
+        /// </summary>
+        [Description("烟酒")]
+        Wine = 23,
+        /// <summary>
+        /// 工资
+        /// </summary>
+        [Description("工资")]
+        Wage
     }
 }

@@ -178,7 +178,7 @@ namespace Tally.App.Views
             sSView.CostInfo = new CostInfo()
             {
                 Cost = "0",
-                Icon = "restaurant",
+                Icon = "food",
                 Title = "餐饮"
             };
             //重置支出的图片集合

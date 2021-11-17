@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.tally.app" android:installLocation="auto">
 	<uses-sdk android:minSdkVersion="18" android:targetSdkVersion="30" />
-	<application android:label="Tally.App.Android" android:theme="@style/MainTheme"></application>
+	<application android:theme="@style/MainTheme" android:label="简单记账" android:icon="@drawable/logo"></application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.USE_FINGERPRINT" />
 </manifest>

@@ -14,8 +14,8 @@ namespace Tally.App
         public App()
         {
             InitializeComponent();
-            Initalize();
-            //UnitWork.Initalize();
+            //Initalize();
+            UnitWork.Initalize();
             StartUp();
             MainPage = new MainPage
             {
@@ -34,13 +34,13 @@ namespace Tally.App
         protected override void OnSleep()
         {
             //休眠释放
-            UnitWork.Dispose();
+            //UnitWork.Dispose();
         }
 
         protected override void OnResume()
         {
             //休眠启动
-            UnitWork.Restart();
+            //UnitWork.Restart();
             //StartUp();
         }
 
