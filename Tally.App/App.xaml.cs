@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.IO;
 using Tally.App.Helpers;
-using Tally.App.Interfaces;
+using Tally.App.Interface;
 using Tally.App.Views;
 using Tally.Framework.Interface;
 using Tally.Framework.Services;

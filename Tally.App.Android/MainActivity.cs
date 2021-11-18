@@ -2,6 +2,7 @@
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
+using Passingwind.UserDialogs;
 
 namespace Tally.App.Droid
 {
@@ -16,6 +17,8 @@ namespace Tally.App.Droid
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             Xamarin.Forms.Forms.Init(this, savedInstanceState);
+
+            UserDialogs.Init(this);
             LoadApplication(new App());
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)

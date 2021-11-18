@@ -1,4 +1,4 @@
-﻿namespace Tally.App.Interfaces
+﻿namespace Tally.App.Interface
 {
     public interface IStatusbarColor
     {

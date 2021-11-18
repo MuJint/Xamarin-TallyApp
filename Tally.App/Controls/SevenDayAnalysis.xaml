@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="Tally.App.Controls.SevenDayAnalysis"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:forms="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms">
+    <ContentView.Content>
+        <forms:ChartView x:Name="chart1" HeightRequest="400" />
+    </ContentView.Content>
+</ContentView>

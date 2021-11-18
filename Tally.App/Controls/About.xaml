@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Tally.App.Controls.About"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:fonticons="clr-namespace:Tally.App.FontIcons">
+    <ContentPage.Content>
+        <Grid>
+            <StackLayout Orientation="Vertical">
+                <Frame BackgroundColor="{StaticResource blue}">
+                    <StackLayout Orientation="Horizontal">
+                        <Button
+                            BackgroundColor="Transparent"
+                            FontFamily="MaterialIcons"
+                            FontSize="25"
+                            Text="{x:Static fonticons:FontIcons.ArrowLeft}"
+                            TextColor="White"
+                            VerticalOptions="Center" />
+                        <Label
+                            FontFamily="MuliBold"
+                            FontSize="20"
+                            Text="关于"
+                            VerticalOptions="Center" />
+                    </StackLayout>
+                </Frame>
+                <Label>应用信息</Label>
+                <Label x:Name="Version" />
+                <Label>应用信息</Label>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

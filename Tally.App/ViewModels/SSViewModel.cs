@@ -325,34 +325,17 @@ namespace Tally.App.ViewModels
             var start = new DateTime(startNow.Year, startNow.Month, startNow.Day);
             var end = new DateTime(endNow.Year, endNow.Month, endNow.Day, 23, 59, 59);
             var data = _instance.Query(w => w.DateTime >= start && w.DateTime <= end);
-            //if (data == null || data.Count <= 0)
-            //{
-            //    for (int i = 1; i <= 15; i++)
-            //    {
-            //        var model = new Framework.Models.SpendLog()
-            //        {
-            //            Id = Guid.NewGuid(),
-            //            DateTime = DateTime.Now.AddDays(1 - i),
-            //            Descrpition = new string[] { "早餐", "晚餐", "购物", "日常", "游戏" }[new Random().Next(0, 4)],
-            //            Icon = (EnumIcon)new Random().Next(1, 11),
-            //            IsSpend = EnumSpend.Spend,
-            //            Pay = EnumPay.Alipay,
-            //            Rmb = 1.1M * i
-            //        };
-            //        _instance.Insert(model);
-            //    }
-            //}
-            var groupResult = data.GroupBy(g => g.DateTime.Day);//.OrderByDescending(s => s.Key);
+            var groupResult = data.GroupBy(g => g.DateTime.Day);
             foreach (var item in groupResult)
             {
                 ExpenseCards.Add(new ExpenseCard()
                 {
-                    Date = new DateTime(DateTime.Now.Year,DateTime.Now.Month,item.Key).DateToMonthAndDay(),
+                    Date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, item.Key).DateToMonthAndDay(),
                     WeekOnDay = new DateTime(DateTime.Now.Year, DateTime.Now.Month, item.Key).DateToWeekOnDay(),
                     InCome = item?.Where(w => w.IsSpend == EnumSpend.Income)?.Sum(s => s.Rmb),
                     Spend = item?.Where(w => w.IsSpend == EnumSpend.Spend)?.Sum(s => s.Rmb),
                     IsDisplay = item?.Count(w => w.Id != null) <= 0,
-                    ExpenseRecords = item?.Select(s => new ExpenseRecord()
+                    ExpenseRecords = item?.OrderByDescending(s => s.DateTime)?.Select(s => new ExpenseRecord()
                     {
                         Icon = s.Icon.ToString(),
                         IconTitle = s.Icon.GetDescription(),

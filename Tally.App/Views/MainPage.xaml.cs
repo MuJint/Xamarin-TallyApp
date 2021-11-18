@@ -1,6 +1,5 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Passingwind.UserDialogs;
+using System;
 using Tally.App.Controls;
 using Tally.App.Helpers;
 using Tally.App.Models;
@@ -17,6 +16,7 @@ namespace Tally.App.Views
         readonly SSViewModel sSView = null;
         readonly HomePage homePage = null;
         readonly Spend spendPage = null;
+        readonly Setting settingPage = null;
         public MainPage()
         {
             InitializeComponent();
@@ -24,6 +24,7 @@ namespace Tally.App.Views
             sSView.Restore = Restore;
             homePage = new HomePage();
             spendPage = new Spend(sSView);
+            settingPage = new Setting();
             SetLayoutFrame();
         }
 
@@ -54,6 +55,7 @@ namespace Tally.App.Views
                 {
                     AllInitalize();
                     SetGridLength(2);
+                    SetDisplayPage(2);
                     SetFrameColor(frmFavorite, lbSetting, lbIconSetting);
                 }
             });
@@ -73,7 +75,7 @@ namespace Tally.App.Views
             SetGridLength(0);
             SetFrameColor(frameHome, lbHome, lbIconHome);
             SetDisplayPage();
-            DisplayAsync();
+            Display();
         }
 
         /// <summary>
@@ -114,7 +116,9 @@ namespace Tally.App.Views
                     ContentViewPage.Content = spendPage;
                     gridFrames.IsVisible = false;
                     break;
-                case 2: break;
+                case 2:
+                    ContentViewPage.Content = settingPage;
+                    break;
                 default:
                     ContentViewPage.Content = homePage;
                     break;
@@ -153,10 +157,20 @@ namespace Tally.App.Views
         }
 
         //
-        private async Task DisplayAsync()
+        private void Display()
         {
             if (GlobalConfig.IsFirstStart)
-                await DisplayAlert("隐私更新", "为切实保护你的个人信息，未经你同意，我们不会从第三方获取、共享或对外提供你的信息。你可前往设置->阅读《隐私政策》了解详细信息", "确定");
+                UserDialogs.Instance.Alert(new AlertConfig("为切实保护你的个人信息，未经你同意，我们不会从第三方获取、共享或对外提供你的信息。你可前往设置>关于>阅读《隐私政策》并了解详细信息")
+                                        .AddOkButton(text: "确认", () =>
+                                         {
+                                            // ok handle
+                                        })
+                                        .AddCancelButton(text: "取消", () =>
+                                          {
+                                              //cancel handle
+                                          })
+                                        .SetTitle("隐私政策")
+                                        );
         }
 
         /// <summary>

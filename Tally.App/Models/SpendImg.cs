@@ -2,6 +2,9 @@
 
 namespace Tally.App.Models
 {
+    /// <summary>
+    /// 图标集
+    /// </summary>
     public class SpendImg : NotifyPropertyChanged
     {
         public string Icon { get; set; }

@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="Tally.App.Controls.Setting"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:fonticons="clr-namespace:Tally.App.FontIcons">
+    <ContentView.Resources>
+        <Style TargetType="Label">
+            <Setter Property="VerticalOptions" Value="Center" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="TextColor" Value="{StaticResource blue}" />
+        </Style>
+        <Style TargetType="Frame">
+            <Setter Property="CornerRadius" Value="7" />
+        </Style>
+    </ContentView.Resources>
+    <ContentView.Content>
+        <Grid>
+            <StackLayout
+                Margin="5,0"
+                Orientation="Vertical"
+                VerticalOptions="FillAndExpand">
+                <StackLayout BackgroundColor="White" Orientation="Horizontal">
+                    <Label HorizontalOptions="EndAndExpand" Text="清梦" />
+                    <Frame
+                        Margin="10,10,25,10"
+                        CornerRadius="35"
+                        HeightRequest="35"
+                        HorizontalOptions="End"
+                        VerticalOptions="Center"
+                        WidthRequest="35">
+                        <Image
+                            Margin="-20"
+                            Aspect="AspectFill"
+                            HeightRequest="55"
+                            Source="avatar"
+                            WidthRequest="55" />
+                    </Frame>
+                </StackLayout>
+                <Frame TabIndex="1">
+                    <StackLayout Orientation="Horizontal">
+                        <Label
+                            FontFamily="MaterialIcons"
+                            FontSize="25"
+                            HorizontalOptions="Start"
+                            Text="{x:Static fonticons:FontIcons.ChartLine}" />
+                        <Label HorizontalOptions="StartAndExpand" Text="近七天图表" />
+                        <Label
+                            FontFamily="MaterialIcons"
+                            FontSize="20"
+                            HorizontalOptions="End"
+                            Text="{x:Static fonticons:FontIcons.ChevronRight}" />
+                    </StackLayout>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped" />
+                    </Frame.GestureRecognizers>
+                </Frame>
+                <Frame TabIndex="2">
+                    <StackLayout Orientation="Horizontal">
+                        <Label
+                            FontFamily="MaterialIcons"
+                            FontSize="25"
+                            HorizontalOptions="Start"
+                            Text="{x:Static fonticons:FontIcons.Security}" />
+                        <Label HorizontalOptions="StartAndExpand" Text="安全中心" />
+                        <Label
+                            FontFamily="MaterialIcons"
+                            FontSize="20"
+                            HorizontalOptions="End"
+                            Text="{x:Static fonticons:FontIcons.ChevronRight}" />
+                    </StackLayout>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped" />
+                    </Frame.GestureRecognizers>
+                </Frame>
+                <Frame TabIndex="3">
+                    <StackLayout Orientation="Horizontal">
+                        <Label
+                            FontFamily="MaterialIcons"
+                            FontSize="25"
+                            HorizontalOptions="Start"
+                            Text="{x:Static fonticons:FontIcons.History}" />
+                        <Label HorizontalOptions="StartAndExpand" Text="账单记录" />
+                        <Label
+                            FontFamily="MaterialIcons"
+                            FontSize="20"
+                            HorizontalOptions="End"
+                            Text="{x:Static fonticons:FontIcons.ChevronRight}" />
+                    </StackLayout>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped" />
+                    </Frame.GestureRecognizers>
+                </Frame>
+                <Frame TabIndex="4">
+                    <StackLayout Orientation="Horizontal">
+                        <Label
+                            FontFamily="MaterialIcons"
+                            FontSize="25"
+                            HorizontalOptions="Start"
+                            Text="{x:Static fonticons:FontIcons.FileImportOutline}" />
+                        <Label HorizontalOptions="StartAndExpand" Text="导入Excel" />
+                        <Label
+                            FontFamily="MaterialIcons"
+                            FontSize="20"
+                            HorizontalOptions="End"
+                            Text="{x:Static fonticons:FontIcons.ChevronRight}" />
+                    </StackLayout>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped" />
+                    </Frame.GestureRecognizers>
+                </Frame>
+                <Frame TabIndex="5">
+                    <StackLayout Orientation="Horizontal">
+                        <Label
+                            FontFamily="MaterialIcons"
+                            FontSize="25"
+                            HorizontalOptions="Start"
+                            Text="{x:Static fonticons:FontIcons.Bug}" />
+                        <Label HorizontalOptions="StartAndExpand" Text="错误日志" />
+                        <Label
+                            FontFamily="MaterialIcons"
+                            FontSize="20"
+                            HorizontalOptions="End"
+                            Text="{x:Static fonticons:FontIcons.ChevronRight}" />
+                    </StackLayout>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped" />
+                    </Frame.GestureRecognizers>
+                </Frame>
+                <Frame TabIndex="6">
+                    <StackLayout Orientation="Horizontal">
+                        <Label
+                            FontFamily="MaterialIcons"
+                            FontSize="25"
+                            HorizontalOptions="Start"
+                            Text="{x:Static fonticons:FontIcons.Restore}" />
+                        <Label HorizontalOptions="StartAndExpand" Text="初始化" />
+                    </StackLayout>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped" />
+                    </Frame.GestureRecognizers>
+                </Frame>
+                <Frame TabIndex="7">
+                    <StackLayout Orientation="Horizontal">
+                        <Label
+                            FontFamily="MaterialIcons"
+                            FontSize="25"
+                            HorizontalOptions="Start"
+                            Text="{x:Static fonticons:FontIcons.Information}"
+                            TextColor="{StaticResource blue}" />
+                        <Label HorizontalOptions="StartAndExpand" Text="关于" />
+                    </StackLayout>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped" />
+                    </Frame.GestureRecognizers>
+                </Frame>
+            </StackLayout>
+        </Grid>
+    </ContentView.Content>
+</ContentView>
