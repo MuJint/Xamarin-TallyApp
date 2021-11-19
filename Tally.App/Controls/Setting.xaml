@@ -24,17 +24,17 @@
                     <Label HorizontalOptions="EndAndExpand" Text="清梦" />
                     <Frame
                         Margin="10,10,25,10"
-                        CornerRadius="35"
-                        HeightRequest="35"
+                        CornerRadius="30"
+                        HeightRequest="25"
                         HorizontalOptions="End"
                         VerticalOptions="Center"
-                        WidthRequest="35">
+                        WidthRequest="25">
                         <Image
                             Margin="-20"
                             Aspect="AspectFill"
-                            HeightRequest="55"
+                            HeightRequest="45"
                             Source="avatar"
-                            WidthRequest="55" />
+                            WidthRequest="45" />
                     </Frame>
                 </StackLayout>
                 <Frame TabIndex="1">

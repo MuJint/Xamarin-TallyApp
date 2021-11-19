@@ -17,10 +17,8 @@ namespace Tally.App
             Initalize();
             //UnitWork.Initalize();
             StartUp();
-            MainPage = new MainPage
-            {
-                //MinimumHeightRequest = 2000
-            };
+            //Page 包裹进入NavigationPage，以使用page跳转
+            MainPage = new NavigationPage(new MainPage());
             if (Device.RuntimePlatform == Device.iOS)
                 DependencyService.Get<IStatusbarColor>().ChangeStatusbarColor();
         }

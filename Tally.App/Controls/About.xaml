@@ -3,29 +3,108 @@
     x:Class="Tally.App.Controls.About"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:fonticons="clr-namespace:Tally.App.FontIcons">
+    Title="关于">
+    <ContentPage.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Margin" Value="15,15,15,0" />
+        </Style>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <Grid>
-            <StackLayout Orientation="Vertical">
-                <Frame BackgroundColor="{StaticResource blue}">
-                    <StackLayout Orientation="Horizontal">
-                        <Button
-                            BackgroundColor="Transparent"
-                            FontFamily="MaterialIcons"
-                            FontSize="25"
-                            Text="{x:Static fonticons:FontIcons.ArrowLeft}"
-                            TextColor="White"
-                            VerticalOptions="Center" />
-                        <Label
-                            FontFamily="MuliBold"
-                            FontSize="20"
-                            Text="关于"
-                            VerticalOptions="Center" />
-                    </StackLayout>
-                </Frame>
-                <Label>应用信息</Label>
-                <Label x:Name="Version" />
-                <Label>应用信息</Label>
+            <StackLayout BackgroundColor="White" Orientation="Vertical">
+                <Label
+                    FontSize="14"
+                    Text="应用信息"
+                    TextColor="{StaticResource common}" />
+                <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+                    <Label
+                        Margin="15,10,15,0"
+                        FontSize="18"
+                        Text="版本"
+                        TextColor="{StaticResource black}" />
+                    <Label
+                        Margin="15,10,25,0"
+                        HorizontalOptions="EndAndExpand"
+                        Text="1.0.0"
+                        TextColor="{StaticResource black}" />
+                </StackLayout>
+                <Label
+                    Margin="15,10,15,0"
+                    FontSize="18"
+                    Text="关于应用"
+                    TextColor="{StaticResource black}" />
+                <Label
+                    Margin="15,0,15,0"
+                    FontSize="16"
+                    Text="业余时间写了这个应用，平时记记自己的消费支出，基于Xamarin。本着简单、干净、够用的原则（主要是菜），由于个人开发，难免存在各种问题，可通过下方联系方式联系我修复或者到Github提出Issue。"
+                    TextColor="{StaticResource common}" />
+                <Label
+                    FontSize="14"
+                    Text="开发者"
+                    TextColor="{StaticResource common}" />
+                <Label
+                    Margin="15,10,15,0"
+                    FontSize="18"
+                    Text="关于我"
+                    TextColor="{StaticResource black}" />
+                <Label
+                    Margin="15,0,15,0"
+                    FontSize="16"
+                    Text="于心（落魄的.Net开发）"
+                    TextColor="{StaticResource common}" />
+                <Label
+                    Margin="15,10,15,0"
+                    FontSize="18"
+                    Text="联系我"
+                    TextColor="{StaticResource black}" />
+                <Label
+                    Margin="15,0,15,0"
+                    FontSize="16"
+                    TextColor="{StaticResource common}">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="个人邮箱" />
+                            <Span Text="yuxin.bb@qq.com" TextColor="{StaticResource green}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label
+                    Margin="15,10,15,0"
+                    FontSize="18"
+                    Text="源代码"
+                    TextColor="{StaticResource black}" />
+                <Label
+                    Margin="15,0,15,0"
+                    FontSize="16"
+                    TextColor="{StaticResource common}">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="本应用为开源程序，已托管在Github（" />
+                            <Span Text="https://github.com/MuJint/Xamarin-TallyApp" TextColor="{StaticResource green}" />
+                            <Span Text="）" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label
+                    FontSize="14"
+                    Text="其它"
+                    TextColor="{StaticResource common}" />
+                <StackLayout Orientation="Horizontal">
+                    <Button
+                        BackgroundColor="Transparent"
+                        Clicked="Button_Clicked"
+                        HorizontalOptions="Start"
+                        TabIndex="2"
+                        Text="用户协议"
+                        TextColor="{StaticResource blue}" />
+                    <Button
+                        BackgroundColor="Transparent"
+                        Clicked="Button_Clicked"
+                        HorizontalOptions="Start"
+                        TabIndex="3"
+                        Text="隐私政策"
+                        TextColor="{StaticResource blue}" />
+                </StackLayout>
             </StackLayout>
         </Grid>
     </ContentPage.Content>

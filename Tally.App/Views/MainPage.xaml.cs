@@ -1,5 +1,6 @@
 ﻿using Passingwind.UserDialogs;
 using System;
+using System.Threading.Tasks;
 using Tally.App.Controls;
 using Tally.App.Helpers;
 using Tally.App.Models;
@@ -13,19 +14,55 @@ namespace Tally.App.Views
     public partial class MainPage : ContentPage
     {
         readonly Color selectBackGroundColor = Color.FromHex("#3388df");
-        readonly SSViewModel sSView = null;
-        readonly HomePage homePage = null;
-        readonly Spend spendPage = null;
-        readonly Setting settingPage = null;
+        private SSViewModel sSView = null;
+        private HomePage homePage = null;
+        private Spend spendPage = null;
+        private Setting settingPage = null;
         public MainPage()
         {
             InitializeComponent();
-            BindingContext = sSView = new SSViewModel(Navigation);
-            sSView.Restore = Restore;
-            homePage = new HomePage();
-            spendPage = new Spend(sSView);
-            settingPage = new Setting();
-            SetLayoutFrame();
+            //首先初始化Tab
+            Initplace();
+            //再进行数据的调用，避免白屏
+            Initalize();
+        }
+
+        /// <summary>
+        /// 初始占位Tab
+        /// <para>避免因数据加载导致的白屏</para>
+        /// </summary>
+        private void Initplace()
+        {
+            //添加tab
+            gridFrames.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Star });
+            gridFrames.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
+            gridFrames.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
+
+            AllInitalize();
+            SetGridLength(0);
+            SetFrameColor(frameHome, lbHome, lbIconHome);
+        }
+
+        /// <summary>
+        /// 100ms之后进行数据加载
+        /// <para>避免因数据加载导致的白屏</para>
+        /// </summary>
+        private void Initalize()
+        {
+            Device.StartTimer(new TimeSpan(0, 0, 0, 0, 100), () =>
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    BindingContext = sSView = new SSViewModel(Navigation);
+                    sSView.Restore = Restore;
+                    sSView.ReturnSetting = ReturnSetting;
+                    homePage = new HomePage();
+                    spendPage = new Spend(sSView);
+                    settingPage = new Setting(sSView);
+                    SetLayoutFrame();
+                });
+                return false;
+            });
         }
 
         /// <summary>
@@ -62,18 +99,10 @@ namespace Tally.App.Views
         }
 
         /// <summary>
-        /// 初始化设置Tab 颜色
+        /// 初始化添加展示模块
         /// </summary>
         private void SetLayoutFrame()
         {
-            //添加tab
-            gridFrames.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Star });
-            gridFrames.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
-            gridFrames.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
-
-            AllInitalize();
-            SetGridLength(0);
-            SetFrameColor(frameHome, lbHome, lbIconHome);
             SetDisplayPage();
             Display();
         }
@@ -201,6 +230,14 @@ namespace Tally.App.Views
             sSView.LoadOnDaySpend(DateTime.Now);
             //重置当月统计数据
             sSView.LoadStatisctical();
+        }
+
+        /// <summary>
+        /// 回到设置页面
+        /// </summary>
+        private void ReturnSetting()
+        {
+            Navigation.PopAsync();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Passingwind.UserDialogs;
 using System;
-
+using Tally.App.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -9,9 +9,11 @@ namespace Tally.App.Controls
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Setting : ContentView
     {
-        public Setting()
+        readonly SSViewModel sSViewModel = null;
+        public Setting(SSViewModel sSView = null)
         {
             InitializeComponent();
+            sSViewModel = sSView;
         }
 
         #region Method
@@ -65,7 +67,7 @@ namespace Tally.App.Controls
                         LoadRestore();
                         break;
                     case FrameTab.Info:
-                        Application.Current.MainPage = new About();
+                        Navigation.PushAsync(new About());
                         break;
                     default:
                         break;

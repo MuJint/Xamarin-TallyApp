@@ -68,11 +68,10 @@
                 VerticalOptions="Center">
                 <Button
                     Grid.Column="0"
+                    BackgroundColor="Transparent"
                     Clicked="CloseSpend_Clicked"
-                    CornerRadius="50"
                     FontFamily="MaterialIcons"
-                    FontSize="35"
-                    HeightRequest="30"
+                    FontSize="25"
                     Style="{StaticResource placeholder}"
                     Text="{x:Static fonticons:FontIcons.Reply}"
                     TextColor="{StaticResource blue}"

@@ -325,7 +325,7 @@ namespace Tally.App.ViewModels
             var start = new DateTime(startNow.Year, startNow.Month, startNow.Day);
             var end = new DateTime(endNow.Year, endNow.Month, endNow.Day, 23, 59, 59);
             var data = _instance.Query(w => w.DateTime >= start && w.DateTime <= end);
-            var groupResult = data.GroupBy(g => g.DateTime.Day);
+            var groupResult = data.OrderByDescending(s => s.DateTime).GroupBy(g => g.DateTime.Day);
             foreach (var item in groupResult)
             {
                 ExpenseCards.Add(new ExpenseCard()
@@ -456,6 +456,11 @@ namespace Tally.App.ViewModels
         /// 恢复为首页
         /// </summary>
         public Action Restore { get; set; }
+        /// <summary>
+        /// 委托
+        /// 回到设置页面
+        /// </summary>
+        public Action ReturnSetting { get; set; }
         #endregion
     }
 }
