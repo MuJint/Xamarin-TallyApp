@@ -25,10 +25,10 @@
                     <Frame
                         Margin="10,10,25,10"
                         CornerRadius="30"
-                        HeightRequest="25"
+                        HeightRequest="20"
                         HorizontalOptions="End"
                         VerticalOptions="Center"
-                        WidthRequest="25">
+                        WidthRequest="20">
                         <Image
                             Margin="-20"
                             Aspect="AspectFill"

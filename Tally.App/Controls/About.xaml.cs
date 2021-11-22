@@ -26,7 +26,7 @@ namespace Tally.App.Controls
             switch (btn.TabIndex)
             {
                 case 2:
-                    Browser.OpenAsync("https://admin.qidian.qq.com/template/blue/website/agreement.html", new BrowserLaunchOptions
+                    Browser.OpenAsync("http://www.qiubb.com/user-agreement", new BrowserLaunchOptions
                     {
                         LaunchMode = BrowserLaunchMode.SystemPreferred,
                         TitleMode = BrowserTitleMode.Show,
@@ -35,7 +35,7 @@ namespace Tally.App.Controls
                     });
                     break;
                 case 3:
-                    Browser.OpenAsync("https://admin.qidian.qq.com/template/blue/website/agreement.html", new BrowserLaunchOptions
+                    Browser.OpenAsync("http://www.qiubb.com/privacy-policy", new BrowserLaunchOptions
                     {
                         LaunchMode = BrowserLaunchMode.SystemPreferred,
                         TitleMode = BrowserTitleMode.Show,
@@ -46,6 +46,22 @@ namespace Tally.App.Controls
                 default:
                     break;
             }
+        }
+
+        /// <summary>
+        /// Github点击
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+            Browser.OpenAsync("https://github.com/MuJint/Xamarin-TallyApp", new BrowserLaunchOptions
+            {
+                LaunchMode = BrowserLaunchMode.SystemPreferred,
+                TitleMode = BrowserTitleMode.Show,
+                PreferredToolbarColor = Color.AliceBlue,
+                PreferredControlColor = Color.Violet
+            });
         }
         #endregion
     }

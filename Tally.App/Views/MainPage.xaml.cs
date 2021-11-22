@@ -44,12 +44,12 @@ namespace Tally.App.Views
         }
 
         /// <summary>
-        /// 100ms之后进行数据加载
+        /// 90ms之后进行数据加载
         /// <para>避免因数据加载导致的白屏</para>
         /// </summary>
         private void Initalize()
         {
-            Device.StartTimer(new TimeSpan(0, 0, 0, 0, 100), () =>
+            Device.StartTimer(new TimeSpan(0, 0, 0, 0, 90), () =>
             {
                 Device.BeginInvokeOnMainThread(() =>
                 {

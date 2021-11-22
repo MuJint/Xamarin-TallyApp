@@ -1,6 +1,7 @@
 ﻿using Passingwind.UserDialogs;
 using System;
 using Tally.App.ViewModels;
+using Tally.Framework.Interface;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -26,6 +27,7 @@ namespace Tally.App.Controls
                                         .AddOkButton(text: "确认", () =>
                                         {
                                             // ok handle
+                                            UnitWork.Restore();
                                             Application.Current.Quit();
                                         })
                                         .AddCancelButton(text: "取消", () =>
@@ -34,6 +36,11 @@ namespace Tally.App.Controls
                                         })
                                         .SetTitle("警告")
                                         );
+        }
+
+        private void Development()
+        {
+            UserDialogs.Instance.Toast("正在开发中");
         }
         #endregion
 
@@ -54,14 +61,19 @@ namespace Tally.App.Controls
                 switch ((FrameTab)frame.TabIndex)
                 {
                     case FrameTab.Sevenday:
+                        Development();
                         break;
                     case FrameTab.Security:
+                        Development();
                         break;
                     case FrameTab.History:
+                        Development();
                         break;
                     case FrameTab.FileImport:
+                        Development();
                         break;
                     case FrameTab.Bug:
+                        Development();
                         break;
                     case FrameTab.Restore:
                         LoadRestore();

@@ -30,11 +30,16 @@ namespace Tally.Framework.Interface
         }
 
         /// <summary>
-        /// 重新启用
+        /// 删除所有数据
         /// </summary>
-        public static void Restart()
+        public static void Restore()
         {
-            _sqlteDataBase = GetDbClient;
+            using (GetDbClient)
+            {
+                _sqlteDataBase.DropTable<SpendLog>();
+                //创建消费表
+                _sqlteDataBase.CreateTable<SpendLog>();
+            }
         }
 
         /// <summary>
