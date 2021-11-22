@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Tally.App.Helpers;
@@ -7,6 +8,7 @@ using Tally.App.Models;
 using Tally.App.ViewModel;
 using Tally.Framework.Enums;
 using Tally.Framework.Interface;
+using Tally.Framework.Models;
 using Xamarin.Forms;
 
 namespace Tally.App.ViewModels
@@ -316,15 +318,24 @@ namespace Tally.App.ViewModels
         }
 
         /// <summary>
-        /// 加载近七日的明细
+        /// 近七日数据
         /// </summary>
-        private void LoadSevenDaySpend()
+        /// <returns></returns>
+        public List<SpendLog> LoadSevenDayList()
         {
             var startNow = DateTime.Now.AddDays(-7);
             var endNow = DateTime.Now.AddDays(-1);
             var start = new DateTime(startNow.Year, startNow.Month, startNow.Day);
             var end = new DateTime(endNow.Year, endNow.Month, endNow.Day, 23, 59, 59);
-            var data = _instance.Query(w => w.DateTime >= start && w.DateTime <= end);
+            return _instance.Query(w => w.DateTime >= start && w.DateTime <= end);
+        }
+
+        /// <summary>
+        /// 加载近七日的明细
+        /// </summary>
+        private void LoadSevenDaySpend()
+        {
+            var data = LoadSevenDayList();
             var groupResult = data.OrderByDescending(s => s.DateTime).GroupBy(g => g.DateTime.Day);
             foreach (var item in groupResult)
             {

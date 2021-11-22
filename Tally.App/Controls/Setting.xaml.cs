@@ -61,7 +61,7 @@ namespace Tally.App.Controls
                 switch ((FrameTab)frame.TabIndex)
                 {
                     case FrameTab.Sevenday:
-                        Development();
+                        Navigation.PushAsync(new SevenDayAnalysis(sSViewModel));
                         break;
                     case FrameTab.Security:
                         Development();
