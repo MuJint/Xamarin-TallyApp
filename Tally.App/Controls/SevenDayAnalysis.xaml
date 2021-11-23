@@ -1,106 +1,89 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage
-    x:Class="Tally.App.Controls.SevenDayAnalysis"
-    xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:chart="clr-namespace:Syncfusion.SfChart.XForms;assembly=Syncfusion.SfChart.XForms"
-    xmlns:forms="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
-    Title="近七天图表">
+<ContentPage x:Class="Tally.App.Controls.SevenDayAnalysis"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:forms="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
+             Title="近七天图表">
     <ContentPage.Content>
-        <Grid RowDefinitions="45*,55*">
-            <chart:SfChart
-                x:Name="Chart"
-                HeightRequest="250"
-                HorizontalOptions="FillAndExpand"
-                VerticalOptions="FillAndExpand">
-                <chart:SfChart.BindingContext>
-                    <!--<sampleBrowser:LineSeriesViewModel />-->
-                </chart:SfChart.BindingContext>
-                <chart:SfChart.ChartBehaviors>
-                    <chart:ChartTooltipBehavior BackgroundColor="#404041" />
-                </chart:SfChart.ChartBehaviors>
-                <chart:SfChart.PrimaryAxis>
-                    <chart:CategoryAxis
-                        AxisLineOffset="10"
-                        PlotOffset="10"
-                        ShowMajorGridLines="false">
-                        <chart:CategoryAxis.MajorTickStyle>
-                            <chart:ChartAxisTickStyle TickSize="10" />
-                        </chart:CategoryAxis.MajorTickStyle>
-                    </chart:CategoryAxis>
-                </chart:SfChart.PrimaryAxis>
-                <chart:SfChart.SecondaryAxis>
-                    <chart:NumericalAxis
-                        x:Name="naxis"
-                        Interval="50"
-                        Minimum="0">
-                        <chart:NumericalAxis.LabelStyle>
-                            <chart:ChartAxisLabelStyle x:Name="secondaryAxisLabelStyle" />
-                        </chart:NumericalAxis.LabelStyle>
-                        <chart:NumericalAxis.AxisLineStyle>
-                            <chart:ChartLineStyle StrokeWidth="0" />
-                        </chart:NumericalAxis.AxisLineStyle>
-                        <chart:NumericalAxis.MajorTickStyle>
-                            <chart:ChartAxisTickStyle TickSize="0" />
-                        </chart:NumericalAxis.MajorTickStyle>
-                    </chart:NumericalAxis>
-                </chart:SfChart.SecondaryAxis>
-                <chart:SfChart.Legend>
-                    <chart:ChartLegend
-                        x:Name="chartLegend"
-                        DockPosition="Top"
-                        IconHeight="10"
-                        IconWidth="10"
-                        ToggleSeriesVisibility="True" />
-                </chart:SfChart.Legend>
-                <chart:SfChart.ColorModel>
-                    <chart:ChartColorModel Palette="Natural" />
-                </chart:SfChart.ColorModel>
-                <chart:SfChart.Series>
-                    <chart:LineSeries
-                        x:Name="lineSeries1"
-                        EnableAnimation="true"
-                        EnableTooltip="true"
-                        ItemsSource="{Binding LineData1}"
-                        Label="Income"
-                        LegendIcon="Circle"
-                        StrokeWidth="3"
-                        XBindingPath="Name"
-                        YBindingPath="Value">
-                        <chart:LineSeries.DataMarker>
-                            <chart:ChartDataMarker
-                                MarkerBorderColor="#00bdae"
-                                MarkerBorderWidth="2"
-                                MarkerColor="White"
-                                MarkerHeight="10"
-                                MarkerWidth="10"
-                                ShowLabel="false"
-                                ShowMarker="true" />
-                        </chart:LineSeries.DataMarker>
-                    </chart:LineSeries>
-                    <chart:LineSeries
-                        x:Name="lineSeries2"
-                        EnableAnimation="true"
-                        EnableTooltip="true"
-                        ItemsSource="{Binding LineData2}"
-                        Label="Expenses"
-                        LegendIcon="Circle"
-                        StrokeWidth="3"
-                        XBindingPath="Name"
-                        YBindingPath="Value">
-                        <chart:LineSeries.DataMarker>
-                            <chart:ChartDataMarker
-                                MarkerBorderColor="#404041"
-                                MarkerBorderWidth="2"
-                                MarkerColor="White"
-                                MarkerHeight="10"
-                                MarkerWidth="10"
-                                ShowLabel="false"
-                                ShowMarker="true" />
-                        </chart:LineSeries.DataMarker>
-                    </chart:LineSeries>
-                </chart:SfChart.Series>
-            </chart:SfChart>
+        <Grid RowDefinitions="35*,6*,59*">
+            <forms:ChartView Margin="10,1"
+                             x:Name="chartView"></forms:ChartView>
+            <StackLayout Grid.Row="1"
+                         HorizontalOptions="Center"
+                         Orientation="Horizontal">
+                <Button CornerRadius="15"
+                        x:Name="SpendBtn"
+                        Clicked="Btn_Clicked"
+                        Margin="5,2"
+                        BackgroundColor="{StaticResource blue}"
+                        TextColor="White"
+                        Text="支出"></Button>
+                <Button CornerRadius="15"
+                        Clicked="Btn_Clicked"
+                        BackgroundColor="White"
+                        x:Name="InComeBtn"
+                        Margin="5,2"
+                        Text="收入"></Button>
+            </StackLayout>
+            <CollectionView Grid.Row="2"
+                            Margin="10,1"
+                            x:Name="listSource">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid BackgroundColor="White"
+                              Margin="20,1"
+                              ColumnDefinitions="auto,*">
+                            <Grid Margin="6,2,0,2"
+                                  ColumnDefinitions="auto,auto"
+                                  HorizontalOptions="Start"
+                                  RowDefinitions="*,*"
+                                  VerticalOptions="Center">
+                                <Image Grid.Row="0"
+                                       Grid.RowSpan="2"
+                                       Grid.Column="0"
+                                       Margin="0,0,5,0"
+                                       Aspect="AspectFit"
+                                       HeightRequest="35"
+                                       Source="{Binding Icon}"
+                                       WidthRequest="35" />
+                                <Label Grid.Row="0"
+                                       Grid.Column="1"
+                                       FontFamily="MuliRegular"
+                                       FontSize="14"
+                                       Text="{Binding IconTitle}"
+                                       TextColor="{StaticResource black}" />
+                                <Label Grid.Row="1"
+                                       Grid.Column="1"
+                                       FontFamily="MuliRegular"
+                                       FontSize="11"
+                                       Text="{Binding Description}"
+                                       TextColor="{StaticResource common}" />
+                            </Grid>
+                            <Label Grid.Column="1"
+                                   Margin="0,0,15,0"
+                                   VerticalTextAlignment="End"
+                                   HorizontalTextAlignment="End"
+                                   FontSize="11"
+                                   TextColor="{StaticResource common}"
+                                   Text="{Binding Time}"></Label>
+                            <Label Grid.Column="1"
+                                   Margin="0,0,15,0"
+                                   FontFamily="MuliBlack"
+                                   FontSize="20"
+                                   HorizontalTextAlignment="End"
+                                   TextColor="{Binding TextColor}"
+                                   VerticalTextAlignment="Start">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{Binding IsSpend}" />
+                                        <Span Text="{Binding Rmb}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

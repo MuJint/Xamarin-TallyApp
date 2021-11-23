@@ -57,5 +57,6 @@ namespace Tally.App.Models
         public decimal Rmb { get; set; }
         public string TextColor { get; set; }
         public string IsSpend { get; set; } = "-";
+        public string Time { get; set; }
     }
 }

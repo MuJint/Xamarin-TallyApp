@@ -67,7 +67,7 @@ namespace Tally.App.Controls
                         Development();
                         break;
                     case FrameTab.History:
-                        Development();
+                        Navigation.PushAsync(new History());
                         break;
                     case FrameTab.FileImport:
                         Development();

@@ -2,11 +2,12 @@
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using Tally.App.Helpers;
+using Tally.App.Models;
 using Tally.App.ViewModels;
 using Tally.Framework.Enums;
+using Tally.Framework.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -16,6 +17,8 @@ namespace Tally.App.Controls
     public partial class SevenDayAnalysis : ContentPage
     {
         readonly SSViewModel sSViewModel = null;
+        readonly string InComeColor = $"#24C389";
+        readonly string SpendColor = $"#3A3A62";
         public SevenDayAnalysis(SSViewModel sSView)
         {
             InitializeComponent();
@@ -24,85 +27,111 @@ namespace Tally.App.Controls
             Init();
         }
 
+        #region Property
+        public List<ExpenseRecord> ExpenseRecords { get; set; }
+        #endregion
 
         #region Method
-
-        public class ChartDataModel
-        {
-            public string Name { get; set; }
-
-
-            public double Value { get; set; }
-
-
-
-            public ChartDataModel(string name, double value)
-            {
-                Name = name;
-                Value = value;
-            }
-        }
-        public ObservableCollection<ChartDataModel> LineData1 { get; set; }
-
-        public ObservableCollection<ChartDataModel> LineData2 { get; set; }
         private void Init()
         {
+            var (chart, result) = GetChart();
+            //chart
+            chartView.Chart = chart;
+            //CollectionView
+            SetCollectionView(result);
+        }
+
+        /// <summary>
+        /// 获取曲线图数据
+        /// </summary>
+        /// <param name="enumSpend"></param>
+        private (LineChart, List<SpendLog>) GetChart(EnumSpend enumSpend = EnumSpend.Spend)
+        {
             var result = sSViewModel.LoadSevenDayList();
+            var color = new List<string>() { "#2c3e50", "#77d065", "#b455b6", "#3498db" };
             var groupResult = result.GroupBy(g => g.DateTime.Day);
             var entries = new List<ChartEntry>();
-            var entries2 = new List<ChartEntry>();
-            var u = 14;
             foreach (var data in groupResult)
             {
-                var total = (float)data.Where(w => w.IsSpend == EnumSpend.Spend).Sum(d => d.Rmb);
+                var total = (float)data.Where(w => w.IsSpend == enumSpend).Sum(d => d.Rmb);
+                //不能为O，Microcharts会报空异常
+                total = total <= 0 ? 0.1f : total;
                 entries.Add(new ChartEntry(total)
                 {
-                    Label =$"{u}", //$"{new DateTime(DateTime.Now.Year, DateTime.Now.Month, data.Key).DateToMonthAndDay()}",
+                    Label = $"{data.Key}",
                     ValueLabel = $"{total}",
-                    Color = SKColor.Parse("#2c3e50")
-                    //77d065 b455b6 3498db
+                    Color = SKColor.Parse(color[new Random().Next(0, 3)]),
                 });
-                u++;
             }
-            u = 14;
-            for (int i = 0; i < 7; i++)
+            return (new LineChart()
             {
-                entries2.Add(new ChartEntry(20+i)
+                Entries = entries,
+                LineMode = LineMode.Spline,
+                AnimationDuration = new TimeSpan(0, 0, 3),
+                IsAnimated = true,
+                LabelOrientation = Orientation.Horizontal,
+                LabelTextSize = 18,
+                ValueLabelOrientation = Orientation.Horizontal,
+                EnableYFadeOutGradient = true,
+            }, result);
+        }
+
+        /// <summary>
+        /// SetCollectionView
+        /// </summary>
+        /// <param name="spendLogs"></param>
+        /// <param name="enumSpend"></param>
+        private void SetCollectionView(List<SpendLog> spendLogs, EnumSpend enumSpend = EnumSpend.Spend)
+        {
+            listSource.ItemsSource = spendLogs?.OrderByDescending(o => o.DateTime)
+                ?.Where(w => w.IsSpend == enumSpend)
+                ?.Select(s => new ExpenseRecord()
                 {
-                    Label = $"{u}",
-                    ValueLabel = $"{20}",
-                    Color = SKColor.Parse("#2c3e50")
-                    //77d065 b455b6 3498db
+                    Icon = s.Icon.ToString(),
+                    IconTitle = s.Icon.GetDescription(),
+                    Description = s.Descrpition,
+                    Rmb = s.Rmb,
+                    IsSpend = s.IsSpend == EnumSpend.Income ? "+" : "-",
+                    TextColor = s.IsSpend == EnumSpend.Spend ? SpendColor : InComeColor,
+                    Time = $"{s.DateTime:MM-dd HH:mm}"
                 });
-                u++;
+        }
+        #endregion
+
+        #region Event
+        /// <summary>
+        /// btn点击
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Btn_Clicked(object sender, EventArgs e)
+        {
+            var btn = sender as Button;
+            switch (btn.Text)
+            {
+                case "收入":
+                    InComeBtn.BackgroundColor = Color.FromHex("#3388df");
+                    InComeBtn.TextColor = Color.White;
+
+                    SpendBtn.BackgroundColor = Color.White;
+                    SpendBtn.TextColor = Color.FromHex("#181819");
+                    var (chartIn, resultIn) = GetChart(EnumSpend.Income);
+                    chartView.Chart = chartIn;
+                    SetCollectionView(resultIn, EnumSpend.Income);
+                    break;
+                case "支出":
+                    SpendBtn.BackgroundColor = Color.FromHex("#3388df");
+                    SpendBtn.TextColor = Color.White;
+
+                    InComeBtn.BackgroundColor = Color.White;
+                    InComeBtn.TextColor = Color.FromHex("#181819");
+                    var (chart, result) = GetChart();
+                    chartView.Chart = chart;
+                    SetCollectionView(result);
+                    break;
+                default:
+                    break;
             }
-            var chart = new LineChart()
-            {
-                Entries = entries
-            };
-            //chart1.Chart = chart;
-
-            LineData1 = new ObservableCollection<ChartDataModel>
-            {
-                new ChartDataModel("Sun", 21),
-                new ChartDataModel("Mon", 24),
-                new ChartDataModel("Tue", 36),
-                new ChartDataModel("Wed", 38),
-                new ChartDataModel("Thu", 54),
-                new ChartDataModel("Fri", 57),
-                new ChartDataModel("Sat", 70)
-            };
-
-            LineData2 = new ObservableCollection<ChartDataModel>
-            {
-                new ChartDataModel("Sun", 28),
-                new ChartDataModel("Mon", 44),
-                new ChartDataModel("Tue", 48),
-                new ChartDataModel("Wed", 50),
-                new ChartDataModel("Thu", 66),
-                new ChartDataModel("Fri", 78),
-                new ChartDataModel("Sat", 84)
-            };
         }
         #endregion
     }
