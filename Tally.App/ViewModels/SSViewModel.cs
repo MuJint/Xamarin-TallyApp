@@ -58,7 +58,7 @@ namespace Tally.App.ViewModels
         /// 支出icon集合
         /// </summary>
         public ObservableCollection<SpendImg> SpendImgs { get; set; } = new ObservableCollection<SpendImg>();
-        private CostInfo _costInfo= new CostInfo()
+        private CostInfo _costInfo = new CostInfo()
         {
             Cost = "0",
             Icon = "food",
@@ -281,7 +281,7 @@ namespace Tally.App.ViewModels
             {
                 Icon = "house",
                 Title = "房产(房租)",
-            }); 
+            });
             SpendImgs.Add(new SpendImg()
             {
                 Icon = "othermoney",
@@ -345,13 +345,13 @@ namespace Tally.App.ViewModels
                     WeekOnDay = new DateTime(DateTime.Now.Year, DateTime.Now.Month, item.Key).DateToWeekOnDay(),
                     InCome = item?.Where(w => w.IsSpend == EnumSpend.Income)?.Sum(s => s.Rmb),
                     Spend = item?.Where(w => w.IsSpend == EnumSpend.Spend)?.Sum(s => s.Rmb),
-                    IsDisplay = item?.Count(w => w.Id != null) <= 0,
+                    IsDisplay = item?.Count(w => w.ID > 0) <= 0,
                     ExpenseRecords = item?.OrderByDescending(s => s.DateTime)?.Select(s => new ExpenseRecord()
                     {
                         Icon = s.Icon.ToString(),
                         IconTitle = s.Icon.GetDescription(),
                         Description = s.Descrpition,
-                        Rmb = s.Rmb,
+                        Rmb = s.Rmb.Value,
                         IsSpend = s.IsSpend == EnumSpend.Income ? "+" : "-",
                         TextColor = s.IsSpend == EnumSpend.Spend ? SpendColor : InComeColor
                     }).ToList()
@@ -450,7 +450,7 @@ namespace Tally.App.ViewModels
                     Icon = s.Icon.ToString(),
                     IconTitle = s.Icon.GetDescription(),
                     Description = s.Descrpition,
-                    Rmb = s.Rmb,
+                    Rmb = s.Rmb.Value,
                     IsSpend = s.IsSpend == EnumSpend.Income ? "+" : "-",
                     TextColor = s.IsSpend == EnumSpend.Spend ? SpendColor : InComeColor
                 }).ToList()

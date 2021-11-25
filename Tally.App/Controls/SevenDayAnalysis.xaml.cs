@@ -90,7 +90,7 @@ namespace Tally.App.Controls
                     Icon = s.Icon.ToString(),
                     IconTitle = s.Icon.GetDescription(),
                     Description = s.Descrpition,
-                    Rmb = s.Rmb,
+                    Rmb = s.Rmb.Value,
                     IsSpend = s.IsSpend == EnumSpend.Income ? "+" : "-",
                     TextColor = s.IsSpend == EnumSpend.Spend ? SpendColor : InComeColor,
                     Time = $"{s.DateTime:MM-dd HH:mm}"

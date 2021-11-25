@@ -24,6 +24,7 @@
                            TextColor="{StaticResource black}" />
                     <Label Margin="15,10,25,0"
                            HorizontalOptions="EndAndExpand"
+                           x:Name="versionLabel"
                            Text="1.0.0"
                            TextColor="{StaticResource black}" />
                 </StackLayout>
@@ -50,17 +51,28 @@
                        FontSize="18"
                        Text="联系我"
                        TextColor="{StaticResource black}" />
-                <Label Margin="15,0,15,0"
-                       FontSize="16"
-                       TextColor="{StaticResource common}">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="个人邮箱" />
-                            <Span Text="yuxin.bb@qq.com"
-                                  TextColor="{StaticResource green}" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
+                <Frame Margin="0"
+                       Padding="0"
+                       HasShadow="False"
+                       TabIndex="1"
+                       HorizontalOptions="Start">
+                    <Label Margin="15,0,15,0"
+                           FontSize="16"
+                           TextColor="{StaticResource common}">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="个人邮箱" />
+                                <Span Text="yuxin.bb@qq.com"
+                                      TextColor="{StaticResource green}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1"
+                                              Tapped="TapGestureRecognizer_Tapped" />
+                    </Frame.GestureRecognizers>
+                </Frame>
+
                 <Label Margin="15,10,15,0"
                        FontSize="18"
                        Text="源代码"
@@ -68,6 +80,7 @@
                 <Frame Margin="0"
                        Padding="0"
                        HasShadow="False"
+                       TabIndex="2"
                        HorizontalOptions="Start">
                     <Label FontSize="16"
                            Margin="15,0,15,0"

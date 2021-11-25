@@ -1,5 +1,6 @@
 ﻿using Passingwind.UserDialogs;
 using System;
+using Tally.App.Helpers;
 using Tally.App.ViewModels;
 using Tally.Framework.Interface;
 using Xamarin.Forms;
@@ -52,7 +53,7 @@ namespace Tally.App.Controls
         /// <param name="e"></param>
         private void TapGestureRecognizer_Tapped(object sender, System.EventArgs e)
         {
-            Device.BeginInvokeOnMainThread(() =>
+            Device.BeginInvokeOnMainThread(async () =>
             {
                 var frame = sender as Frame;
                 //校验枚举
@@ -61,16 +62,16 @@ namespace Tally.App.Controls
                 switch ((FrameTab)frame.TabIndex)
                 {
                     case FrameTab.Sevenday:
-                        Navigation.PushAsync(new SevenDayAnalysis(sSViewModel));
+                        await Navigation.PushAsync(new SevenDayAnalysis(sSViewModel));
                         break;
                     case FrameTab.Security:
                         Development();
                         break;
                     case FrameTab.History:
-                        Navigation.PushAsync(new History());
+                        await Navigation.PushAsync(new History());
                         break;
                     case FrameTab.FileImport:
-                        Development();
+                        var stream = await EssentialsExtensions.SelectExcel();
                         break;
                     case FrameTab.Bug:
                         Development();
@@ -79,7 +80,7 @@ namespace Tally.App.Controls
                         LoadRestore();
                         break;
                     case FrameTab.Info:
-                        Navigation.PushAsync(new About());
+                        await Navigation.PushAsync(new About());
                         break;
                     default:
                         break;

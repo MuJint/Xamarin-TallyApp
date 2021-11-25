@@ -10,7 +10,7 @@ namespace Tally.Framework.Models
         /// <summary>
         /// 金额
         /// </summary>
-        public decimal Rmb { get; set; }
+        public decimal? Rmb { get; set; }
         /// <summary>
         /// 支出还是收入
         /// <para>true收入</para>

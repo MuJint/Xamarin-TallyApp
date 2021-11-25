@@ -1,4 +1,5 @@
 ﻿using System;
+using Tally.App.Helpers;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -11,6 +12,8 @@ namespace Tally.App.Controls
         public About()
         {
             InitializeComponent();
+            var versionInfo = EssentialsExtensions.GetAppInfo();
+            versionLabel.Text = $"{versionInfo.Version}({versionInfo.Build})";
         }
 
         #region Event
@@ -55,13 +58,27 @@ namespace Tally.App.Controls
         /// <param name="e"></param>
         private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
-            Browser.OpenAsync("https://github.com/MuJint/Xamarin-TallyApp", new BrowserLaunchOptions
+            var frame = sender as Frame;
+            if (frame != null)
             {
-                LaunchMode = BrowserLaunchMode.SystemPreferred,
-                TitleMode = BrowserTitleMode.Show,
-                PreferredToolbarColor = Color.AliceBlue,
-                PreferredControlColor = Color.Violet
-            });
+                switch (frame.TabIndex)
+                {
+                    case 1:
+                        EssentialsExtensions.SendEmail("yuxin.bb@qq.com", "", null);
+                        break;
+                    case 2:
+                        Browser.OpenAsync("https://github.com/MuJint/Xamarin-TallyApp", new BrowserLaunchOptions
+                        {
+                            LaunchMode = BrowserLaunchMode.SystemPreferred,
+                            TitleMode = BrowserTitleMode.Show,
+                            PreferredToolbarColor = Color.AliceBlue,
+                            PreferredControlColor = Color.Violet
+                        });
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
         #endregion
     }

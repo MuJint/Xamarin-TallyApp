@@ -8,7 +8,7 @@ namespace Tally.Framework.Interface
     {
         List<TEntity> Query(Expression<Func<TEntity, bool>> expression);
         TEntity QueryById(Expression<Func<TEntity, bool>> expression);
-        bool Delete(TEntity entity);
+        bool Delete(long id);
         bool Insert(TEntity entity);
         bool Update(TEntity entity);
     }

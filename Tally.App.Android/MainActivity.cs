@@ -21,16 +21,12 @@ namespace Tally.App.Droid
             UserDialogs.Init(this);
             LoadApplication(new App());
         }
+
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-            // Using the Android Support Library v4
-            //FingerprintManagerCompat fingerprintManager = FingerprintManagerCompat.From(context);
-
-            //// Using API level 23:
-            //FingerprintManager fingerprintManager = context.GetSystemService(Context.FingerprintService) as FingerprintManager;
         }
     }
 }

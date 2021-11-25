@@ -114,7 +114,6 @@ namespace Tally.App.Controls
                         DateTime = DateTime.Now,
                         Descrpition = Remarks?.Text ?? "",
                         Icon = enumList.FirstOrDefault(f => f.ToString().ToLower() == sSViewModel.CostInfo.Icon),
-                        Id = Guid.NewGuid(),
                         IsSpend = _enumSpend,
                         Pay = EnumPay.Alipay,
                         Rmb = sSViewModel.CostInfo.Cost.ObjToDecimal()
