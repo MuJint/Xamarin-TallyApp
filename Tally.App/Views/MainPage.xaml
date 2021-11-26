@@ -17,10 +17,10 @@
         <Grid
             x:Name="gridFrames"
             Grid.Row="1"
-            Padding="35,15"
+            Padding="40,10"
             BackgroundColor="White"
             ColumnSpacing="60"
-            HeightRequest="50"
+            HeightRequest="45"
             HorizontalOptions="FillAndExpand"
             VerticalOptions="End">
             <Frame
@@ -35,7 +35,7 @@
                 StyleId="frameHome">
                 <Grid
                     ColumnDefinitions="auto, auto"
-                    ColumnSpacing="10"
+                    ColumnSpacing="3"
                     HorizontalOptions="CenterAndExpand">
                     <Label
                         x:Name="lbIconHome"
@@ -72,7 +72,7 @@
                 StyleId="framePlus">
                 <Grid
                     ColumnDefinitions="auto, auto"
-                    ColumnSpacing="10"
+                    ColumnSpacing="3"
                     HorizontalOptions="CenterAndExpand">
                     <Label
                         x:Name="lbIconPlus"
@@ -108,7 +108,7 @@
                 StyleId="frameSetting">
                 <Grid
                     ColumnDefinitions="auto, auto"
-                    ColumnSpacing="10"
+                    ColumnSpacing="3"
                     HorizontalOptions="CenterAndExpand">
                     <Label
                         x:Name="lbIconSetting"
