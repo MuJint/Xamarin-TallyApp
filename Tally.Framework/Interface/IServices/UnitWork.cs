@@ -1,21 +1,21 @@
-﻿using LiteDB;
+﻿using SQLite;
 using System.IO;
-using Xamarin.Essentials;
+using Tally.Framework.Models;
 
 namespace Tally.Framework.Interface
 {
     public class UnitWork
     {
-        static LiteDatabase _liteDatabase = null;
+        static SQLiteConnection _sqlteDataBase = null;
         private static readonly object _lock = new object();
 
-        public static LiteDatabase GetDbClient
+        public static SQLiteConnection GetDbClient
         {
             get
             {
                 lock (_lock)
                 {
-                    return _liteDatabase = _liteDatabase ?? GetDb();
+                    return _sqlteDataBase = _sqlteDataBase ?? GetDb();
                 }
             }
         }
@@ -25,7 +25,8 @@ namespace Tally.Framework.Interface
         /// </summary>
         public static void Dispose()
         {
-            _liteDatabase.Dispose();
+            _sqlteDataBase.Dispose();
+            _sqlteDataBase = null;
         }
 
         /// <summary>
@@ -33,26 +34,34 @@ namespace Tally.Framework.Interface
         /// </summary>
         public static void Restore()
         {
-            try
+            using (GetDbClient)
             {
-                var dbPath = $"{FileSystem.AppDataDirectory}/tally.db";
-                var path = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "tally.db");
-                var t = File.Exists(dbPath);
-                File.Delete(dbPath);
-                var t2 = File.Exists(dbPath);
-            }
-            catch (System.Exception c)
-            {
-                throw;
+                _sqlteDataBase.DropTable<SpendLog>();
+                //创建消费表
+                _sqlteDataBase.CreateTable<SpendLog>();
             }
         }
 
-        private static LiteDatabase GetDb()
+        /// <summary>
+        /// 种子数据初始化
+        /// </summary>
+        public static void Initalize()
+        {
+            using (GetDbClient)
+            {
+                _sqlteDataBase.DropTable<SpendLog>();
+                //创建消费表
+                _sqlteDataBase.CreateTable<SpendLog>();
+            }
+            //释放了Sqlite同时初始化
+            _sqlteDataBase = null;
+        }
+
+        private static SQLiteConnection GetDb()
         {
             //SQLite 数据库地址
-            //var path = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "tally.db");
-            var path = $"{FileSystem.AppDataDirectory}/tally.db";
-            return new LiteDatabase(path);
+            var path = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "billApp.db3");
+            return new SQLiteConnection(path);
         }
     }
 }

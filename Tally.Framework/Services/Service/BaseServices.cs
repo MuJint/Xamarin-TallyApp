@@ -9,9 +9,9 @@ namespace Tally.Framework.Services
     {
         static readonly IBaseRepository<TEntity> _baseRepository = _baseRepository ?? new BaseRepository<TEntity>();
 
-        public bool Delete(long id)
+        public bool Delete(TEntity entity)
         {
-            return _baseRepository.Delete(id);
+            return _baseRepository.Delete(entity);
         }
 
         public bool Insert(TEntity entity)

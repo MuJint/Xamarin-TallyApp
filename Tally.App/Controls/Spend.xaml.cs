@@ -16,7 +16,7 @@ namespace Tally.App.Controls
     {
         readonly SSViewModel sSViewModel = null;
         //
-        readonly ISpendLogServices _instance = Dependcy.Provider.GetService<ISpendLogServices>();
+        readonly ISpendLogServices _instance = DependencyService.Get<ISpendLogServices>();
         //私有状态 当前选中是收入还是支出
         private EnumSpend _enumSpend = EnumSpend.Spend;
         public Spend(SSViewModel sSView = null)
@@ -90,7 +90,7 @@ namespace Tally.App.Controls
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Button_Clicked(object sender, EventArgs e)
+        private async void Button_Clicked(object sender, EventArgs e)
         {
             var button = sender as Button;
             switch (button.Text)
@@ -105,12 +105,19 @@ namespace Tally.App.Controls
                     sSViewModel.CostInfo.Cost = "0";
                     break;
                 case "OK":
+                    if (GlobalConfig.IsPermission is false)
+                    {
+                        var isPermission = await EssentialsExtensions.ApplyPermission();
+                        if (isPermission is false)
+                            return; //中断操作
+                    }
                     //花费为0不提交
                     if (sSViewModel.CostInfo.Cost.ObjToDecimal() <= 0)
                         return;
                     var enumList = Enum.GetValues(typeof(EnumIcon)).OfType<EnumIcon>().ToList();
                     var model = new SpendLog()
                     {
+                        Id = Guid.NewGuid(),
                         DateTime = DateTime.Now,
                         Descrpition = Remarks?.Text ?? "",
                         Icon = enumList.FirstOrDefault(f => f.ToString().ToLower() == sSViewModel.CostInfo.Icon),
@@ -230,7 +237,7 @@ namespace Tally.App.Controls
                 frameInCome.BackgroundColor = Color.White;
                 _enumSpend = EnumSpend.Spend;
             }
-            else if(isSpend is false)
+            else if (isSpend is false)
             {
                 labelInCome.TextColor = Color.White;
                 frame.BackgroundColor = Color.FromHex("#3388df");

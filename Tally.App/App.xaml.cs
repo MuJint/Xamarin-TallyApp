@@ -15,7 +15,7 @@ namespace Tally.App
         {
             InitializeComponent();
             Initalize();
-            UnitWork.Restore();
+            //UnitWork.Restore();
             StartUp();
             //Page 包裹进入NavigationPage，以使用page跳转
             MainPage = new NavigationPage(new MainPage());
@@ -79,9 +79,7 @@ namespace Tally.App
         /// </summary>
         private void StartUp()
         {
-            Dependcy.Provider = new ServiceCollection()
-                .AddTransient<ISpendLogServices, SpendLogServices>()
-                .BuildServiceProvider();
+            DependencyService.Register<ISpendLogServices, SpendLogServices>();
         }
 
         /// <summary>
@@ -94,6 +92,7 @@ namespace Tally.App
             {
                 GlobalConfig.IsFirstStart = true;
                 writer.WriteLine($"1"); //表示已经不是初次启动了
+                UnitWork.Initalize();
             }
         }
     }

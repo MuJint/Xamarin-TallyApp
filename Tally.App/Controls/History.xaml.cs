@@ -21,5 +21,9 @@ namespace Tally.App.Controls
         {
             
         }
+
+        #region Event Handler
+        #endregion
+
     }
 }

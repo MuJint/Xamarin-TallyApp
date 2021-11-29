@@ -21,7 +21,7 @@ namespace Tally.App.ViewModels
         readonly string WhiteColor = $"#FFFFFF";
         readonly string BlackColor = $"#181819";
 
-        readonly ISpendLogServices _instance = Dependcy.Provider.GetService<ISpendLogServices>();
+        readonly ISpendLogServices _instance = DependencyService.Get<ISpendLogServices>();
         public SSViewModel(INavigation navigation)
         {
             Navigation = navigation;
@@ -345,7 +345,7 @@ namespace Tally.App.ViewModels
                     WeekOnDay = new DateTime(DateTime.Now.Year, DateTime.Now.Month, item.Key).DateToWeekOnDay(),
                     InCome = item?.Where(w => w.IsSpend == EnumSpend.Income)?.Sum(s => s.Rmb),
                     Spend = item?.Where(w => w.IsSpend == EnumSpend.Spend)?.Sum(s => s.Rmb),
-                    IsDisplay = item?.Count(w => w.ID > 0) <= 0,
+                    IsDisplay = item?.Count(w => w.Id != null) <= 0,
                     ExpenseRecords = item?.OrderByDescending(s => s.DateTime)?.Select(s => new ExpenseRecord()
                     {
                         Icon = s.Icon.ToString(),

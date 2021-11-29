@@ -51,7 +51,7 @@ namespace Tally.App.Views
         {
             Device.StartTimer(new TimeSpan(0, 0, 0, 0, 90), () =>
             {
-                Device.BeginInvokeOnMainThread(() =>
+                Device.BeginInvokeOnMainThread(async () =>
                 {
                     BindingContext = sSView = new SSViewModel(Navigation);
                     sSView.Restore = Restore;
@@ -59,7 +59,7 @@ namespace Tally.App.Views
                     homePage = new HomePage();
                     spendPage = new Spend(sSView);
                     settingPage = new Setting(sSView);
-                    SetLayoutFrame();
+                    await SetLayoutFrame();
                 });
                 return false;
             });
@@ -101,10 +101,13 @@ namespace Tally.App.Views
         /// <summary>
         /// 初始化添加展示模块
         /// </summary>
-        private void SetLayoutFrame()
+        private async ValueTask<bool> SetLayoutFrame()
         {
             SetDisplayPage();
+            //申请权限
+            await EssentialsExtensions.ApplyPermission();
             Display();
+            return true;
         }
 
         /// <summary>
@@ -192,8 +195,8 @@ namespace Tally.App.Views
                 UserDialogs.Instance.Alert(new AlertConfig("为切实保护你的个人信息，未经你同意，我们不会从第三方获取、共享或对外提供你的信息。你可前往设置>关于>阅读《隐私政策》并了解详细信息")
                                         .AddOkButton(text: "确认", () =>
                                          {
-                                            // ok handle
-                                        })
+                                             // ok handle
+                                         })
                                         .AddCancelButton(text: "取消", () =>
                                           {
                                               //cancel handle
