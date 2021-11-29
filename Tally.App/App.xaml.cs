@@ -79,9 +79,7 @@ namespace Tally.App
         /// </summary>
         private void StartUp()
         {
-            Dependcy.Provider = new ServiceCollection()
-                .AddTransient<ISpendLogServices, SpendLogServices>()
-                .BuildServiceProvider();
+            DependencyService.Register<ISpendLogServices, SpendLogServices>();
         }
 
         /// <summary>

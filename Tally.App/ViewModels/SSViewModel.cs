@@ -21,7 +21,7 @@ namespace Tally.App.ViewModels
         readonly string WhiteColor = $"#FFFFFF";
         readonly string BlackColor = $"#181819";
 
-        readonly ISpendLogServices _instance = Dependcy.Provider.GetService<ISpendLogServices>();
+        readonly ISpendLogServices _instance = DependencyService.Get<ISpendLogServices>();
         public SSViewModel(INavigation navigation)
         {
             Navigation = navigation;

@@ -45,7 +45,7 @@
                        TextColor="{StaticResource black}" />
                 <Label Margin="15,0,15,0"
                        FontSize="16"
-                       Text="于心（落魄的.Net开发）"
+                       Text="于心"
                        TextColor="{StaticResource common}" />
                 <Label Margin="15,10,15,0"
                        FontSize="18"
