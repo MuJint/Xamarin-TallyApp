@@ -37,8 +37,10 @@ namespace Tally.Framework.Interface
             using (GetDbClient)
             {
                 _sqlteDataBase.DropTable<SpendLog>();
+                _sqlteDataBase.DropTable<ErrorLog>();
                 //创建消费表
                 _sqlteDataBase.CreateTable<SpendLog>();
+                _sqlteDataBase.CreateTable<ErrorLog>();
             }
         }
 
@@ -50,8 +52,10 @@ namespace Tally.Framework.Interface
             using (GetDbClient)
             {
                 _sqlteDataBase.DropTable<SpendLog>();
+                _sqlteDataBase.DropTable<ErrorLog>();
                 //创建消费表
                 _sqlteDataBase.CreateTable<SpendLog>();
+                _sqlteDataBase.CreateTable<ErrorLog>();
             }
             //释放了Sqlite同时初始化
             _sqlteDataBase = null;

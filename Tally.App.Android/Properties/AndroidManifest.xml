@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0.2" package="com.companyname.tally.app" android:installLocation="auto">
-	<uses-sdk android:minSdkVersion="18" android:targetSdkVersion="30" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0.3" package="com.companyname.tally.app" android:installLocation="auto">
+	<uses-sdk android:minSdkVersion="20" android:targetSdkVersion="30" />
 	<application android:theme="@style/MainTheme" android:label="简单记账" android:icon="@drawable/logo"></application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.USE_FINGERPRINT" />
