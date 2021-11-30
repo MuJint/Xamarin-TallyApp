@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System.IO;
+﻿using System.IO;
 using Tally.App.Helpers;
 using Tally.App.Interface;
 using Tally.App.Views;
