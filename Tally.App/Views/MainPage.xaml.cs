@@ -191,7 +191,7 @@ namespace Tally.App.Views
         //
         private void Display()
         {
-            if (GlobalConfig.IsFirstStart)
+            if (GlobalConfigExtensions.IsFirstStart)
                 UserDialogs.Instance.Alert(new AlertConfig("为切实保护你的个人信息，未经你同意，我们不会从第三方获取、共享或对外提供你的信息。你可前往设置>关于>阅读《隐私政策》并了解详细信息")
                                         .AddOkButton(text: "确认", () =>
                                          {

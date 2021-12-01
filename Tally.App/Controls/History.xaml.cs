@@ -1,15 +1,17 @@
 ﻿using Microcharts;
+using MiniExcelLibs;
+using MiniExcelLibs.Attributes;
 using Passingwind.UserDialogs;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Tally.App.Helpers;
 using Tally.App.ViewModels;
 using Tally.Framework.Enums;
 using Tally.Framework.Interface;
+using Tally.Framework.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -18,7 +20,6 @@ namespace Tally.App.Controls
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class History : ContentPage
     {
-        //
         readonly ISpendLogServices _instance = DependencyService.Get<ISpendLogServices>();
         readonly List<string> color = new List<string>() { "#2c3e50", "#77d065", "#b455b6", "#3498db" };
         readonly HistoryViewModel viewModel = null;
@@ -28,7 +29,24 @@ namespace Tally.App.Controls
             BindingContext = viewModel = new HistoryViewModel();
         }
 
-
+        #region Identity
+        private class ExportDto
+        {
+            [ExcelColumnName("guid")]
+            public string Guid { get; set; }
+            [ExcelFormat("yyyy-MM-dd HH:mm:ss")]
+            [ExcelColumnName("时间")]
+            public DateTime DateTime { get; set; }
+            [ExcelColumnName("金额")]
+            public decimal? Rmb { get; set; }
+            [ExcelColumnName("支出/收入")]
+            public string IsSpend { get; set; }
+            [ExcelColumnName("icon")]
+            public string Icon { get; set; }
+            [ExcelColumnName("备注")]
+            public string Descrpition { get; set; }
+        }
+        #endregion
 
         #region Event Handler
         /// <summary>
@@ -43,7 +61,7 @@ namespace Tally.App.Controls
                 UserDialogs.Instance.Alert("结束时间大于当前时间");
                 return;
             }
-            var data = _instance.Query(t => t.Id != null).OrderByDescending(t => t.DateTime).ToList();
+            var data = _instance.Query(t => t.Id != null).OrderBy(t => t.DateTime).ToList();
             var barChartSource = new List<ChartEntry>();
             var donutChartSource = new List<ChartEntry>();
             foreach (var entry in data.Skip(0).Take(15))
@@ -91,8 +109,45 @@ namespace Tally.App.Controls
                 }
             };
         }
+
+        /// <summary>
+        /// 导出按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void Export_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), $"tally.xlsx");
+                var rowsData = MiniExcel.Query<SpendLog>(path);
+
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
+                var data = _instance.Query(t => t.Id != null).OrderByDescending(t => t.DateTime)
+                    .Select(s => new ExportDto()
+                    {
+                        DateTime = s.DateTime,
+                        Descrpition = s.Descrpition,
+                        Guid = s.Id.ToString(),
+                        Icon = s.Icon.ToString(),
+                        IsSpend = s.IsSpend == EnumSpend.Spend ? "支出" : "收入",
+                        Rmb = s.Rmb
+                    });
+                //运行时请求权限
+                GlobalConfigExtensions.ApplyPermissions();
+                //导出excel
+                await MiniExcel.SaveAsAsync(path, data, excelType: ExcelType.XLSX);
+                //唤起其它应用
+                GlobalConfigExtensions.OpenFile(path);
+            }
+            catch (Exception c)
+            {
+                //
+            }
+        }
         #endregion
-
-
     }
 }

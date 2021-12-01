@@ -1,7 +1,6 @@
 ﻿using Passingwind.UserDialogs;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
@@ -81,61 +80,22 @@ namespace Tally.App.Helpers
             try
             {
                 //Android 上，可以调用 ShouldShowRationale 来检测用户过去是否已拒绝该权限
-                var isDenied = Permissions.ShouldShowRationale<Permissions.StorageRead>();
-                if (isDenied)
+                var isDeniedRead = Permissions.ShouldShowRationale<Permissions.StorageRead>();
+                var isDeniedWrite = Permissions.ShouldShowRationale<Permissions.StorageWrite>();
+                if (isDeniedRead || isDeniedWrite)
                 {
-                    UserDialogs.Instance.Toast(new ToastConfig()
-                    {
-                        Message = "请前往设置中赋予软件读写文件权限",
-                        Position = ToastPosition.Default,
-                        Duration = new TimeSpan(0, 0, 0, 5),
-                        TextColor = Color.Red
-                    });
+                    //发起申请
+                    GlobalConfigExtensions.ApplyPermissions();
                     return result;
                 }
                 var readStatus = await Permissions.RequestAsync<Permissions.StorageRead>();
                 var writeStatus = await Permissions.RequestAsync<Permissions.StorageWrite>();
-                switch (readStatus)
+                if (readStatus != PermissionStatus.Granted || writeStatus != PermissionStatus.Granted)
+                    DisplayNoPermission();
+                else
                 {
-                    case PermissionStatus.Unknown:
-                        DisplayNoPermission();
-                        break;
-                    case PermissionStatus.Denied:
-                        DisplayNoPermission();
-                        break;
-                    case PermissionStatus.Disabled:
-                        DisplayNoPermission();
-                        break;
-                    case PermissionStatus.Granted:
-                        result = true;
-                        GlobalConfig.IsPermission = true;
-                        break;
-                    case PermissionStatus.Restricted:
-                        DisplayNoPermission();
-                        break;
-                    default:
-                        break;
-                }
-                switch (writeStatus)
-                {
-                    case PermissionStatus.Unknown:
-                        DisplayNoPermission();
-                        break;
-                    case PermissionStatus.Denied:
-                        DisplayNoPermission();
-                        break;
-                    case PermissionStatus.Disabled:
-                        DisplayNoPermission();
-                        break;
-                    case PermissionStatus.Granted:
-                        result = true;
-                        GlobalConfig.IsPermission = true;
-                        break;
-                    case PermissionStatus.Restricted:
-                        DisplayNoPermission();
-                        break;
-                    default:
-                        break;
+                    result = true;
+                    GlobalConfigExtensions.IsPermission = true;
                 }
             }
             catch (PermissionException ex)
@@ -162,7 +122,8 @@ namespace Tally.App.Helpers
                 .SetTitle("权限申请")
                 .AddOkButton("确认", () =>
                  {
-                     UserDialogs.Instance.Toast("您暂时不能使用核心功能");
+                     //再次发起申请
+                     GlobalConfigExtensions.ApplyPermissions();
                  })
                 .AddCancelButton("取消", () =>
                 {

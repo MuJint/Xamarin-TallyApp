@@ -1,6 +1,6 @@
 ﻿namespace Tally.App.Helpers
 {
-    public static class StringExtension
+    public static class StringExtensions
     {
         /// <summary>
         /// string转int

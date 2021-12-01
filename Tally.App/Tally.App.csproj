@@ -30,6 +30,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microcharts.Forms" Version="0.9.5.9" />
+    <PackageReference Include="MiniExcel" Version="0.19.1" />
     <PackageReference Include="Passingwind.UserDialogs" Version="0.2.0" />
     <PackageReference Include="Xamarin.CommunityToolkit" Version="1.2.0" />
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />

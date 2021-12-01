@@ -6,11 +6,11 @@ namespace Tally.App.Helpers
     /// <summary>
     /// PanContainerMethod
     /// </summary>
-    public class PanContainerMethod : ContentView
+    public class PanContainerExtensions : ContentView
     {
         double translationX;
         double maringRight;
-        public PanContainerMethod()
+        public PanContainerExtensions()
         {
             var panGesture = new PanGestureRecognizer();
             panGesture.PanUpdated += PanGesture_PanUpdated;
