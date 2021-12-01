@@ -120,9 +120,15 @@ namespace Tally.App.Controls
         {
             try
             {
-                var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), $"tally.xlsx");
-                var rowsData = MiniExcel.Query<SpendLog>(path);
+                if (queryList?.Count <= 0)
+                {
+                    UserDialogs.Instance.Toast("请先查询");
+                    return;
+                }
 
+                var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), $"tally.xlsx");
+                //var rowsData = MiniExcel.Query<SpendLog>(path);
+                //删除文件
                 if (File.Exists(path))
                 {
                     File.Delete(path);
@@ -157,6 +163,11 @@ namespace Tally.App.Controls
         /// <param name="e"></param>
         private async void SwitchDetail_Clicked(object sender, EventArgs e)
         {
+            if (queryList?.Count <= 0)
+            {
+                UserDialogs.Instance.Toast("请先查询");
+                return;
+            }
             await Navigation.PushAsync(new HistoryDetail(queryList));
         }
         #endregion
