@@ -23,6 +23,7 @@ namespace Tally.App.Controls
         readonly ISpendLogServices _instance = DependencyService.Get<ISpendLogServices>();
         readonly List<string> color = new List<string>() { "#2c3e50", "#77d065", "#b455b6", "#3498db" };
         readonly HistoryViewModel viewModel = null;
+        private List<SpendLog> queryList = new List<SpendLog>();
         public History()
         {
             InitializeComponent();
@@ -61,10 +62,10 @@ namespace Tally.App.Controls
                 UserDialogs.Instance.Alert("结束时间大于当前时间");
                 return;
             }
-            var data = _instance.Query(t => t.Id != null).OrderBy(t => t.DateTime).ToList();
+            queryList = _instance.Query(t => t.Id != null).OrderBy(t => t.DateTime).ToList();
             var barChartSource = new List<ChartEntry>();
             var donutChartSource = new List<ChartEntry>();
-            foreach (var entry in data.Skip(0).Take(15))
+            foreach (var entry in queryList.Skip(0).Take(15))
             {
                 var total = (float)entry.Rmb.Value;
                 barChartSource.Add(new ChartEntry(total)
@@ -75,7 +76,7 @@ namespace Tally.App.Controls
                 });
             }
 
-            var donutSource = data.Where(w => w.IsSpend == EnumSpend.Spend)
+            var donutSource = queryList.Where(w => w.IsSpend == EnumSpend.Spend)
                 .GroupBy(g => g.Icon)
                 .ToList();
             foreach (var donut in donutSource)
@@ -119,14 +120,20 @@ namespace Tally.App.Controls
         {
             try
             {
-                var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), $"tally.xlsx");
-                var rowsData = MiniExcel.Query<SpendLog>(path);
+                if (queryList?.Count <= 0)
+                {
+                    UserDialogs.Instance.Toast("请先查询");
+                    return;
+                }
 
+                var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), $"tally.xlsx");
+                //var rowsData = MiniExcel.Query<SpendLog>(path);
+                //删除文件
                 if (File.Exists(path))
                 {
                     File.Delete(path);
                 }
-                var data = _instance.Query(t => t.Id != null).OrderByDescending(t => t.DateTime)
+                var data = queryList
                     .Select(s => new ExportDto()
                     {
                         DateTime = s.DateTime,
@@ -147,6 +154,21 @@ namespace Tally.App.Controls
             {
                 //
             }
+        }
+
+        /// <summary>
+        /// 切换
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void SwitchDetail_Clicked(object sender, EventArgs e)
+        {
+            if (queryList?.Count <= 0)
+            {
+                UserDialogs.Instance.Toast("请先查询");
+                return;
+            }
+            await Navigation.PushAsync(new HistoryDetail(queryList));
         }
         #endregion
     }

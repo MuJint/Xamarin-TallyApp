@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Tally.App.ViewModel;
 
 namespace Tally.App.Models
@@ -58,5 +59,6 @@ namespace Tally.App.Models
         public string TextColor { get; set; }
         public string IsSpend { get; set; } = "-";
         public string Time { get; set; }
+        public Guid Id { get; set; }
     }
 }

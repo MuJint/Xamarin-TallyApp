@@ -44,18 +44,18 @@ namespace Tally.App.Helpers
         void TotalXChange(double x)
         {
             Trace.TraceInformation("已执行方法");
-            if (x > 0 && x > 40)
+            if (x > 0 && x > 20)
             {
                 //平移之后X轴方向右移
                 //复原
                 Content.TranslateTo(0, 0, 500, Easing.CubicInOut);
-                Content.Margin = new Thickness(0, 0, -120, 0);
+                Content.Margin = new Thickness(0, 1, -150, 2);
             }
-            if (x < 0 && x < -40)
+            if (x < 0 && x < -20)
             {
                 //平移之后X轴方向左移
                 Content.TranslateTo(-80, 0, 500, Easing.SpringIn);
-                Content.Margin = new Thickness(0, 0, -80, 0);
+                Content.Margin = new Thickness(0, 1, -80, 2);
             }
         }
     }
