@@ -105,7 +105,7 @@ namespace Tally.App.Controls
                     sSViewModel.CostInfo.Cost = "0";
                     break;
                 case "OK":
-                    if (GlobalConfig.IsPermission is false)
+                    if (GlobalConfigExtensions.IsPermission is false)
                     {
                         var isPermission = await EssentialsExtensions.ApplyPermission();
                         if (isPermission is false)

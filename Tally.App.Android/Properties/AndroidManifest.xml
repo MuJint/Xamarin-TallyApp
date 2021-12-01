@@ -1,10 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0.3" package="com.companyname.tally.app" android:installLocation="auto">
-	<uses-sdk android:minSdkVersion="20" android:targetSdkVersion="30" />
-	<application android:theme="@style/MainTheme" android:label="简单记账" android:icon="@drawable/logo"></application>
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-sdk android:minSdkVersion="18" android:targetSdkVersion="30" />
+	<application android:theme="@style/MainTheme" android:label="简单记账" android:icon="@drawable/logo">
+		<!--exposed beyond app through Intent.getData()-->
+		<!--https://stackoverflow.com/questions/38200282/android-os-fileuriexposedexception-file-storage-emulated-0-test-txt-exposed-->
+		<provider
+		   android:name="androidx.core.content.FileProvider"
+		   android:authorities="com.companyname.tally.app.provider"
+		   android:exported="false"
+		   android:grantUriPermissions="true">
+			<meta-data
+				android:name="android.support.FILE_PROVIDER_PATHS"
+				android:resource="@xml/file_paths_public" />
+		</provider>
+	</application>
 	<uses-permission android:name="android.permission.USE_FINGERPRINT" />
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
 	<queries>
 		<intent>
 			<action android:name="android.intent.action.SENDTO" />

@@ -67,6 +67,7 @@
                             Margin="7,0"
                             TextColor="{StaticResource blue}"
                             CornerRadius="15"
+                            Clicked="Export_Clicked"
                             HorizontalOptions="End" />
                 </StackLayout>
                 <StackLayout>

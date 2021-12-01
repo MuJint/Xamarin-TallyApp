@@ -89,7 +89,7 @@ namespace Tally.App
         {
             using (StreamWriter writer = File.CreateText(path))
             {
-                GlobalConfig.IsFirstStart = true;
+                GlobalConfigExtensions.IsFirstStart = true;
                 writer.WriteLine($"1"); //表示已经不是初次启动了
                 UnitWork.Initalize();
             }
