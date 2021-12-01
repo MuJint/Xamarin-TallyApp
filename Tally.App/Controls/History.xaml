@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:fonticons="clr-namespace:Tally.App.FontIcons"
-             xmlns:local="clr-namespace:Tally.App.Helpers"
              xmlns:forms="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
              Title="账单记录"
              x:Class="Tally.App.Controls.History">
@@ -83,6 +82,7 @@
                         <Button Text="切换列表"
                                 Grid.Column="1"
                                 Margin="10,0"
+                                Clicked="SwitchDetail_Clicked"
                                 BackgroundColor="Transparent"
                                 HorizontalOptions="EndAndExpand" />
                         <Label Text="{x:Static fonticons:FontIcons.ViewList}"
@@ -107,21 +107,6 @@
                                          x:Name="donutChartView"></forms:ChartView>
                     </Frame>
                 </StackLayout>
-                <!--<local:PanContainerMethod>
-                <Frame BorderColor="Red"
-                       TranslationX="0"
-                       Margin="0,0,-120,0">
-                    <StackLayout Orientation="Horizontal">
-                        <Label TextColor="Red"
-                               HorizontalOptions="StartAndExpand"
-                               BackgroundColor="Blue"
-                               VerticalTextAlignment="Center"
-                               Text="PanGestureRecognizer"></Label>
-                        <Button Text="删除"
-                                HorizontalOptions="EndAndExpand" />
-                    </StackLayout>
-                </Frame>
-            </local:PanContainerMethod>-->
             </StackLayout>
         </Grid>
     </ContentPage.Content>
