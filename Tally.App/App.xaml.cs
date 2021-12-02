@@ -79,6 +79,7 @@ namespace Tally.App
         private void StartUp()
         {
             DependencyService.Register<ISpendLogServices, SpendLogServices>();
+            //DependencyService.Register<ILiteDbContext, LiteDbContext>();
         }
 
         /// <summary>

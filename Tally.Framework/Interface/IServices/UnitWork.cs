@@ -1,32 +1,49 @@
-﻿using SQLite;
+﻿using LiteDB;
+using SQLite;
 using System.IO;
 using Tally.Framework.Models;
+using Xamarin.Essentials;
 
 namespace Tally.Framework.Interface
 {
-    public class UnitWork
+    public class LiteDbExtend
     {
-        static SQLiteConnection _sqlteDataBase = null;
+        private static LiteDatabase database = null;
         private static readonly object _lock = new object();
 
-        public static SQLiteConnection GetDbClient
+        public static LiteDatabase DbFactory
         {
             get
             {
                 lock (_lock)
                 {
-                    return _sqlteDataBase = _sqlteDataBase ?? GetDb();
+                    if (database == null)
+                    {
+                        database = new LiteDatabase($"{FileSystem.AppDataDirectory}/tally.db");
+                    }
+                    return database;
                 }
             }
         }
 
+        public static void CloseDb()
+        {
+            lock (_lock)
+            {
+                database?.Dispose();
+                database = null;
+            }
+        }
+    }
+
+    public class UnitWork
+    {
         /// <summary>
         /// 主动释放
         /// </summary>
-        public static void Dispose()
+        public void Dispose()
         {
-            _sqlteDataBase.Dispose();
-            _sqlteDataBase = null;
+            LiteDbExtend.CloseDb();
         }
 
         /// <summary>
@@ -34,14 +51,8 @@ namespace Tally.Framework.Interface
         /// </summary>
         public static void Restore()
         {
-            using (GetDbClient)
-            {
-                _sqlteDataBase.DropTable<SpendLog>();
-                _sqlteDataBase.DropTable<ErrorLog>();
-                //创建消费表
-                _sqlteDataBase.CreateTable<SpendLog>();
-                _sqlteDataBase.CreateTable<ErrorLog>();
-            }
+            LiteDbExtend.DbFactory.DropCollection(nameof(SpendLog));
+            LiteDbExtend.DbFactory.DropCollection(nameof(ErrorLog));
         }
 
         /// <summary>
@@ -49,23 +60,15 @@ namespace Tally.Framework.Interface
         /// </summary>
         public static void Initalize()
         {
-            using (GetDbClient)
-            {
-                _sqlteDataBase.DropTable<SpendLog>();
-                _sqlteDataBase.DropTable<ErrorLog>();
-                //创建消费表
-                _sqlteDataBase.CreateTable<SpendLog>();
-                _sqlteDataBase.CreateTable<ErrorLog>();
-            }
-            //释放了Sqlite同时初始化
-            _sqlteDataBase = null;
+            LiteDbExtend.DbFactory.DropCollection(nameof(SpendLog));
+            LiteDbExtend.DbFactory.DropCollection(nameof(ErrorLog));
         }
 
-        private static SQLiteConnection GetDb()
-        {
-            //SQLite 数据库地址
-            var path = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "billApp.db3");
-            return new SQLiteConnection(path);
-        }
+        //private static SQLiteConnection GetDb()
+        //{
+        //    //SQLite 数据库地址
+        //    var path = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "billApp.db3");
+        //    return new SQLiteConnection(path);
+        //}
     }
 }
