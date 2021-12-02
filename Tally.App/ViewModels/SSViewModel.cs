@@ -344,7 +344,7 @@ namespace Tally.App.ViewModels
                     WeekOnDay = new DateTime(DateTime.Now.Year, DateTime.Now.Month, item.Key).DateToWeekOnDay(),
                     InCome = item?.Where(w => w.IsSpend == EnumSpend.Income)?.Sum(s => s.Rmb),
                     Spend = item?.Where(w => w.IsSpend == EnumSpend.Spend)?.Sum(s => s.Rmb),
-                    IsDisplay = item?.Count(w => w.Id != null) <= 0,
+                    IsDisplay = item?.Count(w => w.Id > 0) <= 0,
                     ExpenseRecords = item?.OrderByDescending(s => s.DateTime)?.Select(s => new ExpenseRecord()
                     {
                         Icon = s.Icon.ToString(),

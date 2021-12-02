@@ -1,6 +1,4 @@
 ﻿using LiteDB;
-using SQLite;
-using System.IO;
 using Tally.Framework.Models;
 using Xamarin.Essentials;
 
@@ -63,12 +61,5 @@ namespace Tally.Framework.Interface
             LiteDbExtend.DbFactory.DropCollection(nameof(SpendLog));
             LiteDbExtend.DbFactory.DropCollection(nameof(ErrorLog));
         }
-
-        //private static SQLiteConnection GetDb()
-        //{
-        //    //SQLite 数据库地址
-        //    var path = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "billApp.db3");
-        //    return new SQLiteConnection(path);
-        //}
     }
 }

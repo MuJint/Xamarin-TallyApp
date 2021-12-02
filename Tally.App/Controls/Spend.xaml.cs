@@ -117,7 +117,6 @@ namespace Tally.App.Controls
                     var enumList = Enum.GetValues(typeof(EnumIcon)).OfType<EnumIcon>().ToList();
                     var model = new SpendLog()
                     {
-                        Id = Guid.NewGuid(),
                         DateTime = DateTime.Now,
                         Descrpition = Remarks?.Text ?? "",
                         Icon = enumList.FirstOrDefault(f => f.ToString().ToLower() == sSViewModel.CostInfo.Icon),

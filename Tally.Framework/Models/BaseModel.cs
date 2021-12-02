@@ -1,12 +1,18 @@
-﻿using SQLite;
-using System;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Tally.Framework.Models
 {
     public class BaseModel
     {
-        [PrimaryKey]
-        public Guid Id { get; set; }
+        /// <summary>
+        /// Id
+        /// </summary>
+        [Key]
+        public int Id { get; set; }
+        /// <summary>
+        /// time
+        /// </summary>
         public DateTime DateTime { get; set; }
     }
 }

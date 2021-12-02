@@ -62,7 +62,7 @@ namespace Tally.App.Controls
                 UserDialogs.Instance.Alert("结束时间大于当前时间");
                 return;
             }
-            queryList = _instance.Query(t => t.Id != null).OrderBy(t => t.DateTime).ToList();
+            queryList = _instance.Query(t => t.Id > 0).OrderBy(t => t.DateTime).ToList();
             var barChartSource = new List<ChartEntry>();
             var donutChartSource = new List<ChartEntry>();
             foreach (var entry in queryList.Skip(0).Take(15))
