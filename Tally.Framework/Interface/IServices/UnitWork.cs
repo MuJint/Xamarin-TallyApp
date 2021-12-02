@@ -49,6 +49,7 @@ namespace Tally.Framework.Interface
         /// </summary>
         public static void Restore()
         {
+            System.IO.File.Delete($"{FileSystem.AppDataDirectory}/tally.db");
             LiteDbExtend.DbFactory.DropCollection(nameof(SpendLog));
             LiteDbExtend.DbFactory.DropCollection(nameof(ErrorLog));
         }

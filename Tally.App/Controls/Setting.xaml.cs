@@ -24,7 +24,7 @@ namespace Tally.App.Controls
         /// </summary>
         private void LoadRestore()
         {
-            UserDialogs.Instance.Alert(new AlertConfig("确定要初始化吗？操作不可逆。")
+            UserDialogs.Instance.Alert(new AlertConfig("确定要初始化吗，请确认已备份账单？操作不可逆。")
                                         .AddOkButton(text: "确认", () =>
                                         {
                                             // ok handle
