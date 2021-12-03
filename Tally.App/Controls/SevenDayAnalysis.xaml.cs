@@ -1,4 +1,5 @@
 ﻿using Microcharts;
+using Passingwind.UserDialogs;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
@@ -35,6 +36,11 @@ namespace Tally.App.Controls
         private void Init()
         {
             var (chart, result) = GetChart();
+            if(result.GroupBy(g=>g.DateTime.Day).Count()<=1)
+            {
+                UserDialogs.Instance.Toast("至少需要两天的数据");
+                return;
+            }
             //chart
             chartView.Chart = chart;
             //CollectionView

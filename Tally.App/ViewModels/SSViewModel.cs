@@ -57,12 +57,7 @@ namespace Tally.App.ViewModels
         /// 支出icon集合
         /// </summary>
         public ObservableCollection<SpendImg> SpendImgs { get; set; } = new ObservableCollection<SpendImg>();
-        private CostInfo _costInfo = new CostInfo()
-        {
-            Cost = "0",
-            Icon = "food",
-            Title = "餐饮"
-        };
+        private CostInfo _costInfo;
         /// <summary>
         /// 选中的ICON图标数据
         /// </summary>
@@ -110,14 +105,13 @@ namespace Tally.App.ViewModels
         /// <summary>
         /// 初始化
         /// </summary>
-        private void Initalize()
+        public void Initalize()
         {
             LoadStatisctical();
-            LoadEventTypes();
+            //LoadEventTypes();
             LoadSevenDaySpend();
             LoadDates();
             LoadOnDaySpend(DateTime.Now);
-            LoadSpendImgs();
         }
 
         #endregion
@@ -338,6 +332,7 @@ namespace Tally.App.ViewModels
             var groupResult = data.OrderByDescending(s => s.DateTime).GroupBy(g => g.DateTime.Day);
             foreach (var item in groupResult)
             {
+                ExpenseCards?.Clear();
                 ExpenseCards.Add(new ExpenseCard()
                 {
                     Date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, item.Key).DateToMonthAndDay(),
@@ -466,11 +461,6 @@ namespace Tally.App.ViewModels
         /// 恢复为首页
         /// </summary>
         public Action Restore { get; set; }
-        /// <summary>
-        /// 委托
-        /// 回到设置页面
-        /// </summary>
-        public Action ReturnSetting { get; set; }
         #endregion
     }
 }

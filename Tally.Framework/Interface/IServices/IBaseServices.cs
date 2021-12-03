@@ -10,7 +10,7 @@ namespace Tally.Framework.Interface
 
         TEntity QueryById(Expression<Func<TEntity, bool>> expression);
 
-        bool Delete(Guid entity);
+        bool Delete(int id);
 
         bool Insert(TEntity entity);
 

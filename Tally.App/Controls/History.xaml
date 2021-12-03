@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:fonticons="clr-namespace:Tally.App.FontIcons"
              xmlns:forms="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
-             Title="账单记录"
+             Title="账单统计"
              x:Class="Tally.App.Controls.History">
     <ContentPage.Content>
         <Grid>
@@ -52,13 +52,17 @@
                              Margin="5"
                              HorizontalOptions="Center">
                     <Button Text="支出"
+                            x:Name="btnSpned"
                             BackgroundColor="{StaticResource green}"
                             Margin="7,0"
                             TextColor="White"
+                            Clicked="Switch_Clicked"
                             CornerRadius="15" />
                     <Button Text="收入"
+                            x:Name="btnInCome"
                             BackgroundColor="White"
                             Margin="7,0"
+                            Clicked="Switch_Clicked"
                             TextColor="{StaticResource green}"
                             CornerRadius="15" />
                     <Button Text="导出账单"

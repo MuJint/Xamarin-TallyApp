@@ -1,4 +1,5 @@
 ﻿using System;
+using Tally.Framework.Enums;
 
 namespace Tally.App.Helpers
 {
@@ -22,7 +23,16 @@ namespace Tally.App.Helpers
         /// <summary>
         /// 打开第三方应用
         /// </summary>
-
         public static Action<string> OpenFile { get; set; }
+
+        /// <summary>
+        /// 重置history统计
+        /// </summary>
+        public static Action<EnumSpend> RestoreHistory { get; set; }
+
+        /// <summary>
+        /// 重置下方按钮状态
+        /// </summary>
+        public static Action RestoreHomeFrame { get; set; }
     }
 }

@@ -75,6 +75,16 @@ namespace Tally.App.Helpers
         }
 
         /// <summary>
+        /// 获取日末23:59:59
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static DateTime GetEndOfDay(this DateTime dateTime)
+        {
+            return new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 23, 59, 59);
+        }
+
+        /// <summary>
         /// 日期转xxx前
         /// </summary>
         /// <param name="dt"></param>

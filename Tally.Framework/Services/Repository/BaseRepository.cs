@@ -14,7 +14,7 @@ namespace Tally.Framework.Services
             //_sqlteDataBase = UnitWork.GetDbClient;
         }
 
-        public bool Delete(Guid id)
+        public bool Delete(int id)
         {
             Type type = typeof(TEntity);
             var col = LiteDbExtend.DbFactory.GetCollection<TEntity>(type.Name);

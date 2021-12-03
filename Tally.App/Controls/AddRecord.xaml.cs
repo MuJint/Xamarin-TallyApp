@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Passingwind.UserDialogs;
+using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Tally.App.Helpers;
 using Tally.App.Models;
 using Tally.App.ViewModels;
@@ -12,20 +14,77 @@ using Xamarin.Forms.Xaml;
 namespace Tally.App.Controls
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class Spend : ContentView
+    public partial class AddRecord : ContentPage
     {
         readonly SSViewModel sSViewModel = null;
+        //是否为修改
+        private SpendLog EditEntity = null;
         //
         readonly ISpendLogServices _instance = DependencyService.Get<ISpendLogServices>();
         //私有状态 当前选中是收入还是支出
         private EnumSpend _enumSpend = EnumSpend.Spend;
-        public Spend(SSViewModel sSView = null)
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="guid">需要修改的对象ID</param>
+        public AddRecord(int guid = 0)
         {
             InitializeComponent();
-            sSViewModel = sSView;
+            BindingContext = sSViewModel = new SSViewModel(Navigation);
+            if (guid > 0)
+                EditExpenseRecord(guid);
+            else
+                SetSpendImgs();
         }
 
         #region Method
+
+        /// <summary>
+        /// 修改时初始化
+        /// </summary>
+        /// <param name="id"></param>
+        private async void EditExpenseRecord(int id)
+        {
+            var entity = _instance.Query(t => t.Id == id).FirstOrDefault();
+            if (entity != null)
+            {
+                //花费
+                sSViewModel.CostInfo = new CostInfo()
+                {
+                    Cost = entity.Rmb?.ToString(),
+                    Icon = entity.Icon.ToString().ToLower(),
+                    Title = entity.Icon.GetDescription()
+                };
+                //设置选中按钮
+                var frame = entity.IsSpend == EnumSpend.Spend ? frameSpend : frameInCome;
+                SetFrame(frame, entity.IsSpend == EnumSpend.Spend);
+                //设置选中图标
+                if (entity.IsSpend == EnumSpend.Spend)
+                    sSViewModel.LoadSpendImgs();
+                else
+                    sSViewModel.LoadInComeImgs();
+                sSViewModel?.SpendImgs?.ToList()?.ForEach(s =>
+                {
+                    s.Opacity = 0.1;
+                    s.Color = "#A1A2A9";
+                    if (s.Icon == entity.Icon.ToString().ToLower())
+                    {
+                        s.Opacity = 1;
+                        s.Color = "#181819";
+                    }
+                });
+                //要修改的对象
+                EditEntity = entity;
+                //设置备注
+                Remarks.Text = entity?.Descrpition;
+            }
+            else
+            {
+                UserDialogs.Instance.Toast("暂无数据");
+                //回退
+                await Navigation.PopAsync(true);
+            }
+        }
 
         /// <summary>
         /// 校验末位
@@ -33,6 +92,51 @@ namespace Tally.App.Controls
         private void CheckBottom()
         {
             sSViewModel.CostInfo.Cost = sSViewModel.CostInfo.Cost == "0" ? "" : sSViewModel.CostInfo.Cost;
+        }
+
+        /// <summary>
+        /// 提交方法
+        /// </summary>
+        /// <returns></returns>
+        private async Task Submit()
+        {
+            //花费为0不提交
+            if (sSViewModel.CostInfo.Cost.ObjToDecimal() <= 0)
+            {
+                UserDialogs.Instance.Toast("不能为0");
+                return;
+            }
+            var enumList = Enum.GetValues(typeof(EnumIcon)).OfType<EnumIcon>().ToList();
+            if (EditEntity != null && EditEntity?.Id > 0)
+            {
+                EditEntity.Descrpition = Remarks?.Text ?? "";
+                EditEntity.Icon = enumList.FirstOrDefault(f => f.ToString().ToLower() == sSViewModel.CostInfo.Icon);
+                EditEntity.IsSpend = _enumSpend;
+                EditEntity.Rmb = sSViewModel.CostInfo.Cost.ObjToDecimal();
+                _instance.Update(EditEntity);
+                //
+                UserDialogs.Instance.Toast("修改成功");
+                await Navigation.PopAsync(true);
+            }
+            else
+            {
+                var model = new SpendLog()
+                {
+                    DateTime = DateTime.Now,
+                    Descrpition = Remarks?.Text ?? "",
+                    Icon = enumList.FirstOrDefault(f => f.ToString().ToLower() == sSViewModel.CostInfo.Icon),
+                    IsSpend = _enumSpend,
+                    Pay = EnumPay.Alipay,
+                    Rmb = sSViewModel.CostInfo.Cost.ObjToDecimal()
+                };
+                _instance.Insert(model);
+                //重置备注
+                Remarks.Text = "";
+                //返回
+                UserDialogs.Instance.Toast("添加成功");
+                await Navigation.PopAsync();
+                GlobalConfigExtensions.RestoreHomeFrame();
+            }
         }
         #endregion
 
@@ -111,26 +215,7 @@ namespace Tally.App.Controls
                         if (isPermission is false)
                             return; //中断操作
                     }
-                    //花费为0不提交
-                    if (sSViewModel.CostInfo.Cost.ObjToDecimal() <= 0)
-                        return;
-                    var enumList = Enum.GetValues(typeof(EnumIcon)).OfType<EnumIcon>().ToList();
-                    var model = new SpendLog()
-                    {
-                        DateTime = DateTime.Now,
-                        Descrpition = Remarks?.Text ?? "",
-                        Icon = enumList.FirstOrDefault(f => f.ToString().ToLower() == sSViewModel.CostInfo.Icon),
-                        IsSpend = _enumSpend,
-                        Pay = EnumPay.Alipay,
-                        Rmb = sSViewModel.CostInfo.Cost.ObjToDecimal()
-                    };
-                    _instance.Insert(model);
-                    //重置备注
-                    Remarks.Text = "";
-                    //重置frame
-                    SetFrame(frameSpend);
-                    //回到首页
-                    sSViewModel.Restore();
+                    await Submit();
                     break;
             }
             //长度超长
@@ -188,13 +273,13 @@ namespace Tally.App.Controls
         }
 
         /// <summary>
-        /// 关闭当前页签
+        /// 重写页面消失
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CloseSpend_Clicked(object sender, EventArgs e)
+        /// <returns></returns>
+        protected override void OnDisappearing()
         {
-            sSViewModel.Restore();
+            GlobalConfigExtensions.RestoreHomeFrame();
+            base.OnDisappearing();
         }
 
         /// <summary>
@@ -207,17 +292,23 @@ namespace Tally.App.Controls
             {
                 sSViewModel.LoadSpendImgs();
                 //
-                sSViewModel.CostInfo.Cost = "0";
-                sSViewModel.CostInfo.Icon = "food";
-                sSViewModel.CostInfo.Title = "餐饮";
+                sSViewModel.CostInfo = new CostInfo()
+                {
+                    Cost = "0",
+                    Icon = "food",
+                    Title = "餐饮"
+                };
             }
             else
             {
                 sSViewModel.LoadInComeImgs();
                 //
-                sSViewModel.CostInfo.Cost = "0";
-                sSViewModel.CostInfo.Icon = "wage";
-                sSViewModel.CostInfo.Title = "工资";
+                sSViewModel.CostInfo = new CostInfo()
+                {
+                    Cost = "0",
+                    Icon = "wage",
+                    Title = "工资"
+                };
             }
         }
 
@@ -248,7 +339,9 @@ namespace Tally.App.Controls
                 frameSpend.BackgroundColor = Color.White;
                 _enumSpend = EnumSpend.Income;
             }
-            SetSpendImgs(isSpend);
+            //修改时不进行重赋值，仅修改按钮
+            if (EditEntity == null)
+                SetSpendImgs(isSpend);
         }
         #endregion
     }

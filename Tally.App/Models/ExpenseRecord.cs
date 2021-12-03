@@ -49,15 +49,56 @@ namespace Tally.App.Models
         }
     }
 
-    public class ExpenseRecord
+    public class ExpenseRecord : NotifyPropertyChanged
     {
-        public string Icon { get; set; }
-        public string IconTitle { get; set; }
-        public string Description { get; set; }
-        public decimal Rmb { get; set; }
-        public string TextColor { get; set; }
-        public string IsSpend { get; set; } = "-";
-        public string Time { get; set; }
-        public int Id { get; set; }
+        private string icon;
+        private string iconTitle;
+        private string description;
+        private decimal rmb;
+        private string textColor;
+        private string isSpend = "-";
+        private string time;
+        private int id;
+
+        public string Icon
+        {
+            get => icon;
+            set => SetProperty(ref icon, value);
+        }
+        public string IconTitle
+        {
+            get => iconTitle;
+            set => SetProperty(ref iconTitle, value);
+        }
+        public string Description
+        {
+            get => description;
+            set => SetProperty(ref description, value);
+        }
+        public decimal Rmb
+        {
+            get => rmb;
+            set => SetProperty(ref rmb, value);
+        }
+        public string TextColor
+        {
+            get => textColor;
+            set => SetProperty(ref textColor, value);
+        }
+        public string IsSpend
+        {
+            get => isSpend;
+            set => SetProperty(ref isSpend, value);
+        }
+        public string Time
+        {
+            get => time;
+            set => SetProperty(ref time, value);
+        }
+        public int Id
+        {
+            get => id;
+            set => SetProperty(ref id, value);
+        }
     }
 }

@@ -3,7 +3,6 @@ using System;
 using System.Threading.Tasks;
 using Tally.App.Controls;
 using Tally.App.Helpers;
-using Tally.App.Models;
 using Tally.App.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -15,8 +14,6 @@ namespace Tally.App.Views
     {
         readonly Color selectBackGroundColor = Color.FromHex("#3388df");
         private SSViewModel sSView = null;
-        private HomePage homePage = null;
-        private Spend spendPage = null;
         private Setting settingPage = null;
         public MainPage()
         {
@@ -54,10 +51,7 @@ namespace Tally.App.Views
                 Device.BeginInvokeOnMainThread(async () =>
                 {
                     BindingContext = sSView = new SSViewModel(Navigation);
-                    sSView.Restore = Restore;
-                    sSView.ReturnSetting = ReturnSetting;
-                    homePage = new HomePage();
-                    spendPage = new Spend(sSView);
+                    GlobalConfigExtensions.RestoreHomeFrame = Restore;
                     settingPage = new Setting(sSView);
                     await SetLayoutFrame();
                 });
@@ -80,13 +74,16 @@ namespace Tally.App.Views
                     SetGridLength(0);
                     SetDisplayPage(0);
                     SetFrameColor(frmHome, lbHome, lbIconHome);
+                    //重新计算首页数据
+                    sSView.Initalize();
                 }
                 else if (sender is Frame frmPlus && frmPlus.StyleId.Equals("framePlus"))
                 {
-                    AllInitalize();
-                    SetGridLength(1);
+                    //AllInitalize();
+                    //SetGridLength(1);
+                    //SetFrameColor(frmPlus, lbPlus, lbIconPlus);
+                    //最后跳转page
                     SetDisplayPage(1);
-                    SetFrameColor(frmPlus, lbPlus, lbIconPlus);
                 }
                 else if (sender is Frame frmFavorite && frmFavorite.StyleId.Equals("frameSetting"))
                 {
@@ -140,19 +137,19 @@ namespace Tally.App.Views
             switch (page)
             {
                 case 0:
-                    ContentViewPage.Content = homePage;
+                    ContentViewPage.Content = new HomePage();
                     break;
                 case 1:
-                    //全屏显示
-                    //this.Content = spendPage;
-                    ContentViewPage.Content = spendPage;
-                    gridFrames.IsVisible = false;
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await Navigation.PushAsync(new AddRecord());
+                    });
                     break;
                 case 2:
                     ContentViewPage.Content = settingPage;
                     break;
                 default:
-                    ContentViewPage.Content = homePage;
+                    ContentViewPage.Content = new HomePage();
                     break;
             }
         }
@@ -197,10 +194,6 @@ namespace Tally.App.Views
                                          {
                                              // ok handle
                                          })
-                                        .AddCancelButton(text: "取消", () =>
-                                          {
-                                              //cancel handle
-                                          })
                                         .SetTitle("隐私政策")
                                         );
         }
@@ -211,36 +204,18 @@ namespace Tally.App.Views
         /// </summary>
         private void Restore()
         {
-            ContentViewPage.Content = homePage;
-            //下方按钮显示
-            gridFrames.IsVisible = true;
-            //所有tab恢复默认值
-            AllInitalize();
-            //重置gridlenght
-            SetGridLength(0);
-            //重置frame
-            SetFrameColor(frameHome, lbHome, lbIconHome);
-            //重置选中的Icon数据
-            sSView.CostInfo = new CostInfo()
-            {
-                Cost = "0",
-                Icon = "food",
-                Title = "餐饮"
-            };
-            //重置支出的图片集合
-            sSView.LoadSpendImgs();
-            //重置当日数据
-            sSView.LoadOnDaySpend(DateTime.Now);
-            //重置当月统计数据
-            sSView.LoadStatisctical();
-        }
-
-        /// <summary>
-        /// 回到设置页面
-        /// </summary>
-        private void ReturnSetting()
-        {
-            Navigation.PopAsync();
+            //重新计算
+            sSView.Initalize();
+            ////仅当是在添加账单按钮Tab生效
+            //if (lbPlus.IsVisible)
+            //{
+            //    //所有tab恢复默认值
+            //    AllInitalize();
+            //    //重置gridlenght
+            //    SetGridLength(0);
+            //    //重置frame
+            //    SetFrameColor(frameHome, lbHome, lbIconHome);
+            //}
         }
     }
 }

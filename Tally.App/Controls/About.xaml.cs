@@ -23,13 +23,13 @@ namespace Tally.App.Controls
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Button_Clicked(object sender, EventArgs e)
+        private async void Button_Clicked(object sender, EventArgs e)
         {
             var btn = sender as Button;
             switch (btn.TabIndex)
             {
                 case 2:
-                    Browser.OpenAsync("http://www.qiubb.com/user-agreement", new BrowserLaunchOptions
+                    await Browser.OpenAsync("http://www.qiubb.com/user-agreement", new BrowserLaunchOptions
                     {
                         LaunchMode = BrowserLaunchMode.SystemPreferred,
                         TitleMode = BrowserTitleMode.Show,
@@ -38,7 +38,7 @@ namespace Tally.App.Controls
                     });
                     break;
                 case 3:
-                    Browser.OpenAsync("http://www.qiubb.com/privacy-policy", new BrowserLaunchOptions
+                    await Browser.OpenAsync("http://www.qiubb.com/privacy-policy", new BrowserLaunchOptions
                     {
                         LaunchMode = BrowserLaunchMode.SystemPreferred,
                         TitleMode = BrowserTitleMode.Show,
@@ -56,7 +56,7 @@ namespace Tally.App.Controls
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
             var frame = sender as Frame;
             if (frame != null)
@@ -64,10 +64,10 @@ namespace Tally.App.Controls
                 switch (frame.TabIndex)
                 {
                     case 1:
-                        EssentialsExtensions.SendEmail("yuxin.bb@qq.com", "", null);
+                        await EssentialsExtensions.SendEmail("yuxin.bb@qq.com", "", null);
                         break;
                     case 2:
-                        Browser.OpenAsync("https://github.com/MuJint/Xamarin-TallyApp", new BrowserLaunchOptions
+                        await Browser.OpenAsync("https://github.com/MuJint/Xamarin-TallyApp", new BrowserLaunchOptions
                         {
                             LaunchMode = BrowserLaunchMode.SystemPreferred,
                             TitleMode = BrowserTitleMode.Show,
