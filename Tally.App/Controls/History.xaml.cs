@@ -108,6 +108,7 @@ namespace Tally.App.Controls
             catch (Exception c)
             {
                 //
+                GlobalConfigExtensions.WriteLog(GlobalConfigExtensions.GetLogBuilder(c, "export excel error"), EnumError.Error);
             }
         }
 

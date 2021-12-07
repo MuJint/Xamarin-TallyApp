@@ -62,13 +62,13 @@ namespace Tally.App.Controls
                 switch ((FrameTab)frame.TabIndex)
                 {
                     case FrameTab.Sevenday:
-                        await Navigation.PushAsync(new SevenDayAnalysis(sSViewModel));
+                        await Navigation.PushAsync(new SevenDayAnalysis(sSViewModel), true);
                         break;
                     case FrameTab.Security:
                         Development();
                         break;
                     case FrameTab.History:
-                        await Navigation.PushAsync(new History());
+                        await Navigation.PushAsync(new History(), true);
                         break;
                     case FrameTab.FileImport:
                         var stream = await EssentialsExtensions.SelectExcel();
@@ -80,7 +80,7 @@ namespace Tally.App.Controls
                         LoadRestore();
                         break;
                     case FrameTab.Info:
-                        await Navigation.PushAsync(new About());
+                        await Navigation.PushAsync(new About(), true);
                         break;
                     default:
                         break;

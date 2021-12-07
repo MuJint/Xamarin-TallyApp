@@ -108,7 +108,6 @@ namespace Tally.App.ViewModels
         public void Initalize()
         {
             LoadStatisctical();
-            //LoadEventTypes();
             LoadSevenDaySpend();
             LoadDates();
             LoadOnDaySpend(DateTime.Now);
@@ -282,34 +281,6 @@ namespace Tally.App.ViewModels
             });
         }
 
-        private void LoadEventTypes()
-        {
-            EventTypes.Add(new EventType()
-            {
-                name = "Concert",
-                image = "mic.png",
-                selected = true,
-                backgroundColor = "#FCCD00",
-                textColor = "#000000"
-            });
-
-            EventTypes.Add(new EventType()
-            {
-                name = "Sports",
-                image = "ping_pong.png",
-                backgroundColor = "#29404E",
-                textColor = "#FFFFFF"
-            });
-
-            EventTypes.Add(new EventType()
-            {
-                name = "Education",
-                image = "graduation.png",
-                backgroundColor = "#29404E",
-                textColor = "#FFFFFF"
-            });
-        }
-
         /// <summary>
         /// 近七日数据
         /// </summary>
@@ -328,11 +299,12 @@ namespace Tally.App.ViewModels
         /// </summary>
         private void LoadSevenDaySpend()
         {
+            //清空
+            ExpenseCards?.Clear();
             var data = LoadSevenDayList();
             var groupResult = data.OrderByDescending(s => s.DateTime).GroupBy(g => g.DateTime.Day);
             foreach (var item in groupResult)
             {
-                ExpenseCards?.Clear();
                 ExpenseCards.Add(new ExpenseCard()
                 {
                     Date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, item.Key).DateToMonthAndDay(),

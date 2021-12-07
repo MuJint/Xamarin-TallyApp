@@ -6,9 +6,13 @@ using Android.Net;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.Design.Widget;
+using Android.Widget;
 using Java.IO;
 using Passingwind.UserDialogs;
+using System.Threading;
+using System.Threading.Tasks;
 using Tally.App.Helpers;
+using Tally.Framework.Enums;
 using Xamarin.Essentials;
 
 namespace Tally.App.Droid
@@ -30,10 +34,20 @@ namespace Tally.App.Droid
             GlobalConfigExtensions.ApplyPermissions = ApplyPermissions;
             GlobalConfigExtensions.OpenFile = OpenFileByIntent;
 
+            //https://www.cnblogs.com/Exception/p/4430786.html
+            //注册全局未处理异常事件
+            AndroidEnvironment.UnhandledExceptionRaiser += AndroidEnvironment_UnhandledExceptionRaiser;
+
             UserDialogs.Init(this);
             LoadApplication(new App());
         }
 
+        /// <summary>
+        /// 权限请求之后回调
+        /// </summary>
+        /// <param name="requestCode"></param>
+        /// <param name="permissions"></param>
+        /// <param name="grantResults"></param>
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {
             switch (requestCode)
@@ -58,6 +72,10 @@ namespace Tally.App.Droid
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
+        #region Method
+        /// <summary>
+        /// 发起权限申请
+        /// </summary>
         private async void ApplyPermissions()
         {
             if ((int)Build.VERSION.SdkInt < 23)
@@ -82,7 +100,10 @@ namespace Tally.App.Droid
             await System.Threading.Tasks.Task.Delay(1);
         }
 
-
+        /// <summary>
+        /// 发起打开第三方应用请求
+        /// </summary>
+        /// <param name="file"></param>
         public void OpenFileByIntent(string file)
         {
             try
@@ -108,5 +129,33 @@ namespace Tally.App.Droid
 
             }
         }
+
+        /// <summary>
+        /// 全局未处理异常处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <exception cref="System.NotImplementedException"></exception>
+        private void AndroidEnvironment_UnhandledExceptionRaiser(object sender, RaiseThrowableEventArgs e)
+        {
+            //处理程序（记录 异常、设备信息、时间等重要信息）
+            //**************
+            GlobalConfigExtensions.WriteLog(GlobalConfigExtensions.GetLogBuilder(e.Exception), EnumError.Error);
+
+            //提示
+            Task.Run(() =>
+            {
+                Looper.Prepare();
+                //可以换成更友好的提示
+                Toast.MakeText(this, "很抱歉程序出现异常，即将退出.", ToastLength.Long).Show();
+                Looper.Loop();
+            });
+
+            //停一会，让前面的操作做完
+            Thread.Sleep(2000);
+
+            e.Handled = true;
+        }
+        #endregion
     }
 }

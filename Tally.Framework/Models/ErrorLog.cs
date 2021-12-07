@@ -19,5 +19,13 @@ namespace Tally.Framework.Models
         /// 日志
         /// </summary>
         public string Logs { get; set; }
+        /// <summary>
+        /// 行号
+        /// </summary>
+        public int LineNumber { get; set; }
+        /// <summary>
+        /// 路径
+        /// </summary>
+        public string FilePath { get; set; }
     }
 }

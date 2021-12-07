@@ -3,12 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Tally.Framework.Enums;
 using Xamarin.Essentials;
 
 namespace Tally.App.Helpers
 {
     public static class EssentialsExtensions
     {
+        
         public static async ValueTask SendEmail(string subject, string body, List<string> recipients)
         {
             try
@@ -26,10 +28,12 @@ namespace Tally.App.Helpers
             catch (FeatureNotSupportedException fbsEx)
             {
                 // Email is not supported on this device
+                GlobalConfigExtensions.WriteLog(GlobalConfigExtensions.GetLogBuilder(fbsEx, "Email is not supported on this device"), EnumError.Warning);
             }
             catch (Exception ex)
             {
                 // Some other exception occurred
+                GlobalConfigExtensions.WriteLog(GlobalConfigExtensions.GetLogBuilder(ex, "Some other exception occurred"), EnumError.Error);
             }
         }
 
@@ -66,6 +70,7 @@ namespace Tally.App.Helpers
             catch (Exception ex)
             {
                 //
+                GlobalConfigExtensions.WriteLog(GlobalConfigExtensions.GetLogBuilder(ex, "choose excel error"), EnumError.Error);
             }
             return null;
         }
@@ -104,10 +109,12 @@ namespace Tally.App.Helpers
                 //申请权限
                 //记录日志
                 await ApplyPermission();
+                GlobalConfigExtensions.WriteLog(GlobalConfigExtensions.GetLogBuilder(ex, "permission is deined"), EnumError.Warning);
             }
             catch (Exception c)
             {
                 //记录日志
+                GlobalConfigExtensions.WriteLog(GlobalConfigExtensions.GetLogBuilder(c, "apply permission error"), EnumError.Error);
             }
             return result;
         }
@@ -139,6 +146,8 @@ namespace Tally.App.Helpers
                 Build = AppInfo.BuildString
             };
         }
+
+
 
         #region Property
         public class VeresionInfo

@@ -142,7 +142,7 @@ namespace Tally.App.Views
                 case 1:
                     Device.BeginInvokeOnMainThread(async () =>
                     {
-                        await Navigation.PushAsync(new AddRecord());
+                        await Navigation.PushAsync(new AddRecord(), true);
                     });
                     break;
                 case 2:

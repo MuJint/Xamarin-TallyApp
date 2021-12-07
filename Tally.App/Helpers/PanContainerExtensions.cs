@@ -8,8 +8,8 @@ namespace Tally.App.Helpers
     /// </summary>
     public class PanContainerExtensions : ContentView
     {
-        double translationX;
-        double maringRight;
+        //double translationX;
+        //double maringRight;
         public PanContainerExtensions()
         {
             var panGesture = new PanGestureRecognizer();
