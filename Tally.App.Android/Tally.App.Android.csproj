@@ -96,6 +96,10 @@
       <Project>{8FEE688D-06C3-47E1-B2A2-A75EF51AF562}</Project>
       <Name>Tally.App</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tally.Framework\Tally.Framework.csproj">
+      <Project>{A9B7E63D-8F2F-4A02-9742-6D399B9D98AE}</Project>
+      <Name>Tally.Framework</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\bus.png" />
