@@ -41,6 +41,7 @@ namespace Tally.App.Controls
                 UserDialogs.Instance.Toast("至少需要两天的数据");
                 return;
             }
+            //测试同时推送Gitee、Github
             //chart
             chartView.Chart = chart;
             //CollectionView
