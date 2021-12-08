@@ -79,9 +79,6 @@ namespace Tally.App.Views
                 }
                 else if (sender is Frame frmPlus && frmPlus.StyleId.Equals("framePlus"))
                 {
-                    //AllInitalize();
-                    //SetGridLength(1);
-                    //SetFrameColor(frmPlus, lbPlus, lbIconPlus);
                     //最后跳转page
                     SetDisplayPage(1);
                 }
@@ -206,16 +203,6 @@ namespace Tally.App.Views
         {
             //重新计算
             sSView.Initalize();
-            ////仅当是在添加账单按钮Tab生效
-            //if (lbPlus.IsVisible)
-            //{
-            //    //所有tab恢复默认值
-            //    AllInitalize();
-            //    //重置gridlenght
-            //    SetGridLength(0);
-            //    //重置frame
-            //    SetFrameColor(frameHome, lbHome, lbIconHome);
-            //}
         }
     }
 }

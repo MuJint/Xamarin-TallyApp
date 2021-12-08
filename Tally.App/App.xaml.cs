@@ -15,7 +15,6 @@ namespace Tally.App
             InitializeComponent();
             //UnitWork.Restore();
             Initalize();
-            StartUp();
             //Page 包裹进入NavigationPage，以使用page跳转
             MainPage = new NavigationPage(new MainPage());
             if (Device.RuntimePlatform == Device.iOS)

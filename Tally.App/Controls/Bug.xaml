@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="错误日志"
+             x:Class="Tally.App.Controls.Bug">
+    <ContentPage.Content>
+        <CollectionView x:Name="errorLogCollection"
+                        Margin="7"
+                        HorizontalOptions="Center">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Margin="10,0"
+                           Padding="15,15"
+                           IsClippedToBounds="True"
+                           HasShadow="False">
+                        <StackLayout>
+                            <Label TextColor="{StaticResource black}">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="时间："
+                                              FontSize="15"
+                                              FontFamily="OpenSansSemiBold"></Span>
+                                        <Span Text="{Binding DateTime}"></Span>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Label TextColor="{StaticResource black}">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="等级："
+                                              FontSize="15"
+                                              FontFamily="OpenSansSemiBold"></Span>
+                                        <Span Text="{Binding Level}"></Span>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Label TextColor="{StaticResource black}">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="方法："
+                                              FontSize="15"
+                                              FontFamily="OpenSansSemiBold"></Span>
+                                        <Span Text="{Binding Method}"></Span>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Label TextColor="{StaticResource black}">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="行号："
+                                              FontSize="15"
+                                              FontFamily="OpenSansSemiBold"></Span>
+                                        <Span Text="{Binding LineNumber}"></Span>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Label TextColor="{StaticResource black}">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="日志："
+                                              FontSize="15"
+                                              FontFamily="OpenSansSemiBold"></Span>
+                                        <Span Text="{Binding Logs}"></Span>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Label TextColor="{StaticResource black}">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="路径："
+                                              FontSize="15"
+                                              FontFamily="OpenSansSemiBold"></Span>
+                                        <Span Text="{Binding FilePath}"></Span>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </StackLayout>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="2"
+                                                  Tapped="TapGestureRecognizer_Tapped" />
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </ContentPage.Content>
+</ContentPage>

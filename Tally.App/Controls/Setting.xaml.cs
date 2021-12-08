@@ -74,7 +74,7 @@ namespace Tally.App.Controls
                         var stream = await EssentialsExtensions.SelectExcel();
                         break;
                     case FrameTab.Bug:
-                        Development();
+                        await Navigation.PushAsync(new Bug(), true);
                         break;
                     case FrameTab.Restore:
                         LoadRestore();

@@ -29,7 +29,6 @@ namespace Tally.App.Droid
 
             Platform.Init(this, savedInstanceState);
             Xamarin.Forms.Forms.Init(this, savedInstanceState);
-
             //委托
             GlobalConfigExtensions.ApplyPermissions = ApplyPermissions;
             GlobalConfigExtensions.OpenFile = OpenFileByIntent;
@@ -37,7 +36,7 @@ namespace Tally.App.Droid
             //https://www.cnblogs.com/Exception/p/4430786.html
             //注册全局未处理异常事件
             AndroidEnvironment.UnhandledExceptionRaiser += AndroidEnvironment_UnhandledExceptionRaiser;
-
+            
             UserDialogs.Init(this);
             LoadApplication(new App());
         }
@@ -147,12 +146,12 @@ namespace Tally.App.Droid
             {
                 Looper.Prepare();
                 //可以换成更友好的提示
-                Toast.MakeText(this, "很抱歉程序出现异常，即将退出.", ToastLength.Long).Show();
+                Toast.MakeText(this, "很抱歉程序出现异常，即将退出", ToastLength.Long).Show();
                 Looper.Loop();
             });
 
             //停一会，让前面的操作做完
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
 
             e.Handled = true;
         }

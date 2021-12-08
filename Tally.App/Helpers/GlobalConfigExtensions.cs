@@ -9,8 +9,6 @@ namespace Tally.App.Helpers
 {
     public static class GlobalConfigExtensions
     {
-
-        static IErrorLogServices _errorLogServices = DependencyService.Get<IErrorLogServices>();
         /// <summary>
         /// 是否初次启动
         /// </summary>
@@ -52,6 +50,7 @@ namespace Tally.App.Helpers
         /// <returns></returns>
         public static bool WriteLog(string logs, EnumError enumError = EnumError.Info, [CallerMemberName] string memberName = "", [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string filePath = "")
         {
+            var _errorLogServices = DependencyService.Get<IErrorLogServices>();
             return _errorLogServices.Insert(new ErrorLog()
             {
                 DateTime = DateTime.Now,
